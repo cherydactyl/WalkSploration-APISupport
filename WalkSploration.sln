@@ -7,6 +7,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkSploration", "WalkSplor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkSploration.Tests", "WalkSploration.Tests\WalkSploration.Tests.csproj", "{6578D20F-616D-477A-892B-DC61088C5557}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{B794EDD1-ADF3-4F84-9D88-2C71A2763B89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{ECD33E11-BA84-4882-9D97-FD9A345E21AC}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1 = PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{44DD9AEF-E9B6-42C7-ACD3-5C1137FC80A5}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Templates\WalkSploration.json = PublishScripts\Templates\WalkSploration.json
+		PublishScripts\Templates\WalkSploration.param.dev.json = PublishScripts\Templates\WalkSploration.param.dev.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +37,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ECD33E11-BA84-4882-9D97-FD9A345E21AC} = {B794EDD1-ADF3-4F84-9D88-2C71A2763B89}
+		{44DD9AEF-E9B6-42C7-ACD3-5C1137FC80A5} = {B794EDD1-ADF3-4F84-9D88-2C71A2763B89}
 	EndGlobalSection
 EndGlobal
