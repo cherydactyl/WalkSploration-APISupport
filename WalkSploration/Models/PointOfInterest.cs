@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//using System.Device.Location;
+using System.Device.Location;
 
 namespace WalkSploration.Models
 {
     public class PointOfInterest
     {
         int _ID;
-        Location location;
+        GeoCoordinate location;
+        String name;                //a short label
         String address;             //street address
-        
+        String category;            //for future developments
     }
 }
