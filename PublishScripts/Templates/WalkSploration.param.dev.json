@@ -1,0 +1,29 @@
+{
+  "siteName": {
+    "value": "WalkSploration"
+  },
+  "hostingPlanName": {
+    "value": "WalkSploration"
+  },
+  "siteLocation": {
+    "value": "Central US"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "siteMode": {
+    "value": "Limited"
+  },
+  "computeMode": {
+    "value": "0"
+  },
+  "subscriptionId": {
+    "value": "17525d32-7909-4417-a162-a789b1ae0161"
+  },
+  "resourceGroup": {
+    "value": "WalkSplorationGrp"
+  }
+}
