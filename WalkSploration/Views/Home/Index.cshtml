@@ -1,12 +1,128 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Walksploration";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Walksploration</h1>
 </div>
+
+<div>
+    <h2>Test Header</h2>
+    <ul id="locations" />
+</div>
+<div>
+    <h2>Starting Location</h2>
+    <input type="text" id="startLocation" size="5" />
+    <input type="button" value="Search" onclick="find();" />
+    <p id="location" />
+</div>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+<script>
+    var uri = 'api/location';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+      $.getJSON(apiuri)
+          .done(function (data) {
+            // On success, 'data' contains a list of locations.
+            $.each(data, function (key, item) {
+              // Add a list item for the location.
+              $('<li>', { text: formatItem(item) }).appendTo($('#locations'));
+            });
+          });
+    });
+
+    function formatItem(item) {
+        return item.Name + item.GeoCoordinate;
+    }
+
+    function find() {
+        var id = $('#place_ID').val();
+      $.getJSON(uri + '/' + id)
+          .done(function (data) {
+            $('#location').text(formatItem(data));
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#location').text('Error: ' + err);
+          });
+    }
+</script>
+
+
+
+
+
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places" type="text/javascript"></script>
+<div>
+    <script type="text/javascript">
+var map;
+var infowindow;
+function initialize()
+{
+    var myLatLng = new google.maps.LatLng(42.3347, -83.0497);
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLng,
+        zoom: 15
+    });
+
+    infowindow = new google.maps.InfoWindow();
+
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
+
+    var request = {
+        location: myLatLng,
+        radius: '500',
+        types: ['store']
+    };
+
+}
+function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            var place = results[i];
+            createMarker(results[i]);
+        }
+    }
+}
+function createMarker(places)
+{
+    var bounds = new google.maps.LatLngBounds();
+    var placesList = document.getElementById('places');
+    for (var i = 0, place; place = places[i]; i++)
+    {
+        var image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+        };
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: image,
+            title: place.name,
+            //position: place.geometry.location
+            position: myLatLng
+        });
+        placesList.innerHTML += '<li>' + place.name + '</li>';
+        bounds.extend(place.geometry.location);
+    }
+    map.fitBounds(bounds);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <div id="map" style="width: 1140px; height: 350px; border: 5px solid #5E5454;">
+    </div>
+</div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"></script>
 
 <div class="row">
     <div class="col-md-4">
