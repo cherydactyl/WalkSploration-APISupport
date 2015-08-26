@@ -10,10 +10,11 @@ namespace WalkSploration.Models
 {
     public class PointOfInterest
     {
-        int place_ID;               // Point of Interest ID
-        GeoCoordinate location;     // 
-        String name;                // A short label
-        String address;             // Street address
-        String category;            // For future developments
+        int place_ID { get; set; }               // Point of Interest ID
+        float lattitude { get; set; }            // lattitude of location
+        float longitude { get; set; }            // longitude of location
+        String name { get; set; }                // A short label
+        String address { get; set; }             // Street address
+        String category { get; set; }            // For future developments
     }
 }
