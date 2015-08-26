@@ -10,11 +10,17 @@ namespace WalkSploration.Models
 {
     public class PointOfInterest
     {
-        int place_ID { get; set; }               // Point of Interest ID
+        int pointOfInterest_ID { get; set; }               // Point of Interest ID
         float lattitude { get; set; }            // lattitude of location
         float longitude { get; set; }            // longitude of location
         String name { get; set; }                // A short label
         String address { get; set; }             // Street address
         String category { get; set; }            // For future developments
+        String mapPinURL { get; set; }           // To store the URL for the map pin
+
+        //Foreign Key
+        public int UserID { get; set; }          // For possibly associating with a user
+        //Navigation Property                    
+        public User User { get; set; }           // For possibly associating with a user
     }
 }

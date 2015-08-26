@@ -5,11 +5,18 @@
 <div class="jumbotron">
     <h1>Walksploration</h1>
 </div>
+
+@*For further reference, view the Movies Tutorial*@
 <div>
-    <h2>Starting Location</h2>
-    <input type="text" id="place_ID" size="20" />
-    <input type="button" value="Search" onclick="find();" />
-    <p id="location" />
+    <p>
+        @using (Html.BeginForm())
+        {
+        <p>
+            Enter Available Time: @Html.TextBox("SearchString")
+            <input type="submit" value="Filter" />
+        </p>
+        }
+     </p>
 </div>
 
 @*Google Maps Places Library javascript ref*@
