@@ -3,13 +3,31 @@
 }
 
 <div class="jumbotron">
-    <h1>Walksploration</h1>
+    <h1><img src="/Images/sneakerMarker.png" />Walksploration</h1>
 </div>
 
-<h3>Google Maps Demo using MVC 4</h3>
-<br />
+
+@using(Html.BeginForm("SearchIndex", "PointOfInterest", FormMethod.Get))
+{
+    <p>
+        Enter Starting Latitude: @Html.TextBox("SearchString",ViewBag.InputLatitude as string) 
+        <input type="submit" value="Search" />
+        Enter Starting Longitude: @Html.TextBox("SearchString", ViewBag.InputLongitude as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
 <h3 id="map_canvas" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454;">
 </h3> 
+
+@*<div class="social">
+    <p>Love walksploration? Spread the word!</p>
+    <div class="twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="walksploration">Tweet</a>
+        <script>!function (d, s, id) { var js, fjs = d.getElementByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+    </div>
+</div>*@
 
 <div class="row">
     <div class="col-md-4">

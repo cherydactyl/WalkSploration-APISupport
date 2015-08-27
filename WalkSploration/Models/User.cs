@@ -8,7 +8,7 @@ namespace WalkSploration.Models
 {
     public class User
     {
-        public int UserID { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
 
