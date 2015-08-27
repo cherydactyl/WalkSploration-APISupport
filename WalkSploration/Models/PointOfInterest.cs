@@ -11,7 +11,7 @@ namespace WalkSploration.Models
     public class PointOfInterest
     {
         int pointOfInterest_ID { get; set; }               // Point of Interest ID
-        float lattitude { get; set; }            // lattitude of location
+        float latitude { get; set; }            // lattitude of location
         float longitude { get; set; }            // longitude of location
         String name { get; set; }                // A short label
         String address { get; set; }             // Street address
