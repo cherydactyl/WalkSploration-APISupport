@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Google.GData.Client;          //Install-Package Google.GData.Client, Install-Package Newtonsoft.Json
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +10,8 @@ namespace WalkSploration.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+                        return View();
+            
         }
 
         public ActionResult About()
@@ -26,5 +27,10 @@ namespace WalkSploration.Controllers
 
             return View();
         }
+
+
+        //helper functions here
+
+
     }
 }
