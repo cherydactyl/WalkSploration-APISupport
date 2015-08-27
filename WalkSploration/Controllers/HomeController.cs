@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WalkSploration.Models;
 using System.Net;
 using System;
+using System.IO;
 
 namespace WalkSploration.Controllers
 {
@@ -52,22 +53,20 @@ namespace WalkSploration.Controllers
             //see https://developers.google.com/places/supported_types for list of types
             URI += "types=park";
 
-            Console.WriteLine(URI);
-
             //request processing
             WebRequest request = WebRequest.Create(URI);
             request.Method = "GET";
             request.ContentType = "application/json";
             WebResponse response = request.GetResponse();
 
-            //testing
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+            Stream dataStream = response.GetResponseStream();
 
 
             //create a new list
             List<PointOfInterest> PoIs = new List<PointOfInterest>();
 
             //iterate over the json and parse into PointsOfInterest, placing each in list
+            
 
             //return processed list
             return PoIs;
