@@ -10,6 +10,7 @@ namespace WalkSploration.Models
 {
     public class PointOfInterest
     {
+<<<<<<< HEAD
        public int Id { get; set; }                    // Point of Interest ID
        public float Latitude { get; set; }            // lattitude of location
        public float Longitude { get; set; }           // longitude of location
@@ -22,5 +23,23 @@ namespace WalkSploration.Models
         public int UserID { get; set; }          // For possibly associating with a user
         //Navigation Property                    
         public User User { get; set; }           // For possibly associating with a user
+=======
+        string place_ID { get; set; }            // Google Places api unique id
+        float lattitude { get; set; }            // lattitude of location
+        float longitude { get; set; }            // longitude of location
+        String name { get; set; }                // A short label
+        String address { get; set; }             // Street address
+        String category { get; set; }            // For future developments
+
+        PointOfInterest(string G_place_ID, float lat, float lon)
+        {
+            place_ID = G_place_ID;
+            lattitude = lat;
+            longitude = lon;
+        }
+>>>>>>> e94b2b58cd564a29986348a68ca648856daea822
     }
+
+    
+
 }
