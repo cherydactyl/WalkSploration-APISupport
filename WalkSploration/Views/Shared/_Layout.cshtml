@@ -73,25 +73,24 @@
        mapOptions = {
            center: latlng,
            zoom: 16,
-           mapTypeId: google.maps.MapTypeId.ROADMAP
+           mapTypeId: google.maps.MapTypeId.ROADMAP,
+           marker: marker = new google.maps.Marker({
+               position: latlng,
+               map: map,
+               title: 'Grand Circus',
+               icon: image
+           })};
        };
        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
        // CUSTOM marker
-       marker = new google.maps.Marker({
-           position: latlng,
-           map: map,
-           title: 'Grand Circus',
-           icon: image
-           //var latlng = new google.maps.LatLng(42.3347, -83.0497);
 
-       });
        geocoder = new google.maps.Geocoder();
 
        // Adds a listener for the click event to place pin at Start Locat
        document.getElementById('submitAddress').addEventListener('click', function () {
            geocodeAddress(geocoder, map);
        });
-   }
+   
 
    function geocodeAddress(geocoder, resultsMap) {
        var address = document.getElementById('address').value;
@@ -99,7 +98,7 @@
            if (status === google.maps.GeocoderStatus.OK) {
                resultsMap.setCenter(results[0].geometry.location);
                marker = new google.maps.Marker({
-                   map: resultsMap,
+                   map: map_canvas,
                    position: results[0].geometry.location
                });
            } else {
