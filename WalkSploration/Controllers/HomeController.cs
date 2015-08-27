@@ -54,32 +54,22 @@ namespace WalkSploration.Controllers
             URI += "types=park";
 
             //request processing
-
             WebRequest request = WebRequest.Create(URI);
             request.Method = "GET";
             request.ContentType = "application/json";
             WebResponse response = request.GetResponse();
 
-            Stream dataStream = processHttpJSonReq(URI).GetResponseStream();       // ???
+            Stream dataStream = response.GetResponseStream();
 
 
             //create a new list
-            List<PointOfInterest> PoIs = new List<PointOfInterest>();       //start with empty list
+            List<PointOfInterest> PoIs = new List<PointOfInterest>();
 
             //iterate over the json and parse into PointsOfInterest, placing each in list
             
 
             //return processed list
             return PoIs;
-        }
-
-        WebResponse processHttpJSonReq(string URI)
-        {
-            WebRequest request = WebRequest.Create(URI);
-            request.Method = "GET";
-            request.ContentType = "application/json";
-            WebResponse response = request.GetResponse();
-            return response;
         }
 
     }
