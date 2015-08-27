@@ -10,11 +10,21 @@ namespace WalkSploration.Models
 {
     public class PointOfInterest
     {
-        int place_ID { get; set; }               // Point of Interest ID
+        string place_ID { get; set; }            // Google Places api unique id
         float lattitude { get; set; }            // lattitude of location
         float longitude { get; set; }            // longitude of location
         String name { get; set; }                // A short label
         String address { get; set; }             // Street address
         String category { get; set; }            // For future developments
+
+        PointOfInterest(string G_place_ID, float lat, float lon)
+        {
+            place_ID = G_place_ID;
+            lattitude = lat;
+            longitude = lon;
+        }
     }
+
+    
+
 }
