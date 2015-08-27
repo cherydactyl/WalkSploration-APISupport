@@ -10,9 +10,7 @@
 @using(Html.BeginForm("SearchIndex", "PointOfInterest", FormMethod.Get))
 {
     <p>
-        Enter Starting Latitude: @Html.TextBox("SearchString",ViewBag.InputLatitude as string) 
-        <input type="submit" value="Search" />
-        Enter Starting Longitude: @Html.TextBox("SearchString", ViewBag.InputLongitude as string)
+        Enter Starting Address: @Html.TextBox("SearchString",ViewBag.InputAddress as string) 
         <input type="submit" value="Search" />
     </p>
 }

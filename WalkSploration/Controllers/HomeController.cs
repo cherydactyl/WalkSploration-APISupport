@@ -33,14 +33,14 @@ namespace WalkSploration.Controllers
                 ModelState.AddModelError("", "Unable to process request. Please ensure that the correct latitude and longitude have been entered.");
             }
 
-            PointOfInterest poi = db.PointsofInterest.Find(id);
-            if (poi == null)
-            {
-                return HttpNotFound();
-            }
+            //PointOfInterest poi = db.PointsofInterest.Find(id);
+            //if (poi == null)
+            //{
+            //    return HttpNotFound();
+            //}
             
             
-            return View(poi);
+            return View();
         }
 
         public ActionResult About()
