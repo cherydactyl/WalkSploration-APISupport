@@ -58,11 +58,11 @@ namespace WalkSploration
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "277799954000-0sv2ks6k38vcrctejqbs7rv06e5g7jkg.apps.googleusercontent.com",
+                ClientSecret = "wIyF0DNna7S_JUkp07VbiA4R"
+            });
         }
     }
 }
