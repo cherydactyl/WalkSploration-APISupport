@@ -6,14 +6,22 @@
     <h1><img src="/Images/sneakerMarker.png" />Walksploration</h1>
 </div>
 
-
-@using(Html.BeginForm("SearchIndex", "PointOfInterest", FormMethod.Get))
+@*_______________________  Commenting out Late Night Code to Integrate Vaneita*@
+@*@using(Html.BeginForm("SearchIndex", "PointOfInterest", FormMethod.Get))
 {
     <p>
         Enter Starting Address: @Html.TextBox("SearchString",ViewBag.InputAddress as string) 
         <input type="submit" value="Search" />
     </p>
-}
+}*@
+
+
+<form action="/HomeController" method="get">
+    <h4>Please Enter the Amount of Time You Have (in Minutes)</h4>
+    <input type="number" min="1" max="60" id="time" name="time" size="10" value="" />
+    <input type="button" value="Search" onclick="find();" />
+    <p id="location" />
+</form>
 
 
 <h3 id="map_canvas" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454;">
