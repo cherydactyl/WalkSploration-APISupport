@@ -13,21 +13,23 @@ using System.Web.Script.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
-    { 
+    {
         public ActionResult Index()
         {
             //Grand Circus 42.3347, -83.0497
-            getPlaces(42.3347, -83.0497);
+
+            getPlaces((decimal)42.3347, (decimal)-83.0497);          
             return View();
 
         }
 
         //helper functions here
-        public List<PointOfInterest> getPlaces(double latitude, double longitude)
+        public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude)
         {
             //create query
             //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
@@ -35,7 +37,7 @@ namespace WalkSploration.Controllers
             string URI = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
             //add parameters
             //key
-            URI += "?key=" + (new Secrets()).GoogleAPIServerKey;
+            URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
             //location
             URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
             //radius; 2 miles ~= 3200 meters; google requires radius in meters, max 50,000
@@ -51,29 +53,43 @@ namespace WalkSploration.Controllers
             WebResponse response = request.GetResponse();
 
             //convert to JSon string
-            string responseJson;
+            string jsonString;
             using (var streamReader = new StreamReader(response.GetResponseStream()))
             {
-                responseJson = streamReader.ReadToEnd();
+                jsonString = streamReader.ReadToEnd();
             }
 
-            JArray jsonVal = JArray.Parse(responseJson) as JArray;
-            dynamic objectsarr = jsonVal;
-
-            int lengthOfArray = ((Array[])objectsarr).GetLength(0);
-
-            //create a new list
+            //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
 
-            //iterate over the json and parse into PointsOfInterest, placing each in list
-            foreach (dynamic point in objectsarr)
-            {
-                PointOfInterest item = new PointOfInterest();
-                item.Latitude = point.geometry.location.lat;
-                item.Longitude = point.geometry.location.lon;
-                item.GooglePlaceId = point.place_id;
-                candidatePoIs.Add(item);
+            var googleRadarObject = JToken.Parse(jsonString);
+            var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
 
+            var resultsArray = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "results").Value;
+
+            if (status.ToString() == "OK")
+            {
+                //iterate over the json and parse into PointsOfInterest, placing each in the list
+                foreach (var item in resultsArray)
+                {
+                    PointOfInterest point = new PointOfInterest();
+                    //extract and set the google place id in point
+                    point.GooglePlaceId = item.Children<JProperty>().FirstOrDefault(x => x.Name == "place_id").Value.ToString();
+                    //extract the lattitude from JSon structure and set in point
+                    point.Latitude = decimal.Parse(
+                        item.Children<JProperty>().FirstOrDefault(x => x.Name == "geometry").Value.
+                        Children<JProperty>().FirstOrDefault(x => x.Name == "location").Value.
+                        Children<JProperty>().FirstOrDefault(x => x.Name == "lat").Value.ToString());
+                    //extract the longitude from JSon structure and set in point
+                    point.Longitude = decimal.Parse(
+                        item.Children<JProperty>().FirstOrDefault(x => x.Name == "geometry").Value.
+                        Children<JProperty>().FirstOrDefault(x => x.Name == "location").Value.
+                        Children<JProperty>().FirstOrDefault(x => x.Name == "lng").Value.ToString());
+                    
+                    candidatePoIs.Add(point);
+
+                    Debug.WriteLine(point.GooglePlaceId.ToString());
+                }
             }
 
             //return processed list

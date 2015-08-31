@@ -11,14 +11,14 @@ namespace WalkSploration.Models
     public class PointOfInterest
     {
         public int Id { get; set; }                    // Point of Interest ID
-        public float Latitude { get; set; }            // lattitude of location
-        public float Longitude { get; set; }           // longitude of location
+        public decimal Latitude { get; set; }            // lattitude of location
+        public decimal Longitude { get; set; }           // longitude of location
         public string Name { get; set; }               // A short label
         public string Address { get; set; }            // Street address
         public string Category { get; set; }           // For future developments
         public string MapPinURL { get; set; }          // To store the URL for the map pin
 
-        public string GooglePlaceId;                   // To store the unique google place id
+        public string GooglePlaceId { get; set; }      // To store the unique google place id
 
         //Foreign Key
         public int UserID { get; set; }          // For possibly associating with a user
