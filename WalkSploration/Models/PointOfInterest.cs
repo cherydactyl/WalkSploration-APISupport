@@ -24,5 +24,6 @@ namespace WalkSploration.Models
         public int UserID { get; set; }          // For possibly associating with a user
         //Navigation Property                    
         public User User { get; set; }           // For possibly associating with a user
+
     }
 }

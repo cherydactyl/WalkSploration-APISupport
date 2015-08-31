@@ -17,58 +17,7 @@ using Newtonsoft.Json.Linq;
 namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
-    {
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
-
-        //public ActionResult Index(string time)
-        //{
-        //    var inputTime = Convert.ToInt32(time);
-        //    var timeHalf = ((inputTime + .20f) / 2) * 1.1f;
-
-        //    //create and initialize two floating point variables
-        //    //float timeWhole = 0;
-        //    //float timeHalf = 0;
-        //    //cast time to float
-        //    //bool checkInput = Int32.TryParse(time, out timeWhole);
-        //    //timeHalf = ((timeWhole + .20f) / 2) * 1.1f;
-
-        //    if (time == null)
-        //    {
-        //        ModelState.AddModelError("", "Unable to process request. Please ensure that a valid time has been entered.");
-        //    }
-        //    else if (inputTime > 60)
-        //    {
-        //        ModelState.AddModelError("", "Please enter a time equal to or less than 60 minutes.");
-        //    }
-        //    else if (inputTime <= 0)
-        //    {
-        //        ModelState.AddModelError("", "Please enter a time equal to or greater than 1.");
-        //    }
-
-
-        //    return View(timeHalf);
-        //}
-
-        //public ActionResult About()
-        //{
-        //    ViewBag.Message = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public ActionResult Contact()
-        //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
-        //}
-
-        //helper functions here
-
+    { 
         public ActionResult Index()
         {
             //Grand Circus 42.3347, -83.0497
@@ -77,6 +26,7 @@ namespace WalkSploration.Controllers
 
         }
 
+        //helper functions here
         public List<PointOfInterest> getPlaces(double latitude, double longitude)
         {
             //create query
@@ -129,6 +79,5 @@ namespace WalkSploration.Controllers
             //return processed list
             return candidatePoIs;
         }
-
     }
 }
