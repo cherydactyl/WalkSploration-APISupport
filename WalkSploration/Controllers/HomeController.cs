@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;   
 using WalkSploration.Models;
 using System.Net;
+using System.Web.Script.Serialization;
 
 namespace WalkSploration.Controllers
 {
@@ -46,8 +47,8 @@ namespace WalkSploration.Controllers
 
 
             return View(timeHalf);
-        }
-
+        }        
+        
         //public ActionResult About()
         //{
         //    ViewBag.Message = "Your application description page.";
