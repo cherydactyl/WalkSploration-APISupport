@@ -9,7 +9,11 @@ namespace WalkSploration.Models
     {
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-    }
 
-    //public Location location() { }
+        public Location(decimal lat, decimal lon)
+        {
+            this.Latitude = lat;
+            this.Longitude = lon;
+        }
+    }
 }

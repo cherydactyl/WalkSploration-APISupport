@@ -71,7 +71,7 @@
         anchor: new google.maps.Point(20, 15)
     };
     var marker;                                     // Initializes marker object
-
+    var infowindow;
     // Initalize Map with Geolocation
 
     function showValue(time) {
@@ -86,7 +86,7 @@
             zoom: 16
         });
 
-        var infoWindow = new google.maps.InfoWindow({ map: map });
+        infoWindow = new google.maps.InfoWindow({ map: map });
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
