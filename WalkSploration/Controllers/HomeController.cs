@@ -6,11 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;   
+using System.Data.Entity.Infrastructure;
 using WalkSploration.Models;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.IO;
+using System.Runtime.Serialization.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WalkSploration.Controllers
 {
@@ -86,7 +88,7 @@ namespace WalkSploration.Controllers
             URI += "?key=" + (new Secrets()).GoogleAPIServerKey;
             //location
             URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
-            //radius; 2 miles ~= 3200 meters; google requires radiun in meters, max 50,000
+            //radius; 2 miles ~= 3200 meters; google requires radius in meters, max 50,000
             URI += "radius=3200&";
             //types; start with "park" and possibly add more later
             //see https://developers.google.com/places/supported_types for list of types
@@ -98,17 +100,34 @@ namespace WalkSploration.Controllers
             request.ContentType = "application/json";
             WebResponse response = request.GetResponse();
 
-            Stream dataStream = response.GetResponseStream();
+            //convert to JSon string
+            string responseJson;
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                responseJson = streamReader.ReadToEnd();
+            }
 
+            JArray jsonVal = JArray.Parse(responseJson) as JArray;
+            dynamic objectsarr = jsonVal;
+
+            int lengthOfArray = ((Array[])objectsarr).GetLength(0);
 
             //create a new list
-            List<PointOfInterest> PoIs = new List<PointOfInterest>();
+            List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
 
             //iterate over the json and parse into PointsOfInterest, placing each in list
+            foreach (dynamic point in objectsarr)
+            {
+                PointOfInterest item = new PointOfInterest();
+                item.Latitude = point.geometry.location.lat;
+                item.Longitude = point.geometry.location.lon;
+                item.GooglePlaceId = point.place_id;
+                candidatePoIs.Add(item);
 
+            }
 
             //return processed list
-            return PoIs;
+            return candidatePoIs;
         }
 
     }
