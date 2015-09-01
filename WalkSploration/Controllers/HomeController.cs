@@ -23,9 +23,10 @@ namespace WalkSploration.Controllers
         {
             //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
             Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-            //int time = 15;  //sample time
+            int time = 15;  //sample time for testing
 
-            //screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497), start, time);          
+            List<PointOfInterest> goldilocks =
+                screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);          
             return View();
 
         }
@@ -122,8 +123,9 @@ namespace WalkSploration.Controllers
             List<PointOfInterest> viable = new List<PointOfInterest>();
 
             //calculate Goldilocks range (not too far but also not too close) in seconds
-            //use 90-100% of available one-way time to start; may need to iterate 
-            //note that these 
+            //use 90-100% of available one-way time to start
+            //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
+            //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
             int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
 
@@ -141,7 +143,7 @@ namespace WalkSploration.Controllers
                         resultsArray[i].Children<JProperty>().FirstOrDefault(x => x.Name == "distance").Value.
                         Children<JProperty>().FirstOrDefault(x => x.Name == "value").Value.ToString());
                     //compare to Goldilocks zone to evaluate and add to list if in the range
-                    if (timeInSeconds >= floor && timeInSeconds <= ceiling)
+                    if (timeInSeconds > floor && timeInSeconds <= ceiling)
                     {
                         viable.Add(candidates[i]);
                     }
