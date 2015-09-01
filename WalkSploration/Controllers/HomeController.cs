@@ -14,6 +14,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Text;
 
 namespace WalkSploration.Controllers
 {
@@ -30,7 +31,8 @@ namespace WalkSploration.Controllers
 
         }
 
-        //helper functions here
+        // !!!!  HELPER FUNCTIONS  !!!!
+
         public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
         {
             //create query
@@ -85,6 +87,7 @@ namespace WalkSploration.Controllers
             return candidatePoIs;
         }
 
+
         List<PointOfInterest> screenPlaces(List<PointOfInterest> candidates, Location start, int timeInMinutes)
         {
             //if the candidates list is empty, return the/an empty list
@@ -116,8 +119,8 @@ namespace WalkSploration.Controllers
             }
 
             //call the API, get JSon string back, and parse it
-            var googleDistMatrixObject = JToken.Parse(callAPIgetJSon(URI));
-            var status = googleDistMatrixObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
+            //var googleDistMatrixObject = JToken.Parse(callAPIgetJSon(URI));
+            //var status = googleDistMatrixObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
 
             //create a new empty list
             List<PointOfInterest> viable = new List<PointOfInterest>();
@@ -126,33 +129,77 @@ namespace WalkSploration.Controllers
             //use 90-100% of available one-way time to start
             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
             //note that these use integer math
+
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
             int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
 
-            if (status.ToString() == "OK")
-            {
-                //extract elements' travel times
-                //remember there is only one destination, so the elements list the times to destinations in order
-               
-                var resultsArray = googleDistMatrixObject.Children<JProperty>().FirstOrDefault(x => x.Name == "rows").Value.
-                    Children<JProperty>().FirstOrDefault(x => x.Name == "elements").Value;
 
-                for (int i = 0; i < count; i++)
+            var client = new WebClient();
+            var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            var result = client.DownloadData(URI.ToString());
+            var json = Encoding.UTF8.GetString(result);
+
+            var serializer = new JavaScriptSerializer();
+            var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
+
+            //var googleMatrixObject = JToken.Parse(callAPIgetJSon(URI));
+
+            if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
+            {
+                foreach (var row in distanceResponse.Rows)
                 {
-                    //extract the time in seconds from origin to the current (i'th) destination
-                    int timeInSeconds = int.Parse(
-                        resultsArray[i].Children<JProperty>().FirstOrDefault(x => x.Name == "distance").Value.
-                        Children<JProperty>().FirstOrDefault(x => x.Name == "value").Value.ToString());
-                    //compare to Goldilocks zone to evaluate and add to list if in the range
-                    if (timeInSeconds > floor && timeInSeconds <= ceiling)
+                    foreach (var elements in row.Elements)
                     {
-                        viable.Add(candidates[i]);
+                        for (int i = 0; i < count; i++)
+                        {
+                            if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
+                            {
+                                if (elements.Duration.Value > floor && elements.Duration.Value <= ceiling)
+                                {
+                                    viable.Add(candidates[i]);
+                                }
+                            }
+                        }
                     }
                 }
             }
+
+
+
+
+            //if (status.ToString() == "OK")
+            //{
+            //extract elements' travel times
+            //remember there is only one destination, so the elements list the times to destinations in order
+
+            //var resultsToken = googleDistMatrixObject.
+            //    Children<JProperty>().FirstOrDefault
+            //    (x => x.Name == "rows").Value;
+
+
+            //resultsToken= resultsToken.Children<JProperty>().
+
+            //    FirstOrDefault(x => x.Name == "elements").
+            //    Value;
+
+            //for (int i = 0; i < count; i++)
+            //{
+            //    //extract the time in seconds from origin to the current (i'th) destination
+            //    int timeInSeconds = int.Parse(
+            //        resultsToken[i].Children<JProperty>().FirstOrDefault(x => x.Name == "duration").Value.
+            //        Children<JProperty>().FirstOrDefault(x => x.Name == "value").Value.ToString());
+            //    //compare to Goldilocks zone to evaluate and add to list if in the range
+            //    if (timeInSeconds > floor && timeInSeconds <= ceiling)
+            //    {
+            //        viable.Add(candidates[i]);
+            //    }
+            //}
+
             return viable;
         }
 
+        
+        
         string callAPIgetJSon(string URI)
         {
             //call API
