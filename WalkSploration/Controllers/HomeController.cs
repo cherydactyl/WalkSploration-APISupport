@@ -63,7 +63,6 @@ namespace WalkSploration.Controllers
                 //iterate over the json and parse into PointsOfInterest, placing each in the list
                 foreach (var item in resultsArray)
                 {
-
                     //extract the google place id
                     string GooglePlaceId = item.Children<JProperty>().FirstOrDefault(x => x.Name == "place_id").Value.ToString();
                     //extract the lattitude from JSon structuret
@@ -86,7 +85,6 @@ namespace WalkSploration.Controllers
             //return processed list
             return candidatePoIs;
         }
-
 
         List<PointOfInterest> screenPlaces(List<PointOfInterest> candidates, Location start, int timeInMinutes)
         {
@@ -144,6 +142,9 @@ namespace WalkSploration.Controllers
 
             //var googleMatrixObject = JToken.Parse(callAPIgetJSon(URI));
 
+
+            //extract elements' travel times
+            //remember there is only one destination, so the elements list the times to destinations in order
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
                 foreach (var row in distanceResponse.Rows)
@@ -152,9 +153,14 @@ namespace WalkSploration.Controllers
                     {
                         for (int i = 0; i < count; i++)
                         {
+                            //extract the time in seconds from origin to the current (i'th) destination
                             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                             {
-                                if (elements.Duration.Value > floor && elements.Duration.Value <= ceiling)
+                                // making a new int value to be able to better understand what the actual fucking value is.
+                                int value = elements.Duration.Value;
+
+                                //compare to Goldilocks zone to evaluate and add to list if in the range
+                                if (value > floor && value <= ceiling)
                                 {
                                     viable.Add(candidates[i]);
                                 }
@@ -163,38 +169,6 @@ namespace WalkSploration.Controllers
                     }
                 }
             }
-
-
-
-
-            //if (status.ToString() == "OK")
-            //{
-            //extract elements' travel times
-            //remember there is only one destination, so the elements list the times to destinations in order
-
-            //var resultsToken = googleDistMatrixObject.
-            //    Children<JProperty>().FirstOrDefault
-            //    (x => x.Name == "rows").Value;
-
-
-            //resultsToken= resultsToken.Children<JProperty>().
-
-            //    FirstOrDefault(x => x.Name == "elements").
-            //    Value;
-
-            //for (int i = 0; i < count; i++)
-            //{
-            //    //extract the time in seconds from origin to the current (i'th) destination
-            //    int timeInSeconds = int.Parse(
-            //        resultsToken[i].Children<JProperty>().FirstOrDefault(x => x.Name == "duration").Value.
-            //        Children<JProperty>().FirstOrDefault(x => x.Name == "value").Value.ToString());
-            //    //compare to Goldilocks zone to evaluate and add to list if in the range
-            //    if (timeInSeconds > floor && timeInSeconds <= ceiling)
-            //    {
-            //        viable.Add(candidates[i]);
-            //    }
-            //}
-
             return viable;
         }
 
