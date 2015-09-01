@@ -23,7 +23,9 @@ namespace WalkSploration.Controllers
         {
             //Grand Circus 42.3347, -83.0497
 
-            getPlaces((decimal)42.3347, (decimal)-83.0497);          
+            Location start = new Location((decimal)42.3347, (decimal)-83.0497);
+
+            //screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497));          
             return View();
 
         }
@@ -45,24 +47,12 @@ namespace WalkSploration.Controllers
             //types; start with "park" and possibly add more later
             //see https://developers.google.com/places/supported_types for list of types
             URI += "types=park";
-
-            //request processing
-            WebRequest request = WebRequest.Create(URI);
-            request.Method = "GET";
-            request.ContentType = "application/json";
-            WebResponse response = request.GetResponse();
-
-            //convert to JSon string
-            string jsonString;
-            using (var streamReader = new StreamReader(response.GetResponseStream()))
-            {
-                jsonString = streamReader.ReadToEnd();
-            }
-
+           
             //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
 
-            var googleRadarObject = JToken.Parse(jsonString);
+            //request processing
+            var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
             var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
 
             var resultsArray = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "results").Value;
@@ -94,6 +84,23 @@ namespace WalkSploration.Controllers
 
             //return processed list
             return candidatePoIs;
+        }
+
+        string callAPIgetJSon (string URI)
+        {
+            //call API
+            WebRequest request = WebRequest.Create(URI);
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            WebResponse response = request.GetResponse();
+
+            //convert response to JSon string
+            string jsonString;
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                jsonString = streamReader.ReadToEnd();
+            }
+            return jsonString;
         }
     }
 }
