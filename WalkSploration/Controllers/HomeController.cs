@@ -43,11 +43,11 @@ namespace WalkSploration.Controllers
             //location
             URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
             //radius; estimate 1 meter per second walking speed
-            URI += "radius="+ (timeInMinutes * 60 /2).ToString() +"&";
+            URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
             //see https://developers.google.com/places/supported_types for list of types
             URI += "types=park";
-           
+
             //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
 
@@ -55,14 +55,13 @@ namespace WalkSploration.Controllers
             var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
             var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
 
-            var resultsArray = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "results").Value;
-
             if (status.ToString() == "OK")
             {
+                var resultsArray = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "results").Value;
                 //iterate over the json and parse into PointsOfInterest, placing each in the list
                 foreach (var item in resultsArray)
                 {
-                    
+
                     //extract the google place id
                     string GooglePlaceId = item.Children<JProperty>().FirstOrDefault(x => x.Name == "place_id").Value.ToString();
                     //extract the lattitude from JSon structuret
@@ -77,7 +76,7 @@ namespace WalkSploration.Controllers
                         Children<JProperty>().FirstOrDefault(x => x.Name == "lng").Value.ToString());
                     //create new PoI with above properties
                     PointOfInterest point = new PointOfInterest(lat, lng, GooglePlaceId);
-                    
+
                     //add it to the list of candidates
                     candidatePoIs.Add(point);
                 }
@@ -90,34 +89,68 @@ namespace WalkSploration.Controllers
         {
             //if the candidates list is empty, return the/an empty list
             if (!(candidates.Any<PointOfInterest>()))
-                {
+            {
                 return candidates;
             }
 
-            //calculate Goldilocks range (not too far but also not too close) in seconds
-            //use 90-100% of available one-way time to start; may need to iterate 
-            //note that these 
-            int ceiling = (timeInMinutes * 60)/2;   //max length of each leg of round trip
-            int floor = (ceiling * 10) / 9;         //min desired length of each leg of round trip
-
-            //form API call for distance matrix
-
-            //call the API and get JSon string back
-
-            //extract travel times
+            //create distance matrix query
+            string URI = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+            //add parameters
+            //key
+            URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
+            //specifiy walking
+            URI += "mode=walking&";
+            //origin location
+            URI += "origins=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
+            //list all candidate points of interest by lat/lon as destinations
+            URI += "destinations=";
+            //iterate over candidate destinations, and add each location, separated by a pipe |
+            int count = candidates.Count();
+            for (int i = 0; i < count; i++)
+            {
+                URI += candidates[i].getLatitude().ToString() + "," + candidates[i].getLongitude().ToString();
+                if (i < count - 1)  // if not the last item in the list
+                {
+                    URI += "|";     //add a pipe to separate destinations
+                }
+            }
+            //call the API, get JSon string back, and parse it
+            var googleDistMatrixObject = JToken.Parse(callAPIgetJSon(URI));
+            var status = googleDistMatrixObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
 
             //create a new empty list
             List<PointOfInterest> viable = new List<PointOfInterest>();
 
-            //step through 
+            //calculate Goldilocks range (not too far but also not too close) in seconds
+            //use 90-100% of available one-way time to start; may need to iterate 
+            //note that these 
+            int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
+            int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
 
+            if (status.ToString() == "OK")
+            {
+                //extract elements' travel times
+                //remember there is only one destination, so the elements list the times to destinations in order
+                var resultsArray = googleDistMatrixObject.Children<JProperty>().FirstOrDefault(x => x.Name == "rows").Value.
+                    Children<JProperty>().FirstOrDefault(x => x.Name == "elements").Value;
 
+                for (int i = 0; i < count; i++)
+                {
+                    //extract the time in seconds from origin to the current (i'th) destination
+                    int timeInSeconds = int.Parse(
+                        resultsArray[i].Children<JProperty>().FirstOrDefault(x => x.Name == "distance").Value.
+                        Children<JProperty>().FirstOrDefault(x => x.Name == "value").Value.ToString());
+                    //compare to Goldilocks zone to evaluate and add to list if in the range
+                    if (timeInSeconds >= floor && timeInSeconds <= ceiling)
+                    {
+                        viable.Add(candidates[i]);
+                    }
+                }
+            }
             return viable;
         }
 
-
-
-        string callAPIgetJSon (string URI)
+        string callAPIgetJSon(string URI)
         {
             //call API
             WebRequest request = WebRequest.Create(URI);
