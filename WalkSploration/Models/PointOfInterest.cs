@@ -11,9 +11,9 @@ namespace WalkSploration.Models
     public class PointOfInterest
     {
         public int Id { get; set; }                    // Point of Interest ID
-        // public Location PoiLocation { get; set; }
-        public decimal Latitude { get; set; }          // Latitude
-        public decimal Longitude { get; set; }         // Longitude
+        public Location location { get; set; }         //prefer to make location not malleable
+        //public decimal Latitude { get; set; }        // lattitude of location
+        //public decimal Longitude { get; set; }       // longitude of location
         public string Name { get; set; }               // A short label
         public string Address { get; set; }            // Street address
         public string Category { get; set; }           // For future developments
@@ -22,9 +22,28 @@ namespace WalkSploration.Models
         public string GooglePlaceId { get; set; }      // To store the unique google place id
 
         //Foreign Key
-        public int UserID { get; set; }          // For possibly associating with a user
-        //Navigation Property                    
-        public User User { get; set; }           // For possibly associating with a user
+        public int UserID { get; set; }                // For possibly associating with a user
+        //Navigation Property                          
+        public User User { get; set; }                 // For possibly associating with a user
 
+        public PointOfInterest(decimal lat, decimal lng, string googID)
+        {
+            this.location = new Location(lat, lng);
+            this.GooglePlaceId = googID;
+        }
+
+        public PointOfInterest()
+        {
+        }
+
+        public decimal getLatitude()
+        {
+            return this.location.latitude;
+        }
+
+        public decimal getLongitude()
+        {
+            return this.location.longitude;
+        }
     }
 }

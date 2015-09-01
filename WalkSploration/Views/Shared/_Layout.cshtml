@@ -54,8 +54,8 @@
 
 
     $(document).ready(function () {
-        
-        initializeMap();
+
+        //initializeMap();
         showValue(time);
     });
 
@@ -164,7 +164,7 @@
         });
     }
 
-    
+
 
     //function searchAddress() {
     //    geocoder = new google.maps.Geocoder({ 'address': address }, function callback(results, status) {
@@ -186,32 +186,7 @@
 
 
     function showTime(time) {
-        document.getElementById("time-display".innerHTML = time) 
-    }
-
-    //MapnificentPosition.prototype.setTime = function(time) {
-    //    if (time !== this.time) {
-    //        this.time = time;
-    //        this.timdisplay.redraw();
-    //    }
-    //};
-
-    //MapnificentPosition.prototype.updateControls = function(){
-    //    var self = this;
-    //    var div = $('<div class="position-control">');
-    //    //var minutesTime = Math.round(this.time / 60);
-    //    var input = $('<input type="range">').attr({
-    //        max: Math.round(this.map.settings.maxWalkTravelTime / 60),
-    //        min: 0,
-    //        value: minutesTime
-    //    }).on('change', function(){
-    //        self.setTime(parseInt($(this).val()) * 60);
-    //    }).on('mousemove keyup', function(){
-    //        $(self.popup.getContent()).find('.time-display').text($(this).val() + ' min');
-    //        if (self.mapnificent.settings.redrawOnTimeDrag) {
-    //            self.setTime(parseInt($(this).val()) * 60);
-    //        }
-    //    });
-    
+        document.getElementById("time-display".innerHTML = time)
+    } 
 </script>
 
