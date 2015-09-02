@@ -12,8 +12,9 @@ namespace WalkSploration.Models
     {
         public int Id { get; set; }                    // Point of Interest ID
         public Location location { get; set; }         //prefer to make location not malleable
-        //public decimal Latitude { get; set; }        // lattitude of location
-        //public decimal Longitude { get; set; }       // longitude of location
+                                                       //public decimal Latitude { get; set; }        // lattitude of location
+                                                       //public decimal Longitude { get; set; }       // longitude of location
+
         public string Name { get; set; }               // A short label
         public string Address { get; set; }            // Street address
         public string Category { get; set; }           // For future developments
@@ -30,10 +31,6 @@ namespace WalkSploration.Models
         {
             this.location = new Location(lat, lng);
             this.GooglePlaceId = googID;
-        }
-
-        public PointOfInterest()
-        {
         }
 
         public decimal getLatitude()
