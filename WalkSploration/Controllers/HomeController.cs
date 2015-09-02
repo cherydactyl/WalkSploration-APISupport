@@ -28,26 +28,34 @@ namespace WalkSploration.Controllers
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
             return View();
-
         }
+
+        //public ActionResult Index(Location startingLocation, int timeIn)
+        //{
+        //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
+        //    int time = 15;  //sample time for testing
+
+        //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+        //    return View();
+        //}
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
         public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
         {
-            //create query
-            //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
-            //OR (less data) 
+                //create query
+                //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
+                //OR (less data) 
             string URI = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
-            //add parameters
-            //key
+                //add parameters
+                //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
-            //location
+                //location
             URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
-            //radius; estimate 1 meter per second walking speed
+                //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
-            //types; start with "park" and possibly add more later
-            //see https://developers.google.com/places/supported_types for list of types
+                //types; start with "park" and possibly add more later
+                //see https://developers.google.com/places/supported_types for list of types
             URI += "types=park";
 
             //create a new, empty list of Points Of Interest
@@ -96,6 +104,7 @@ namespace WalkSploration.Controllers
 
             //create distance matrix query
             string URI = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+            
             //add parameters
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
@@ -115,13 +124,8 @@ namespace WalkSploration.Controllers
                     URI += "|";     //add a pipe to separate destinations
                 }
             }
-
-            //call the API, get JSon string back, and parse it
-            //var googleDistMatrixObject = JToken.Parse(callAPIgetJSon(URI));
-            //var status = googleDistMatrixObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
-
-            //create a new empty list
-            List<PointOfInterest> viable = new List<PointOfInterest>();
+                        
+            List<PointOfInterest> viable = new List<PointOfInterest>();      //create a new empty list
 
             //calculate Goldilocks range (not too far but also not too close) in seconds
             //use 90-100% of available one-way time to start
@@ -130,21 +134,19 @@ namespace WalkSploration.Controllers
 
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
             int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
-
-
+            
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
             var result = client.DownloadData(URI.ToString());
             var json = Encoding.UTF8.GetString(result);
 
             var serializer = new JavaScriptSerializer();
             var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
 
-            //var googleMatrixObject = JToken.Parse(callAPIgetJSon(URI));
-
-
             //extract elements' travel times
             //remember there is only one destination, so the elements list the times to destinations in order
+
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
                 foreach (var row in distanceResponse.Rows)
@@ -156,7 +158,7 @@ namespace WalkSploration.Controllers
                             //extract the time in seconds from origin to the current (i'th) destination
                             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                             {
-                                // making a new int value to be able to better understand what the actual fucking value is.
+                                // making a new int value to be able to better understand what the actual value is.
                                 int value = elements.Duration.Value;
 
                                 //compare to Goldilocks zone to evaluate and add to list if in the range
@@ -172,8 +174,6 @@ namespace WalkSploration.Controllers
             return viable;
         }
 
-        
-        
         string callAPIgetJSon(string URI)
         {
             //call API
