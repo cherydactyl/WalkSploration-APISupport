@@ -23,6 +23,7 @@ namespace WalkSploration.Models
         public string GooglePlaceId { get; set; }      // To store the unique google place id
 
         //Foreign Key
+<<<<<<< HEAD
         public int UserID { get; set; }                // For possibly associating with a user
         //Navigation Property                          
         public User User { get; set; }                 // For possibly associating with a user
@@ -42,5 +43,13 @@ namespace WalkSploration.Models
         {
             return this.location.longitude;
         }
+=======
+    //    public int UserID { get; set; }          // For possibly associating with a user
+        //Navigation Property                    
+        public User User { get; set; }           // For possibly associating with a user
+
+        public virtual ICollection<User> users { get; set; }
+
+>>>>>>> many to many
     }
 }

@@ -14,13 +14,28 @@ namespace WalkSploration.Models
         // automatically whenever you change your model schema, please use data migrations.
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
-    
-        public WalkSplorationContext() : base("name=WalkSplorationContext")
+
+        public WalkSplorationContext() : base("WalkSplorationContext")
         {
         }
 
         public System.Data.Entity.DbSet<WalkSploration.Models.PointOfInterest> PointOfInterests { get; set; }
 
         public System.Data.Entity.DbSet<WalkSploration.Models.User> Users { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<User>()
+                        .HasMany<PointOfInterest>(s => s.PointOfOntersts)
+                        .WithMany(c => c.users)
+                        .Map(cs =>
+                        {
+                            cs.MapLeftKey("UsersRefId");
+                            cs.MapRightKey("PointOfInterestsRefId");
+                            cs.ToTable("UsersPointsOfInterest");
+                        });
+        }
+    
     }
 }
