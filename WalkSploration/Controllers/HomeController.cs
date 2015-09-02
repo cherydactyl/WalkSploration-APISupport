@@ -140,7 +140,7 @@ namespace WalkSploration.Controllers
                 {
                     //extract the time in seconds from origin to the current (i'th) destination
                     int timeInSeconds = int.Parse(
-                        resultsArray[i].Children<JProperty>().FirstOrDefault(x => x.Name == "distance").Value.
+                        resultsArray[i].Children<JProperty>().FirstOrDefault(x => x.Name == "duration").Value.
                         Children<JProperty>().FirstOrDefault(x => x.Name == "value").Value.ToString());
                     //compare to Goldilocks zone to evaluate and add to list if in the range
                     if (timeInSeconds > floor && timeInSeconds <= ceiling)
