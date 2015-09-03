@@ -24,7 +24,7 @@ namespace WalkSploration.Controllers
             //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
             Location start = new Location((decimal)42.3347, (decimal)-83.0497);
             int time = 15;  //sample time for testing
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
         }
         //public ActionResult Index(Location startingLocation, int timeIn)
@@ -35,7 +35,7 @@ namespace WalkSploration.Controllers
         //    return View();
         //}
         // !!!!  HELPER FUNCTIONS  !!!!
-        public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
+        public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
         {
             //create query
             //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
@@ -45,7 +45,7 @@ namespace WalkSploration.Controllers
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
             //location
-            URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
+            URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
             //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
@@ -78,6 +78,7 @@ namespace WalkSploration.Controllers
                     PointOfInterest point = new PointOfInterest(lat, lng, GooglePlaceId);
                     //add it to the list of candidates
                     candidatePoIs.Add(point);
+                    //Debug.WriteLine(point.GooglePlaceId);
                 }
             }
             //return processed list
@@ -85,7 +86,7 @@ namespace WalkSploration.Controllers
         }
         List<PointOfInterest> screenPlaces(List<PointOfInterest> candidates, Location start, int timeInMinutes)
         {
-            //if the candidates list is empty, return the/an empty list
+            //if the candidates list is empty, return it/an empty list
             if (!(candidates.Any<PointOfInterest>()))
             {
                 return candidates;
@@ -119,7 +120,7 @@ namespace WalkSploration.Controllers
             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
             //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
-            int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
+            int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
 
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -128,7 +129,7 @@ namespace WalkSploration.Controllers
             var serializer = new JavaScriptSerializer();
             var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
             //extract elements' travel times
-            //remember there is only one destination, so the elements list the times to destinations in order
+            //remember there is only one origin, so the elements list the times to destinations in order
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
                 foreach (var row in distanceResponse.Rows)
@@ -137,17 +138,22 @@ namespace WalkSploration.Controllers
                     {
                         for (int i = 0; i < count; i++)
                         {
+                            Debug.Write("check #" + i + " ");
                             //extract the time in seconds from origin to the current (i'th) destination
                             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                             {
+
                                 // making a new int value to be able to better understand what the actual value is.
                                 int value = elements.Duration.Value;
+                                Debug.Write("OK, checking...");
                                 //compare to Goldilocks zone to evaluate and add to list if in the range
                                 if (value > floor && value <= ceiling)
                                 {
                                     viable.Add(candidates[i]);
+                                    Debug.Write("Goldilocks" + candidates[i].GooglePlaceId);
                                 }
                             }
+                            Debug.WriteLine(" Done");
                         }
                     }
                 }
