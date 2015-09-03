@@ -19,12 +19,19 @@ namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult Index(int time, decimal startLat, decimal startLong)
         {
             //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-            Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-            int time = 15;  //sample time for testing
+
+            Location start = new Location(startLat, startLong);
+
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+            return View();
+        }
+        public ActionResult Index()
+        {
+           
             return View();
         }
         //public ActionResult Index(Location startingLocation, int timeIn)
