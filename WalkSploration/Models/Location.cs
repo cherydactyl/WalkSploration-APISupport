@@ -15,5 +15,7 @@ namespace WalkSploration.Models
             this.latitude = lat;
             this.longitude = lon;
         }
+
+
     }
 }

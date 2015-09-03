@@ -20,24 +20,24 @@ namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {
-            //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-            Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-            int time = 15;  //sample time for testing
-
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
-            return View();
-        }
-
-        //public ActionResult Index(Location startingLocation, int timeIn)
+        //public ActionResult Index()
         //{
+        //    //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
         //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
         //    int time = 15;  //sample time for testing
 
         //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
         //    return View();
         //}
+
+        public ActionResult Index(int timeIn, decimal lat, decimal lon)
+        {
+            Location start = new Location((decimal)42.3347, (decimal)-83.0497);
+            int time = 15;  //sample time for testing
+
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+            return View();
+        }
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
@@ -153,8 +153,13 @@ namespace WalkSploration.Controllers
                 {
                     foreach (var elements in row.Elements)
                     {
+                        
                         for (int i = 0; i < count; i++)
                         {
+
+                            var durationTest = elements.Duration.Value;
+
+
                             //extract the time in seconds from origin to the current (i'th) destination
                             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                             {
@@ -171,6 +176,7 @@ namespace WalkSploration.Controllers
                     }
                 }
             }
+            Console.WriteLine(candidates);
             return viable;
         }
 
