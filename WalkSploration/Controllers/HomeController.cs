@@ -128,7 +128,7 @@ namespace WalkSploration.Controllers
             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
             //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
-            int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
+            int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
 
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
