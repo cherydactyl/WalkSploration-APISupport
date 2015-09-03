@@ -124,7 +124,7 @@ namespace WalkSploration.Controllers
 
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
-            var result = client.DownloadData(URI.ToString());
+            var result = client.DownloadData(URI);
             var json = Encoding.UTF8.GetString(result);
             var serializer = new JavaScriptSerializer();
             var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
