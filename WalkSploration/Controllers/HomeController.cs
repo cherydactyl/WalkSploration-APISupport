@@ -19,12 +19,21 @@ namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult Index(int time, decimal startLat, decimal startLong)
         {
             //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-            Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-            int time = 15;  //sample time for testing
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+            Location start = new Location(startLat, startLong);
+
+
+            //   int time = 15;  //sample time for testing
+
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+            return View();
+        }
+        public ActionResult Index()
+        {
+           
             return View();
         }
         //public ActionResult Index(Location startingLocation, int timeIn)
@@ -35,7 +44,7 @@ namespace WalkSploration.Controllers
         //    return View();
         //}
         // !!!!  HELPER FUNCTIONS  !!!!
-        public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
+        public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
         {
             //create query
             //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
@@ -45,7 +54,7 @@ namespace WalkSploration.Controllers
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
             //location
-            URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
+            URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
             //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
@@ -119,7 +128,7 @@ namespace WalkSploration.Controllers
             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
             //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
-            int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
+            int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
 
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
