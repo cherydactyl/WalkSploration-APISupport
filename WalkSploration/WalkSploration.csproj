@@ -219,7 +219,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\sneakerMarker.png" />
     <Content Include="Images\walksplorationBanner.png" />
-    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\AutocompleteMap.js" />
     <Content Include="Scripts\knockout-3.3.0.debug.js" />
     <Content Include="Scripts\knockout-3.3.0.js" />
