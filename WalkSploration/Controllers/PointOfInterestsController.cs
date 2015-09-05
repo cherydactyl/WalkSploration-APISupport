@@ -15,7 +15,18 @@ namespace WalkSploration.Controllers
 {
     public class PointOfInterestsController : ApiController
     {
-        static readonly Dictionary<Guid, InputInfo> inputInfo = new Dictionary<Guid, InputInfo>();
+
+
+
+
+        //  Referencing Detroit Eatz Project
+
+
+
+        // End refrence of Detroit Eatz project
+
+
+        // static readonly Dictionary<Guid, InputInfo> inputInfo = new Dictionary<Guid, InputInfo>();
 
         //        [HttpPost]
         //        [ActionName("Complex")]

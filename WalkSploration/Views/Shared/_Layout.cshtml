@@ -92,7 +92,7 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 position = {
                     lat: position.coords.latitude,
-                    lng: position.coords.longitude          
+                    lng: position.coords.longitude
                 };
 
                 infoWindow.setPosition(position);           // now my infoWindow is where ever the heck we are
@@ -100,11 +100,11 @@
                 map.setCenter(position);                    // re-center the map over our current position
 
                 // Create the Marker to be dropped
-                marker = new google.maps.Marker({   
+                marker = new google.maps.Marker({
                     map: map,                               // the map it's on is called map
                     position: position,                     // the position is at the var position
                     icon: image,                            // the icon displayed is the var image that we defined earlier
-                    animation: google.maps.Animation.DROP   // makes the marker drop in 
+                    animation: google.maps.Animation.DROP   // makes the marker drop in
                 });
             },
 
@@ -113,7 +113,7 @@
             });
         }
         else {
-            // Browser doesn't support Geolocation we have a fall through case to 
+            // Browser doesn't support Geolocation we have a fall through case to
             // re-center the map and drop a pin on Grand Circus.
             // It displays a separate message, 'Howdy, Grand Circus!'
             handleLocationError(false, infoWindow, map.getCenter());
@@ -143,4 +143,10 @@
             marker.setAnimation(google.maps.Animation.BOUNCE);
         }
     }
+
+
+    
+
+
+
 </script>

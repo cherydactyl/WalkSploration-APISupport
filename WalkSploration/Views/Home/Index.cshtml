@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Walksploration";
 }
 
@@ -29,7 +30,7 @@
         <input type="text" name="outLat" value="" size="40" hidden="hidden" />
         <input type="text" name="outLon" value="" size="40" hidden="hidden" />
 
-        <button type="submit" id="addStartInfo" value="Submit" onclick="AddStartInfo();">Start your Walk</button>
+        <button type="submit" id="addStartInfo" value="Submit" onclick="AddStartInfo(time=this.value, outlat= this.value, outLon= this.value);">Start your Walk</button>
 
     </form>
 }
@@ -45,13 +46,19 @@
      
       -->
 <script>
+    
+
     function AddStartInfo() {
+
+        console.log('made it to the add start info function')
 
         var addStartInfo = document.getElementById("addStartInfo");
 
-        var time = document.getElementById("time").value;
-        var outLat = position.coords.latitude;
-        var outLon = position.coords.longitude;
+        // 
+
+        //var time = document.getElementById("time").value;
+        //var outLat = position.coords.latitude;
+        //var outLon = position.coords.longitude;
 
         var addLocationDetails = document.forms["submitStart"];
 
@@ -60,7 +67,11 @@
 
         outputLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
         outputLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
-
+        
+        
+        // Referencing the Detroit Eatz Project - Thanks for the help guys!
+        ajaxHelper('StartPlace', 'POST', (time, outLat, outLon));
+    
         addStartInfo.submit();
     }
 

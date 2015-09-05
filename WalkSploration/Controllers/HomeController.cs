@@ -22,6 +22,7 @@ using System.Collections;
 
 namespace WalkSploration.Controllers
 {
+    // This may need to inherit from the ApiController
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -29,8 +30,8 @@ namespace WalkSploration.Controllers
             return View();
         }
 
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Index(string timeString, string startLatString, string startLonString)
+        [System.Web.Mvc.HttpGet]
+        public ActionResult StartPlace(string timeString, string startLatString, string startLonString)
         {
             int time = Int32.Parse(timeString);
             decimal startLat = Decimal.Parse(startLatString);
