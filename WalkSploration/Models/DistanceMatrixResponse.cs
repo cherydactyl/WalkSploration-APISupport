@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WalkSploration.Models
 {
-    public class DistanceResponse
+    public class DistanceMatrixResponse
     {
         public string Status { get; set; }
         public string[] Origin_Addresses { get; set; }

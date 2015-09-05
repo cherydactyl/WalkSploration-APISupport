@@ -134,7 +134,7 @@ namespace WalkSploration.Controllers
             var result = client.DownloadData(URI);
             var json = Encoding.UTF8.GetString(result);
             var serializer = new JavaScriptSerializer();
-            var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
+            var distanceResponse = serializer.Deserialize<DistanceMatrixResponse>(json);
             //extract elements' travel times
             //remember there is only one origin, so the elements list the times to destinations in order
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))

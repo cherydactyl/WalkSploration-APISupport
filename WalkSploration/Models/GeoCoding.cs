@@ -78,7 +78,8 @@ namespace WalkSploration.Models
                 {
                     xmlTextReader.MoveToElement();
                     switch (xmlTextReader.Name)
-                    { case "AddressDetails:" //Check for the address details node
+                    {
+                        case "AddressDetails:": //Check for the address details node
                             while (xmlTextReader.MoveToNextAttribute())
                             {
                                 switch(xmlTextReader.Name)
