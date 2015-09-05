@@ -1,3 +1,3 @@
 ﻿function showValue(time) {
-    document.getElementById("time-display").innerHTML = time;
+    document.getElementById("timeSlider").innerHTML = time;
 }

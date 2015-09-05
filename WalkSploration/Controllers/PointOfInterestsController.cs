@@ -15,105 +15,164 @@ namespace WalkSploration.Controllers
 {
     public class PointOfInterestsController : ApiController
     {
-        private WalkSplorationContext db = new WalkSplorationContext();
+        static readonly Dictionary<Guid, InputInfo> inputInfo = new Dictionary<Guid, InputInfo>();
 
-        // GET: api/PointOfInterests
-        public IQueryable<PointOfInterest> GetPointOfInterests()
-        {
-            return db.PointOfInterests;
-        }
+        //        [HttpPost]
+        //        [ActionName("Complex")]
+        //        public HttpResponseMessage PostComplex(InputInfo inputInfo)
+        //        {
+        //            if (ModelState.IsValid && inputInfo != null)
+        //            {
+        //                // Convert any HTML markup in the status text.
+        //                string tempVar = inputInfo.TimeIn.ToString();
+        //                tempVar = HttpResponseMessage.Utility.HtmlEncode(inputInfo.TimeIn);
 
-        // GET: api/PointOfInterests/5
-        [ResponseType(typeof(PointOfInterest))]
-        public async Task<IHttpActionResult> GetPointOfInterest(int id)
-        {
-            PointOfInterest pointOfInterest = await db.PointOfInterests.FindAsync(id);
-            if (pointOfInterest == null)
-            {
-                return NotFound();
-            }
+        //                // Create a 201 response.
+        //                var response = new HttpResponseMessage(HttpStatusCode.Created)
+        //                {
+        //                    Content = new StringContent (inputInfo.TimeIn.ToString())
+        //                };
 
-            return Ok(pointOfInterest);
-        }
+        //                response.Headers.Location =
+        //                    new Uri(Url.Link("DefaultApi", new { action = "status", id = id }));
+        //                return response;
+        //            }
+        //            else
+        //            {
+        //                return Request.CreateResponse(HttpStatusCode.BadRequest);
+        //            }
+        //        }
 
-        // PUT: api/PointOfInterests/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPointOfInterest(int id, PointOfInterest pointOfInterest)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //        [HttpGet]
+        //        public InputInfo TimeIn(Guid id)
+        //        {
+        //            InputInfo inputInfo;
+        //            if (inputInfo.TryGetValue(id, out inputInfo))
+        //            {
+        //                return inputInfo;
+        //            }
+        //            else
+        //            {
+        //                throw new HttpResponseException(HttpStatusCode.NotFound);
+        //            }
+        //        }
+        //    }
+        //}
 
-            if (id != pointOfInterest.Id)
-            {
-                return BadRequest();
-            }
 
-            db.Entry(pointOfInterest).State = EntityState.Modified;
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PointOfInterestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+            //[HttpPost]
+            //public ActionResult SaveComments(int time, decimal startLat, decimal startLong)
+            //{
+            //    //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
+            //    Location start = new Location(startLat, startLong);
 
-        // POST: api/PointOfInterests
-        [ResponseType(typeof(PointOfInterest))]
-        public async Task<IHttpActionResult> PostPointOfInterest(PointOfInterest pointOfInterest)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //    Debug.WriteLine("time: " + time + "   Start latitude: " + startLat + "    Start Longitude: " + startLong);
+            //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+            //    return View();
+            //}
 
-            db.PointOfInterests.Add(pointOfInterest);
-            await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = pointOfInterest.Id }, pointOfInterest);
-        }
+        //// GET: api/PointOfInterests
+        //public IQueryable<PointOfInterest> GetPOI([FromUri] List<decimal> idList)
+        //{
+            
 
-        // DELETE: api/PointOfInterests/5
-        [ResponseType(typeof(PointOfInterest))]
-        public async Task<IHttpActionResult> DeletePointOfInterest(int id)
-        {
-            PointOfInterest pointOfInterest = await db.PointOfInterests.FindAsync(id);
-            if (pointOfInterest == null)
-            {
-                return NotFound();
-            }
+        //    return pointOfInterests;
+        //}
 
-            db.PointOfInterests.Remove(pointOfInterest);
-            await db.SaveChangesAsync();
+//        // GET: api/PointOfInterests/5
+//        [ResponseType(typeof(PointOfInterest))]
+//        public async Task<IHttpActionResult> GetPointOfInterest(int id)
+//        {
+//            PointOfInterest pointOfInterest = await db.PointOfInterests.FindAsync(id);
+//            if (pointOfInterest == null)
+//            {
+//                return NotFound();
+//            }
 
-            return Ok(pointOfInterest);
-        }
+//            return Ok(pointOfInterest);
+//        }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+//        // PUT: api/PointOfInterests/5
+//        [ResponseType(typeof(void))]
+//        public async Task<IHttpActionResult> PutPointOfInterest(int id, PointOfInterest pointOfInterest)
+//        {
+//            if (!ModelState.IsValid)
+//            {
+//                return BadRequest(ModelState);
+//            }
 
-        private bool PointOfInterestExists(int id)
-        {
-            return db.PointOfInterests.Count(e => e.Id == id) > 0;
-        }
+//            if (id != pointOfInterest.Id)
+//            {
+//                return BadRequest();
+//            }
+
+//            db.Entry(pointOfInterest).State = EntityState.Modified;
+
+//            try
+//            {
+//                await db.SaveChangesAsync();
+//            }
+//            catch (DbUpdateConcurrencyException)
+//            {
+//                if (!PointOfInterestExists(id))
+//                {
+//                    return NotFound();
+//                }
+//                else
+//                {
+//                    throw;
+//                }
+//            }
+
+//            return StatusCode(HttpStatusCode.NoContent);
+//        }
+
+//        // POST: api/PointOfInterests
+//        [ResponseType(typeof(PointOfInterest))]
+//        public async Task<IHttpActionResult> PostPointOfInterest(PointOfInterest pointOfInterest)
+//        {
+//            if (!ModelState.IsValid)
+//            {
+//                return BadRequest(ModelState);
+//            }
+
+//            db.PointOfInterests.Add(pointOfInterest);
+//            await db.SaveChangesAsync();
+
+//            return CreatedAtRoute("DefaultApi", new { id = pointOfInterest.Id }, pointOfInterest);
+//        }
+
+//        // DELETE: api/PointOfInterests/5
+//        [ResponseType(typeof(PointOfInterest))]
+//        public async Task<IHttpActionResult> DeletePointOfInterest(int id)
+//        {
+//            PointOfInterest pointOfInterest = await db.PointOfInterests.FindAsync(id);
+//            if (pointOfInterest == null)
+//            {
+//                return NotFound();
+//            }
+
+//            db.PointOfInterests.Remove(pointOfInterest);
+//            await db.SaveChangesAsync();
+
+//            return Ok(pointOfInterest);
+//        }
+
+//        protected override void Dispose(bool disposing)
+//        {
+//            if (disposing)
+//            {
+//                db.Dispose();
+//            }
+//            base.Dispose(disposing);
+//        }
+
+//        private bool PointOfInterestExists(int id)
+//        {
+//            return db.PointOfInterests.Count(e => e.Id == id) > 0;
+//        }
     }
 }

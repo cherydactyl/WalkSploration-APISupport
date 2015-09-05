@@ -15,56 +15,114 @@ using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
+using System.Web.Http.Description;
+using System.Web.Http;
+using System.Threading.Tasks;
+using System.Collections;
 
 namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        //public ActionResult Index()
-        //{
-        //    //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-        //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-        //    int time = 15;  //sample time for testing
-
-        //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
-        //    return View();
-        //}
-
-        public ActionResult Index(int timeIn, decimal lat, decimal lon)
+        public ActionResult Index()
         {
-            Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-            int time = 15;  //sample time for testing
-
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
             return View();
         }
 
-        // !!!!  HELPER FUNCTIONS  !!!!
-
-        public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
+        [System.Web.Mvc.HttpPost]
+        public ActionResult Index(string timeString, string startLatString, string startLonString)
         {
-                //create query
-                //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
-                //OR (less data) 
-            string URI = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
-                //add parameters
-                //key
-            URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
-                //location
-            URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
-                //radius; estimate 1 meter per second walking speed
-            URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
-                //types; start with "park" and possibly add more later
-                //see https://developers.google.com/places/supported_types for list of types
-            URI += "types=park";
+            int time = Int32.Parse(timeString);
+            decimal startLat = Decimal.Parse(startLatString);
+            decimal startLon = Decimal.Parse(startLonString);
 
+            Location start = new Location(startLat, startLon);
+
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+
+            var poi = goldilocks.FirstOrDefault();
+            Debug.WriteLine("time: " + time + "   Start latitude: " + startLat + "    Start Longitude: " + startLon);
+
+            return View();
+        }
+
+
+
+
+
+
+
+
+        //    [HttpPost]
+        //    public ActionResult SaveComments(int time, decimal startLat, decimal startLong)
+        //    {
+        //        //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
+        //        Location start = new Location(startLat, startLong);
+
+        //        Debug.WriteLine("time: " + time + "   Start latitude: " + startLat + "    Start Longitude: " + startLong);
+        //        List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+        //        return View();
+        //    }
+
+
+
+        //    public ActionResult Index()
+        //    {
+
+        //        return View();
+        //    }
+
+
+
+
+
+        //    //public ActionResult Index()
+        //    //{
+        //    //    //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
+        //    //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
+        //    //    int time = 15;  //sample time for testing
+
+        //    //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+        //    //    return View();
+        //    //}
+
+        //    //public ActionResult Index(int timeIn, decimal lat, decimal lon)
+        //    //{
+        //    //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
+        //    //    int time = 15;  //sample time for testing
+
+        //    //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+        //    //    return View();
+        //    //}
+
+        // !!!!  HELPER FUNCTIONS  !!!!
+        public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
+        {
+            //create query
+            //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
+            //OR (less data) 
+            string URI = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
+            //add parameters
+            //key
+            URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
+            //location
+            URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
+            //radius; estimate 1 meter per second walking speed
+            URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
+            //types; start with "park" and possibly add more later
+            //see https://developers.google.com/places/supported_types for list of types
+            URI += "types=park";
             //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
-
             //request processing
-            var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
-            var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
 
+
+
+             var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
+
+
+
+            var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
             if (status.ToString() == "OK")
             {
                 var resultsArray = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "results").Value;
@@ -85,7 +143,6 @@ namespace WalkSploration.Controllers
                         Children<JProperty>().FirstOrDefault(x => x.Name == "lng").Value.ToString());
                     //create new PoI with above properties
                     PointOfInterest point = new PointOfInterest(lat, lng, GooglePlaceId);
-
                     //add it to the list of candidates
                     candidatePoIs.Add(point);
                 }
@@ -101,10 +158,9 @@ namespace WalkSploration.Controllers
             {
                 return candidates;
             }
-
             //create distance matrix query
             string URI = "https://maps.googleapis.com/maps/api/distancematrix/json?";
-            
+
             //add parameters
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
@@ -124,48 +180,36 @@ namespace WalkSploration.Controllers
                     URI += "|";     //add a pipe to separate destinations
                 }
             }
-                        
+
             List<PointOfInterest> viable = new List<PointOfInterest>();      //create a new empty list
-
-            //calculate Goldilocks range (not too far but also not too close) in seconds
-            //use 90-100% of available one-way time to start
-            //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
-            //note that these use integer math
-
+                                                                             //calculate Goldilocks range (not too far but also not too close) in seconds
+                                                                             //use 90-100% of available one-way time to start
+                                                                             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
+                                                                             //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
-            int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
-            
+            int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
+
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
             var result = client.DownloadData(URI.ToString());
             var json = Encoding.UTF8.GetString(result);
-
             var serializer = new JavaScriptSerializer();
             var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
-
             //extract elements' travel times
             //remember there is only one destination, so the elements list the times to destinations in order
-
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
                 foreach (var row in distanceResponse.Rows)
                 {
                     foreach (var elements in row.Elements)
                     {
-                        
                         for (int i = 0; i < count; i++)
                         {
-
-                            var durationTest = elements.Duration.Value;
-
-
                             //extract the time in seconds from origin to the current (i'th) destination
                             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                             {
                                 // making a new int value to be able to better understand what the actual value is.
                                 int value = elements.Duration.Value;
-
                                 //compare to Goldilocks zone to evaluate and add to list if in the range
                                 if (value > floor && value <= ceiling)
                                 {
@@ -176,7 +220,6 @@ namespace WalkSploration.Controllers
                     }
                 }
             }
-            Console.WriteLine(candidates);
             return viable;
         }
 
@@ -186,13 +229,13 @@ namespace WalkSploration.Controllers
             WebRequest request = WebRequest.Create(URI);
             request.Method = "GET";
             request.ContentType = "application/json";
-            WebResponse response = request.GetResponse();
+            WebResponse response =  request.GetResponse();
 
             //convert response to JSon string
             string jsonString;
             using (var streamReader = new StreamReader(response.GetResponseStream()))
             {
-                jsonString = streamReader.ReadToEnd();
+                 jsonString = streamReader.ReadToEnd();
             }
             return jsonString;
         }

@@ -23,6 +23,7 @@ namespace WalkSploration.Models
         //Navigation Property                          
         public User User { get; set; }                 // For possibly associating with a user
 
+        
         public PointOfInterest(decimal lat, decimal lng, string googID)
         {
             this.location = new Location(lat, lng);

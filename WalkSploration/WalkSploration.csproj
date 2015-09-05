@@ -201,9 +201,11 @@
     <Compile Include="Models\DistanceMatrix.cs" />
     <Compile Include="Models\DistanceResponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InputInfo.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PointOfInterest.cs" />
+    <Compile Include="Models\PointOfInterestDTO.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -217,7 +219,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\sneakerMarker.png" />
     <Content Include="Images\walksplorationBanner.png" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\AutocompleteMap.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
     <Content Include="Scripts\LatLonDisplay.js" />
     <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />

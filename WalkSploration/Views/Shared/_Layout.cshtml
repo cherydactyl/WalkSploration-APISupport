@@ -59,8 +59,6 @@
     $(document).ready(function () {
 
         initializeMap();
-        showValue(time);
-        success(position)
     });
 
 
@@ -86,7 +84,7 @@
 
         var infoWindow = new google.maps.InfoWindow({ map: map });
 
-if (navigator.geolocation) {
+    if (navigator.geolocation) {
         // "Hey Geolocation! Please go find the current position and set the current lat and lng to the lat and lng vars."
         navigator.geolocation.getCurrentPosition(function (position) {
             position = {
@@ -142,38 +140,4 @@ function toggleBounce() {
     }
 }
 
-    // Adds a listener for the click event to place pin at Start Location
-    document.getElementById('submitWalk').addEventListener('click', function () {
-        geocodeAddress(geocoder, map);
-    });
-
-    function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({ 'address': address }, function (results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-                resultsMap.setCenter(results[0].geometry.location);
-                marker = new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location,
-                    icon: image
-                });
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
-
 </script>
-
-
-
-
-@*<script type="text/javascript">
-
-    $(document).ready(function () {
-        showValue(time);
-        showValue(startLat);
-        showValue(startLon);
-    });
-
-</script>*@
