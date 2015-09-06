@@ -12,12 +12,7 @@ namespace WalkSploration.Models
     {
         public int Id { get; set; }                    // Point of Interest ID
         public Location location { get; set; }         //prefer to make location not malleable
-<<<<<<< HEAD
-=======
-                                                       //public decimal Latitude { get; set; }        // lattitude of location
-                                                       //public decimal Longitude { get; set; }       // longitude of location
 
->>>>>>> master
         public string Name { get; set; }               // A short label
         public string Address { get; set; }            // Street address
         public string Category { get; set; }           // For future developments
