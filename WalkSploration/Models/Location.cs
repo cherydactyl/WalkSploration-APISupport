@@ -7,8 +7,9 @@ namespace WalkSploration.Models
 {
     public class Location
     {
-        public decimal latitude { get; }
-        public decimal longitude { get; }
+        public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
+        public int inputTime { get; set; }
 
         public Location(decimal lat, decimal lon)
         {
@@ -16,6 +17,11 @@ namespace WalkSploration.Models
             this.longitude = lon;
         }
 
-
+        public Location(int time, decimal lat, decimal lon)
+        {
+            this.latitude = lat;
+            this.longitude = lon;
+            this.inputTime = time;
+        }
     }
 }

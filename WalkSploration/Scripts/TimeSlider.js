@@ -2,3 +2,6 @@
 function showValue(time) {
     document.getElementById("time-display").innerHTML = time;
 }
+function showVal(time) {
+    document.getElementsById("time-play").innerHTML = time;
+}

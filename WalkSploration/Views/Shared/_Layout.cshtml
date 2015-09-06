@@ -11,6 +11,7 @@
     @Scripts.Render("~/Scripts/TimeSlider.js")
     @Styles.Render("~/Content/css")
 
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -46,6 +47,12 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
 @*Including Src code for jquery*@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 @*Including Src code for ajax/googleapis*@
@@ -59,6 +66,8 @@
     // So when the document is ready, call the functions listed in the {Curly Braces}
     $(document).ready(function () {
         initializeMap();
+        document.getElementById("latbox").value = this.getPosition().lat();
+        document.getElementById("lngbox").value = this.getPosition().lng();
     });
 
 
@@ -71,7 +80,7 @@
         anchor: new google.maps.Point(20, 15)               // anchor = this point is relative to where the actual center is of the lat and lon
     };
     var marker;                                     // Initializes marker object (Our shoe)
-
+    var infowindow;
 
     // Initalize Map with Geolocation
     function initializeMap() {
@@ -84,7 +93,7 @@
         });
 
         //  create the infowindow that will display our message 'Howdy walker!'
-        var infoWindow = new google.maps.InfoWindow({ map: map });
+        
 
         if (navigator.geolocation) {
             // if the browser supports geolocation
@@ -95,8 +104,12 @@
                     lng: position.coords.longitude
                 };
 
-                infoWindow.setPosition(position);           // now my infoWindow is where ever the heck we are
-                infoWindow.setContent('Howdy, walker!');    // the message the infowindow will display
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                printLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
+                printLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
+
                 map.setCenter(position);                    // re-center the map over our current position
 
                 // Create the Marker to be dropped
@@ -106,6 +119,10 @@
                     icon: image,                            // the icon displayed is the var image that we defined earlier
                     animation: google.maps.Animation.DROP   // makes the marker drop in
                 });
+
+                infoWindow = new google.maps.InfoWindow({ map: map });
+                infoWindow.setPosition(position);           // now my infoWindow is where ever the heck we are
+                infoWindow.setContent('Howdy, walker!');    // the message the infowindow will display
             },
 
             function () {           // the function for this is defined below
@@ -118,11 +135,16 @@
             // It displays a separate message, 'Howdy, Grand Circus!'
             handleLocationError(false, infoWindow, map.getCenter());
         }
+
+
+ 
+
     }
 
 
     // Default location if Geolocation is not Available
     function handleLocationError(browserHasGeolocation, infoWindow, position) {
+        infoWindow = new google.maps.InfoWindow({ map: map });
         infoWindow.setPosition(position);
         infoWindow.setContent(browserHasGeolocation ?
                               'Howdy, Grand Circus!' :
@@ -134,6 +156,8 @@
             animation: google.maps.Animation.DROP
         });
     }
+
+
 
     // Optional Bounce animation for Map Pin        9.5 note - don't currently use this script
     function toggleBounce() {

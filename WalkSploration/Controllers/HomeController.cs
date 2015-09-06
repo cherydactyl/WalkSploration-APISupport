@@ -37,7 +37,7 @@ namespace WalkSploration.Controllers
             decimal startLat = Decimal.Parse(startLatString);
             decimal startLon = Decimal.Parse(startLonString);
 
-            Location start = new Location(startLat, startLon);
+            Location start = new Location(time, startLat, startLon);
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
 
@@ -48,6 +48,23 @@ namespace WalkSploration.Controllers
         }
 
 
+
+
+        [System.Web.Http.HttpPost]
+        public ActionResult StartPlaceTest()
+        {
+            decimal time = Convert.ToDecimal(Request["timeAmount"].ToString());
+            decimal lat = Convert.ToDecimal(Request["lanEntered"].ToString());
+            int lon = Convert.ToInt32(Request["lonEntered"].ToString());
+
+            Location start = new Location(lat, lon);
+
+            StringBuilder sbInterest = new StringBuilder();
+            sbInterest.Append("<b>Input Time :</b> " + time + "<br/>");
+            sbInterest.Append("<b>Lat :</b> " + lat + "<br/>");
+            sbInterest.Append("<b>Lon :</b> " + lon + "<br/>");
+            return Content(sbInterest.ToString());
+        }
 
 
 
