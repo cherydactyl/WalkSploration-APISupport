@@ -20,28 +20,36 @@ namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        //public ActionResult Index()
-        //{
-        //    //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-        //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-        //    int time = 15;  //sample time for testing
-
-        //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
-        //    return View();
-        //}
-
-        public ActionResult Index(int timeIn, decimal lat, decimal lon)
+        public ActionResult Index()
         {
-            Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-            int time = 15;  //sample time for testing
+            ////Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
+            //Location start = new Location((decimal)42.3347, (decimal)-83.0497);
+            //int time = 15;  //sample time for testing
 
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+            //List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(string timeString, string latString, string lonString)
+        {
+            Debug.WriteLine("Here! " + timeString);
+            int time = int.Parse(timeString);
+            decimal lat = decimal.Parse(latString);
+            decimal lon = decimal.Parse(lonString);
+
+            Location start = new Location(lat, lon);
+            //int time = 15;  //sample time for testing
+
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+
+            Debug.WriteLine(time + " Minutes, " + lat + "," + lon);
             return View();
         }
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
-        public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
+        public List<PointOfInterest> getPlaces(Location startPoint, int timeInMinutes)
         {
                 //create query
                 //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
@@ -51,7 +59,7 @@ namespace WalkSploration.Controllers
                 //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
                 //location
-            URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
+            URI += "location=" + startPoint.ToString() + "," + startPoint.longitude.ToString() + "&";
                 //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
                 //types; start with "park" and possibly add more later
