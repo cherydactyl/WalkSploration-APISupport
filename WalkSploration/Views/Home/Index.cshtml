@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Walksploration";
 }
 
@@ -26,27 +25,28 @@
     <!--Adds the little clock icon*                             Space Holder for minute display-->
     <p><span class="glyphicon glyphicon-time"></span>   <span id="time-display" name ="TimeDisplayed">1</span> mins </p>*@
 
-
-
 @using (Html.BeginForm("StartPlaceTest", "Home", FormMethod.Post))
 { 
 if (IsPost)
 {
-    string time = Request["TimeInput"];
+    var time = Request["TimeInput"];
         <p>You Entered: Time: @time</p>
     }
     else
     {
         <form method="post" action="StartPlaceTest">
             <label for="time">Points:</label>
-            <input type="range" name="TimeInput" id="points" value="0" min="1" max="60" data-show-value="true">
+            <input type="range" name="TimeInput" id="time" value="0" min="1" max="60" data-show-value="true">
             <input type="submit" data-inline="true" value="Submit">
+
         </form>
     }
-    }
+}
 
-
-
+<div id="latlong">
+    <p><span id="latbox" name="lat"> </span></p>
+    <p><span id="lngbox" name="lng"> </span></p>
+</div>
 
 
     <!--Place holder for the map view -->
@@ -57,7 +57,6 @@ if (IsPost)
 
         function InitializeMap()        -  Lives in:    Views > Shared > _Layout.cshtml
         function handleLocationError()  -  Lives in:    Views > Shared > _Layout.cshtml
-
           -->
 
     <script>
@@ -65,14 +64,10 @@ if (IsPost)
 
         function AddStartInfo(timeElement, latElement, lonElement) {
 
-            var time = timeElement.value;
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-
             var error_flag = false;
             var msg = 'Time in: ' + timeElement.value + 'Latitude: ' + latElement.value + 'Longitude:  ' + lonElement.value + '\n';
 
-            alert(msg);
+
 
 
 

@@ -202,6 +202,8 @@
     <Compile Include="Models\DistanceResponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InputInfo.cs" />
+    <Compile Include="Models\jQuerySlider.cs" />
+    <Compile Include="Models\jQuerySliderHelper.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PointOfInterest.cs" />

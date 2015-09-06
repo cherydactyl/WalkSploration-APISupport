@@ -20,6 +20,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using System.Collections;
 
+
 namespace WalkSploration.Controllers
 {
     // This may need to inherit from the ApiController
@@ -48,13 +49,18 @@ namespace WalkSploration.Controllers
         }
 
 
+  
+
+
 
 
         [System.Web.Http.HttpPost]
-        public ActionResult StartPlaceTest(string time)
+        public ActionResult StartPlaceTest(Array[] time)
         {
-            int timeTest = Int32.Parse(time);
-            Debug.Write(timeTest);
+
+ 
+            var timeTest = time[1];
+            
 
 
             decimal lat = Convert.ToDecimal(Request["lanEntered"].ToString());

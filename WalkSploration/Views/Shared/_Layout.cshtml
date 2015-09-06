@@ -62,8 +62,7 @@
     // So when the document is ready, call the functions listed in the {Curly Braces}
     $(document).ready(function () {
         initializeMap();
-        document.getElementById("latbox").value = this.getPosition().lat();
-        document.getElementById("lngbox").value = this.getPosition().lng();
+        geoFindMe();
     });
 
 
@@ -89,7 +88,7 @@
         });
 
         //  create the infowindow that will display our message 'Howdy walker!'
-        
+
 
         if (navigator.geolocation) {
             // if the browser supports geolocation
@@ -100,7 +99,6 @@
                     lng: position.coords.longitude
                 };
 
-                
                 map.setCenter(position);                    // re-center the map over our current position
 
                 // Create the Marker to be dropped
@@ -115,7 +113,6 @@
                 infoWindow.setPosition(position);           // now my infoWindow is where ever the heck we are
                 infoWindow.setContent('Howdy, walker!');    // the message the infowindow will display
             },
-
             function () {           // the function for this is defined below
                 handleLocationError(true, infoWindow, map.getCenter(), success());
             });
@@ -128,40 +125,20 @@
         }
 
 
- 
 
-    }
-
-
-    // Default location if Geolocation is not Available
-    function handleLocationError(browserHasGeolocation, infoWindow, position) {
-        infoWindow = new google.maps.InfoWindow({ map: map });
-        infoWindow.setPosition(position);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Howdy, Grand Circus!' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        marker = new google.maps.Marker({
-            map: map,
-            position: position,
-            icon: image,
-            animation: google.maps.Animation.DROP
-        });
-    }
-
-
-
-    // Optional Bounce animation for Map Pin        9.5 note - don't currently use this script
-    function toggleBounce() {
-        if (marker.getAnimation() !== null) {
-            marker.setAnimation(null);
-        } else {
-            marker.setAnimation(google.maps.Animation.BOUNCE);
+        // Default location if Geolocation is not Available
+        function handleLocationError(browserHasGeolocation, infoWindow, position) {
+            infoWindow = new google.maps.InfoWindow({ map: map });
+            infoWindow.setPosition(position);
+            infoWindow.setContent(browserHasGeolocation ?
+                                  'Howdy, Grand Circus!' :
+                                  'Error: Your browser doesn\'t support geolocation.');
+            marker = new google.maps.Marker({
+                map: map,
+                position: position,
+                icon: image,
+                animation: google.maps.Animation.DROP
+            });
         }
     }
-
-
-    
-
-
-
 </script>

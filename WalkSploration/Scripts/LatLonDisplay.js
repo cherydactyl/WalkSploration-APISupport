@@ -1,7 +1,7 @@
 ﻿
 function geoFindMe() {
-    var outputLon = document.getElementById("outLon");  // Set to the value of the object with the id "outLon"
-    var outputLat = document.getElementById("outLat");  // Set to the value of the object with the id "outLat"
+    var outputLon = document.getElementById("lngbox");  // Set to the value of the object with the id "outLon"
+    var outputLat = document.getElementById("latbox");  // Set to the value of the object with the id "outLat"
 
     if (!navigator.geolocation) {   // If geolocation isn't available, then print the following
         output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
