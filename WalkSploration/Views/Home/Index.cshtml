@@ -14,108 +14,79 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+@*@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {*@
+@*<form id="addStartInfo" style="background:#ffffff; border: 1px solid #000000; width: 40%; margin:0 auto; padding: 0px 12px;">
+
+    <p> How long do you have for your walk?</p>
+
+    <!-- Slider range for time input value = 0 sets the initial slider posiiont     the onchange command updates view in time-display span below-->
+    <input type="range" id ="timeSliderRange" name = "Timeslider"  min="1" max="60" step="1" value="0" onchange="showValue(this.value), showVal(this.value)" /><br />
+
+    <!--Adds the little clock icon*                             Space Holder for minute display-->
+    <p><span class="glyphicon glyphicon-time"></span>   <span id="time-display" name ="TimeDisplayed">1</span> mins </p>*@
+
+
+
+@using (Html.BeginForm("StartPlaceTest", "Home", FormMethod.Post))
+{ 
+if (IsPost)
 {
-    @*<form id="addStartInfo" style="background:#ffffff; border: 1px solid #000000; width: 40%; margin:0 auto; padding: 0px 12px;">
-
-        <p> How long do you have for your walk?</p>
-
-        <!-- Slider range for time input value = 0 sets the initial slider posiiont     the onchange command updates view in time-display span below-->
-        <input type="range" id ="timeSliderRange" name = "Timeslider"  min="1" max="60" step="1" value="0" onchange="showValue(this.value), showVal(this.value)" /><br />
-
-        <!--Adds the little clock icon*                             Space Holder for minute display-->
-        <p><span class="glyphicon glyphicon-time"></span>   <span id="time-display" name ="TimeDisplayed">1</span> mins </p>*@
-
-        
-
-        <div data-role="main" class="ui-content">
-            <form method="post" action="demoform.asp">
-                <label for="points">Points:</label>
-                <input type="range" name="points" id="points" value="0" min="1" max="60" data-show-value="true">
-                <input type="submit" data-inline="true" value="Submit">
-            </form>
-        </div>
-
-
-
-
-        
-        @*<div id="latlong">
-            <p id="time-play" name="TimeDisplayed">1 mins </p>
-
-            <p>Latitude: <input size="20" type="text" id="latEntered" name="lat"></p>
-            <p>Longitude: <input size="20" type="text" id="lonEntered" name="lng"></p>
-        </div>
-
-        <button type="submit" id="addStartInfo" value="Submit" onclick="AddStartInfo(this.form.timeInput, this.form.latEntered, this.form.lonEntered);">Start your Walk</button>
-
-    </form>*@
-}
-
-
-@*<fieldset>
-    <legend>How long do you have to walk</legend>
-    @using (Ajax.BeginForm("StartPlaceTest", "Home",
-                                    new AjaxOptions { UpdateTargetId = "divEnteredDetails" }))
+    string time = Request["TimeInput"];
+        <p>You Entered: Time: @time</p>
+    }
+    else
     {
-        <div id="divEnteredDetails"></div>
-        <ol>
-            <li>@Html.Label("Available Time")
-                @Html.TextBox("timeEntered")</li>
-            <li>
-                @Html.Label("Latitude")
-                @Html.TextBox("lanEntered")
-            </li>
-            <li>
-                @Html.Label("Longitude")
-                @Html.TextBox("lonEntered")
-            </li>
-        </ol>
-        <button>Calculate</button>
+        <form method="post" action="StartPlaceTest">
+            <label for="time">Points:</label>
+            <input type="range" name="TimeInput" id="points" value="0" min="1" max="60" data-show-value="true">
+            <input type="submit" data-inline="true" value="Submit">
+        </form>
     }
-</fieldset>*@
-
-
-
-
-
-<!--Place holder for the map view -->
-<h3 id="map_canvas" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454;" ></h3>
-
-<!--Begin Javascript calls-->
-<!-- Referenced Files:
-
-    function InitializeMap()        -  Lives in:    Views > Shared > _Layout.cshtml
-    function handleLocationError()  -  Lives in:    Views > Shared > _Layout.cshtml
-     
-      -->
-
-<script>
-    
-
-    function AddStartInfo(timeElement, latElement, lonElement) {
-
-        var time = timeElement.value;
-        var lat = position.coords.latitude;
-        var lon = position.coords.longitude;
-
-        var error_flag = false;
-        var msg = 'Time in: ' + timeElement.value + 'Latitude: ' + latElement.value + 'Longitude:  ' + lonElement.value + '\n';
-
-        alert(msg);
-
-        
-    
-        
-        // Referencing the Detroit Eatz Project - Thanks for the help guys!
-        ajaxHelper('StartPlace', 'POST', (time, outLat, outLon));
-    
-        addStartInfo.submit();
     }
 
 
 
 
-</script>
+
+    <!--Place holder for the map view -->
+    <h3 id="map_canvas" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454;"></h3>
+
+    <!--Begin Javascript calls-->
+    <!-- Referenced Files:
+
+        function InitializeMap()        -  Lives in:    Views > Shared > _Layout.cshtml
+        function handleLocationError()  -  Lives in:    Views > Shared > _Layout.cshtml
+
+          -->
+
+    <script>
+
+
+        function AddStartInfo(timeElement, latElement, lonElement) {
+
+            var time = timeElement.value;
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
+            var error_flag = false;
+            var msg = 'Time in: ' + timeElement.value + 'Latitude: ' + latElement.value + 'Longitude:  ' + lonElement.value + '\n';
+
+            alert(msg);
+
+
+
+
+            // Referencing the Detroit Eatz Project - Thanks for the help guys!
+            ajaxHelper('StartPlace', 'POST', (time, outLat, outLon));
+
+            addStartInfo.submit();
+        }
+        }
+
+
+
+
+    </script>
 
 

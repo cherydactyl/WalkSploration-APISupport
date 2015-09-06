@@ -51,9 +51,12 @@ namespace WalkSploration.Controllers
 
 
         [System.Web.Http.HttpPost]
-        public ActionResult StartPlaceTest()
+        public ActionResult StartPlaceTest(string time)
         {
-            decimal time = Convert.ToDecimal(Request["timeAmount"].ToString());
+            int timeTest = Int32.Parse(time);
+            Debug.Write(timeTest);
+
+
             decimal lat = Convert.ToDecimal(Request["lanEntered"].ToString());
             int lon = Convert.ToInt32(Request["lonEntered"].ToString());
 
