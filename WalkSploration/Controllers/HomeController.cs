@@ -19,37 +19,24 @@ namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpPost]
-        public ActionResult Index(int time, decimal startLat, decimal startLong)
+        public ActionResult Index()
         {
-            ////Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-            //Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-            //int time = 15;  //sample time for testing
-
-            //List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
-            return View();
+             return View();
         }
 
         [HttpPost]
-        public ActionResult Index(string timeString, string latString, string lonString)
+        public ActionResult Index(String timeString, string latString, String lonString)
         {
-            Debug.WriteLine("Here! " + timeString);
+            Location start = new Location(decimal.Parse(latString), decimal.Parse(lonString));
             int time = int.Parse(timeString);
-            decimal lat = decimal.Parse(latString);
-            decimal lon = decimal.Parse(lonString);
 
-            Location start = new Location(lat, lon);
-            //int time = 15;  //sample time for testing
-
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
-
-            Debug.WriteLine(time + " Minutes, " + lat + "," + lon);
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
             return View();
         }
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
-        public List<PointOfInterest> getPlaces(Location startPoint, int timeInMinutes)
+        public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
         {
             //create query
             //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
@@ -59,7 +46,7 @@ namespace WalkSploration.Controllers
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
                 //location
-            URI += "location=" + startPoint.ToString() + "," + startPoint.longitude.ToString() + "&";
+            URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
                 //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
