@@ -15,12 +15,12 @@ using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
-
 namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult Index(int time, decimal startLat, decimal startLong)
         {
             ////Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
             //Location start = new Location((decimal)42.3347, (decimal)-83.0497);
@@ -51,28 +51,25 @@ namespace WalkSploration.Controllers
 
         public List<PointOfInterest> getPlaces(Location startPoint, int timeInMinutes)
         {
-                //create query
-                //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
-                //OR (less data) 
+            //create query
+            //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
+            //OR (less data) 
             string URI = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
-                //add parameters
-                //key
+            //add parameters
+            //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
                 //location
             URI += "location=" + startPoint.ToString() + "," + startPoint.longitude.ToString() + "&";
                 //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
-                //types; start with "park" and possibly add more later
-                //see https://developers.google.com/places/supported_types for list of types
+            //types; start with "park" and possibly add more later
+            //see https://developers.google.com/places/supported_types for list of types
             URI += "types=park";
-
             //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
-
             //request processing
             var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
             var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
-
             if (status.ToString() == "OK")
             {
                 var resultsArray = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "results").Value;
@@ -93,7 +90,6 @@ namespace WalkSploration.Controllers
                         Children<JProperty>().FirstOrDefault(x => x.Name == "lng").Value.ToString());
                     //create new PoI with above properties
                     PointOfInterest point = new PointOfInterest(lat, lng, GooglePlaceId);
-
                     //add it to the list of candidates
                     candidatePoIs.Add(point);
                 }
@@ -101,7 +97,6 @@ namespace WalkSploration.Controllers
             //return processed list
             return candidatePoIs;
         }
-
         List<PointOfInterest> screenPlaces(List<PointOfInterest> candidates, Location start, int timeInMinutes)
         {
             //if the candidates list is empty, return the/an empty list
@@ -109,10 +104,9 @@ namespace WalkSploration.Controllers
             {
                 return candidates;
             }
-
             //create distance matrix query
             string URI = "https://maps.googleapis.com/maps/api/distancematrix/json?";
-            
+
             //add parameters
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
@@ -132,29 +126,23 @@ namespace WalkSploration.Controllers
                     URI += "|";     //add a pipe to separate destinations
                 }
             }
-                        
-            List<PointOfInterest> viable = new List<PointOfInterest>();      //create a new empty list
 
+            List<PointOfInterest> viable = new List<PointOfInterest>();      //create a new empty list
             //calculate Goldilocks range (not too far but also not too close) in seconds
             //use 90-100% of available one-way time to start
             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
             //note that these use integer math
-
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
-            int floor = (ceiling * 10) / 9;           //min length of each leg of round trip
-            
+            int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
+
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
             var result = client.DownloadData(URI.ToString());
             var json = Encoding.UTF8.GetString(result);
-
             var serializer = new JavaScriptSerializer();
             var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
-
             //extract elements' travel times
             //remember there is only one destination, so the elements list the times to destinations in order
-
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
                 foreach (var row in distanceResponse.Rows)
@@ -173,7 +161,6 @@ namespace WalkSploration.Controllers
                             {
                                 // making a new int value to be able to better understand what the actual value is.
                                 int value = elements.Duration.Value;
-
                                 //compare to Goldilocks zone to evaluate and add to list if in the range
                                 if (value > floor && value <= ceiling)
                                 {
@@ -187,7 +174,6 @@ namespace WalkSploration.Controllers
             Console.WriteLine(candidates);
             return viable;
         }
-
         string callAPIgetJSon(string URI)
         {
             //call API
@@ -195,7 +181,6 @@ namespace WalkSploration.Controllers
             request.Method = "GET";
             request.ContentType = "application/json";
             WebResponse response = request.GetResponse();
-
             //convert response to JSon string
             string jsonString;
             using (var streamReader = new StreamReader(response.GetResponseStream()))
