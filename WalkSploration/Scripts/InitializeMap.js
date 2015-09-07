@@ -38,7 +38,7 @@ function initializeMap() {
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
 
-                outputLat.innerHTML = '<p>Latitude is ' + latitude + '°</p>;
+                outputLat.innerHTML = '<p>Latitude is ' + latitude + '°</p>;'
                 outputLon.innerHTML = '<p>Longitude is ' + longitude + '°</p>';
             }
             // custom shoe marker

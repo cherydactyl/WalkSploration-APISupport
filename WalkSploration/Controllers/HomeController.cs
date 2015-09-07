@@ -25,14 +25,18 @@ namespace WalkSploration.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(String timeString, string latString, String lonString)
+        public ActionResult Index(string timeStr, string lat, String lng)
         {
-            Location start = new Location(decimal.Parse(latString), decimal.Parse(lonString));
-            int time = int.Parse(timeString);
+            Debug.Write("Here!  ");
+            Debug.WriteLine(timeStr);
+            Location start = new Location(decimal.Parse(lat), decimal.Parse(lng));
+            int time = int.Parse(timeStr);
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
             return View();
         }
+
+
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
