@@ -28,13 +28,12 @@
 <div id="timeSlider" style="background:#ffffff; border: 1px solid #000000; width: 40%; margin:0 auto;">
     <div style="padding: 0px 12px;">
         <p>How long do you have for your walk?</p>
-        <input type="range" min="1" max="60" value="0" step="1" onchange="showValue(this.value)" /><br />
+        <input type="range" id = "timeInput" min="1" max="60" value="0" step="1" onchange="showValue(this.value)" /><br />
 
         <p><span class="glyphicon glyphicon-time"></span>   <span id="time-display">0</span> mins</p>
+        <div id="outLat"></div><div id="outLon"></div>
         <p> <span onclick="geoFindMe()"> 
-      
-            
-            
+          
  @*In order to pass the information dynamically, without refreshing the page, we must use an ajax call.
  If we were to use the traditional Html.ActionLink as below, the page would be refreshed*@
  @Html.ActionLink(
@@ -42,11 +41,10 @@
     "Index",                // actionName
     "Home",                 // Controller name
     new{
-        time = "range",
+        time = "timeInput",
         startLat = "outLat",
         startLon = "outLon"}
     )</span></p>
-        <div id="outLat"></div><div id="outLon"></div>
     </div>
 </div>
 
