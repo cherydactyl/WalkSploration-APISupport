@@ -19,31 +19,27 @@ namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpPost]
-        public ActionResult Index(int time, decimal startLat, decimal startLong)
+        public ActionResult Index()
         {
-            //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-            Location start = new Location(startLat, startLong);
+             return View();
+        }
 
-
-            //   int time = 15;  //sample time for testing
+        [HttpPost]
+        public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
+        {
+            Debug.Write("Here!  ");
+            Debug.WriteLine(timeInput);
+            Location start = new Location(decimal.Parse(startLatitude), decimal.Parse(startLongitude));
+            int time = int.Parse(timeInput);
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
         }
-        public ActionResult Index()
-        {
-           
-            return View();
-        }
-        //public ActionResult Index(Location startingLocation, int timeIn)
-        //{
-        //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-        //    int time = 15;  //sample time for testing
-        //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
-        //    return View();
-        //}
+
+
+
         // !!!!  HELPER FUNCTIONS  !!!!
+
         public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
         {
             //create query
@@ -53,9 +49,9 @@ namespace WalkSploration.Controllers
             //add parameters
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
-            //location
+                //location
             URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
-            //radius; estimate 1 meter per second walking speed
+                //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
             //see https://developers.google.com/places/supported_types for list of types
@@ -144,8 +140,13 @@ namespace WalkSploration.Controllers
                 {
                     foreach (var elements in row.Elements)
                     {
+                        
                         for (int i = 0; i < count; i++)
                         {
+
+                            var durationTest = elements.Duration.Value;
+
+
                             //extract the time in seconds from origin to the current (i'th) destination
                             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                             {
@@ -161,6 +162,7 @@ namespace WalkSploration.Controllers
                     }
                 }
             }
+            Console.WriteLine(candidates);
             return viable;
         }
         string callAPIgetJSon(string URI)

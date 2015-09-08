@@ -222,7 +222,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\sneakerMarker.png" />
     <Content Include="Images\walksplorationBanner.png" />
-    <Content Include="Scripts\API_Ref.js" />
+    <Content Include="Scripts\AutocompleteMap.js" />
+    <Content Include="Scripts\LatLonDisplay.js" />
+    <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\WalkSploration.pubxml" />

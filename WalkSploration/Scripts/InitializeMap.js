@@ -1,71 +1,110 @@
-﻿function initMap() {
-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+﻿// Initialize Global Variables
+var map;                                        // the actual map image to display
+//var mapOptions;                               // holds the center, zoom and mapTypeId: bits
+var geocoder = new google.maps.Geocoder();      // the function that will take an address and return geocoordinates
+var position;                                   // creates the position variable
+
+var image = {                                   // Creates custom Map Pin Image and location relative to info window
+    url: "/Images/sneakerMarker.png",
+    anchor: new google.maps.Point(20, 15)
+};
+var marker;                                     // Initializes marker object
+
+
+function initializeMap() {
+
+    // Creates the variable map, with the default lat and lng for Grand Circus
+    map = new google.maps.Map(document.getElementById('map_canvas'), {
         center: { lat: 42.3347, lng: -83.0497 },
-        zoom: 14
-    });
-    var input = (document.getElementById('pac-input'));
-
-    var types = document.getElementById('type-selector');
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-
-    var autocomplete = new google.maps.places.Autocomplete(input);
-    autocomplete.bindTo('bounds', map);
-
-    var infowindow = new google.maps.InfoWindow();
-    var marker = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
+        zoom: 16
     });
 
-    autocomplete.addListener('place_changed', function () {
-        infowindow.close();
-        marker.setVisible(false);
-        var place = autocomplete.getPlace();
-        if (!place.geometry) {
-            window.alert("Autocomplete's returned place contains no geometry");
-            return;
-        }
-        // If the place has a geometry, then present it on a map.
-        if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-        } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(17);  // Why 17? Because it looks good.
-        }
+    var infoWindow = new google.maps.InfoWindow({ map: map });
 
-        marker.setIcon(({
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(35, 35)
-        }));
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+        // "Hey Geolocation! Please go find the current position and set the current lat and lng to the lat and lng vars."
+        navigator.geolocation.getCurrentPosition(function (position) {
+            position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
 
-        var address = '';
-        if (place.address_components) {
-            address = [
-              (place.address_components[0] && place.address_components[0].short_name || ''),
-              (place.address_components[1] && place.address_components[1].short_name || ''),
-              (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');
-        }
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-        infowindow.open(map, marker);
-    });
+            infoWindow.setPosition(position);
+            infoWindow.setContent('Howdy, walker!');
+            map.setCenter(position);
+            
+            function success(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
 
-    // Sets a listener on a radio button to change the filter type on Places
-    // Autocomplete.
-    function setupClickListener(id, types) {
-        var radioButton = document.getElementById(id);
-        radioButton.addEventListener('click', function () {
-            autocomplete.setTypes(types);
+                outputLat.innerHTML = '<p>Latitude is ' + latitude + '°</p>;'
+                outputLon.innerHTML = '<p>Longitude is ' + longitude + '°</p>';
+            }
+            // custom shoe marker
+            marker = new google.maps.Marker({
+                map: map,
+                position: position,
+                icon: image,
+                animation: google.maps.Animation.DROP
+            });
+        },
+
+        function () {
+            handleLocationError(true, infoWindow, map.getCenter(), success());
         });
     }
-    setupClickListener('changetype-all', []);
-    setupClickListener('changetype-address', ['address']);
-    setupClickListener('changetype-establishment', ['establishment']);
-    setupClickListener('changetype-geocode', ['geocode']);
+    else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
 }
+
+
+
+// Default location if Geolocation is not Available
+function handleLocationError(browserHasGeolocation, infoWindow, position) {
+    infoWindow.setPosition(position);
+    infoWindow.setContent(browserHasGeolocation ?
+                          'Howdy, Grand Circus!' :
+                          'Error: Your browser doesn\'t support geolocation.');
+    marker = new google.maps.Marker({
+        map: map,
+        position: position,
+        icon: image,
+        animation: google.maps.Animation.DROP
+    });
+}
+
+// Optional Bounce animation for Map Pin
+function toggleBounce() {
+    if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+    } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+}
+
+// Adds a listener for the click event to place pin at Start Location
+document.getElementById('submitWalk').addEventListener('click', function () {
+    geocodeAddress(geocoder, map);
+});
+
+function geocodeAddress(geocoder, resultsMap) {
+    var address = document.getElementById('address').value;
+    geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+            resultsMap.setCenter(results[0].geometry.location);
+            marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location,
+                icon: image
+            });
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
+
+
