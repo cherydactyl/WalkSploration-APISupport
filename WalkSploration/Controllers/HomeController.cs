@@ -26,25 +26,36 @@ namespace WalkSploration.Controllers
         }
 
         [HttpPost]
-        //public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
-
         public ActionResult Index(FormCollection collection)
         {
 
-            Debug.WriteLine("Here!  ");
-            string testLat = collection["startLatitude"];
-            Debug.WriteLine(testLat);
             Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
             int time = int.Parse(collection["timeInput"]);
 
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+            List<PointOfInterest> radarList = getPlaces(start, time);
+            List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
 
-            int r = random.Next((goldilocks.Count)-1);
-            PointOfInterest chosenPoint = ((PointOfInterest)goldilocks[r]);
 
-            ViewBag.Latitude = chosenPoint.location.latitude;
-            ViewBag.Longitude = chosenPoint.location.longitude;
-            ViewBag.GoogleId = chosenPoint.GooglePlaceId;
+            PointOfInterest chosen = null;
+            if (goldilocks.Count() > 0)
+            {
+                chosen = goldilocks[0];
+            }
+            else if (radarList.Count() > 0)
+            {
+                chosen = radarList[radarList.Count() - 1];
+            }
+
+            if (chosen != null){
+                ViewBag.GoogleId = chosen.GooglePlaceId;
+                ViewBag.Latitude = chosen.location.latitude;
+                ViewBag.Longitude = chosen.location.longitude;
+                ViewBag.NoneInRange = false;
+            }
+            else
+            {
+                ViewBag.NoneInRange = true;
+            }
 
             
             return View();
@@ -123,6 +134,7 @@ namespace WalkSploration.Controllers
             URI += "destinations=";
             //iterate over candidate destinations, and add each location, separated by a pipe |
             int count = candidates.Count();
+            Debug.WriteLine(count);
             for (int i = 0; i < count; i++)
             {
                 URI += candidates[i].getLatitude().ToString() + "," + candidates[i].getLongitude().ToString();
@@ -138,7 +150,7 @@ namespace WalkSploration.Controllers
             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
             //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
-            int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
+            int floor = ceiling - 300;          //min length of each leg of round trip; hardcode 5 minutes less one way
 
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -152,7 +164,6 @@ namespace WalkSploration.Controllers
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
                 var elements = (distanceResponse.Rows[0]).Elements;
-
                 for (int i = 0; i < count; i++)
                 {
                     //extract the time in seconds from origin to the current (i'th) destination
@@ -168,8 +179,6 @@ namespace WalkSploration.Controllers
                     }
                 }
             }
-
-            Console.WriteLine(candidates);
             return viable;
         }
 
