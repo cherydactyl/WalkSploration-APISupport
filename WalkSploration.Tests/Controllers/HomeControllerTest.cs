@@ -19,10 +19,10 @@ namespace WalkSploration.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-           ViewResult result = controller.Index() as ViewResult;
-     
-           // Assert
-           Assert.IsNotNull(result);
+            ViewResult result = controller.Index() as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
         }
         //[TestMethod]
         //public void Index(string time)
