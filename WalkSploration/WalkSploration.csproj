@@ -194,6 +194,7 @@
     <Compile Include="Controllers\Secrets.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WalkSplorationContext.cs" />
+    <Compile Include="DAL\PoiContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,6 +208,7 @@
     <Compile Include="Models\DistanceResponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PointOfInterest.cs" />
     <Compile Include="Models\User.cs" />
@@ -244,6 +246,7 @@
     <Content Include="Scripts\hammer.min.js" />
     <Content Include="Scripts\LatLonDisplay.js" />
     <Content Include="Scripts\task.js" />
+    <Content Include="Scripts\StartLocation.js" />
     <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

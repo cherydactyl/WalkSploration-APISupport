@@ -21,7 +21,7 @@ namespace WalkSploration.Controllers
     {
         public ActionResult About()
         {
-             return View();
+            return View();
         }
 
         public ActionResult Contact()
@@ -58,9 +58,9 @@ namespace WalkSploration.Controllers
             //add parameters
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
-                //location
+            //location
             URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
-                //radius; estimate 1 meter per second walking speed
+            //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
             //see https://developers.google.com/places/supported_types for list of types
@@ -149,7 +149,7 @@ namespace WalkSploration.Controllers
                 {
                     foreach (var elements in row.Elements)
                     {
-                        
+
                         for (int i = 0; i < count; i++)
                         {
 
