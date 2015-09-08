@@ -230,7 +230,6 @@
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\LatLonDisplay.js" />
-    <Content Include="Scripts\StartLocation.js" />
     <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
