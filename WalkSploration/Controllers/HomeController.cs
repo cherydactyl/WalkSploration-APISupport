@@ -29,11 +29,11 @@ namespace WalkSploration.Controllers
 
         public ActionResult Index(FormCollection collection)
         {
-            Debug.Write("Here!  ");
-            string str = collection[0];
-            Debug.WriteLine(str);
+            Debug.WriteLine("Here!  ");
+            string testLat = collection["startLatitude"];
+            Debug.WriteLine(testLat);
             Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
-            int time = int.Parse(collection["time"]);
+            int time = int.Parse(collection["timeInput"]);
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
