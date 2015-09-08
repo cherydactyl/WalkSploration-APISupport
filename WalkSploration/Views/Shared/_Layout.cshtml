@@ -89,14 +89,11 @@
     function initializeMap() {
 
         // HEY! make me a map that will center over the lat and lon I want
-        // Make sure it is printed out in the object with the id 'map_canvas'
+        // printed out in the object with the id 'map_canvas'
         map = new google.maps.Map(document.getElementById('map_canvas'), {
             center: { lat: 42.3347, lng: -83.0497 },
             zoom: 16
         });
-
-        //  create the infowindow that will display our message 'Howdy walker!'
-
 
         if (navigator.geolocation) {
             // if the browser supports geolocation
@@ -131,8 +128,6 @@
             // It displays a separate message, 'Howdy, Grand Circus!'
             handleLocationError(false, infoWindow, map.getCenter());
         }
-
-
 
         // Default location if Geolocation is not Available
         function handleLocationError(browserHasGeolocation, infoWindow, position) {

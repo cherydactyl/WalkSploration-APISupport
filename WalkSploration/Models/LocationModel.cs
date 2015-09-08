@@ -10,6 +10,5 @@ namespace WalkSploration.Models
         public double StartLat { get; set; }
         public double StartLon { get; set; }
         public int StartTime { get; set; }
-
     }
 }

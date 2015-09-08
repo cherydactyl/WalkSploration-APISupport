@@ -4,16 +4,20 @@
     self.startLat = ko.observable(latInput);
     self.startLon = ko.observable(lonInput);
     self.startTime = ko.observable(timeInput);
+
+    console.log (startLat);
+    
 }
 
-function CurrentLocationViewModel()
+
+function LocationViewModel()
 {
     var self = this;
-    self.currentLocation = ko.observable(new Location(85.122, 44.222, 15));
+    self.currentLocation = ko.observable(new Location);
     
     self.saveLocation = function ()
     {
         var locationModel = ko.mapping.toJS(self.currentLocation);
-        ko.utils.postJson("/Home/SaveLocation", {location: locationModel});
+        ko.utils.postJson("/Home/StartInput", { location: ko.toJS(locationModel) });
     }
 }

@@ -13,48 +13,55 @@
     </div>
 </div>
 
-<div id="divEnterLocation">
-    <div data-bind="with: currentLocation">
-        <p>Latitude: <span data-bind="value: startLat" id="latbox" name="lat"></span></p>
-        <p>Longitude: <input type="text" data-bind="value: startLon" id="lngbox" name="lng"/></p>
-        <p>How long do you have for your walk?<br />
-        <input type="range" id ="timeSliderRange" name = "Timeslider"  min="1" max="60" step="1" value="0" onchange="showValue(this.value)" /></p>
-    
-        <!--Adds the little clock icon*                             Space Holder for minute display-->
-        <p><span class="glyphicon glyphicon-time"></span>           <span data-bind="value:startTime" id="time-display" name ="time-display">1</span> mins</p>
-    </div>
-    <p><input type="button" value="save" data-bind="click: saveLocation"/></p>
-</div>
 
+    <div id="divEnterLocation">
+    <div data-bind="with: currentLocation">
+        <p>Latitude: <input type="hidden" data-bind="value: startLat" id="latbox" name="startLatitude" value=outputLat.value/></p>
+        <p>Longitude: <input type="hidden" data-bind="value: startLon" id="lngbox" name="startLongitude" /></p>
+        <p>
+            How long do you have for your walk?<br />
+
+            <input type="range" id="timeSliderRange" name="Timeslider" min="10" max="60" step="1" value="10" onchange="showValue(this.value)" />
+        </p>
+        <form name="ourform" action="IndexSubmit" method="POST">
+            <!--Adds the little clock icon*                             Space Holder for minute display-->
+            <p></p><span class="glyphicon glyphicon-time"></span>       <span data-bind="value:startTime" id="time-display" name="timeInput">1</span> mins
+
+            <p><input type="submit" value="Take A Hike!" </p>@*onclick="submit" /></p>*@
+        </form>
+    </div>
+</div>
     <!--Place holder for the map view -->
     <h3 id="map_canvas" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454;"></h3>
 
 <script type="text/javascript" src="~/Scripts/StartLocation.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
-        window.ko.applyBindings(new CurrentLocationViewModel());
+        window.ko.applyBindings(new LocationViewModel());
     });
 </script>
-@*<script>
-    function SendLocationFunction() {
-        var data= {
-            timeString: $('#time-display').val(),
-            startLatString: $('#latbox').val(),
-            startLonString: $('#lonbox').val(),
-        };
 
-        $.ajax({
-            url: "/Home/StartPlace",
-            type: "POST",
-            dataType: "json",  
-            data: JSON.stringify(data),
-            success: function (mydata) {
-                $("#UpdateDiv").html(mydata);
-                history.pushState('', 'New URL: ' + href, href); // This Code lets you to change url howyouwant
-            }});
-        return false;
-    }
+<script>
+    //function SendLocationFunction() {
+    //    var data= {
+    //        timeString: $('#time-display').val(),
+    //        startLatString: $('#latbox').val(),
+    //        startLonString: $('lngbox').val(),
+    //    };
 
-</script>*@
+    //    $.ajax({
+    //        url: "/Home/StartPlace",
+    //        type: "POST",
+    //        dataType: "json",  
+    //        data: JSON.stringify(data),
+    //        success: function (mydata) {
+    //            $("#UpdateDiv").html(mydata);
+    //            history.pushState('', 'New URL: ' + href, href); // This Code lets you to change url howyouwant
+    //        }});
+    //    return false;
+    //}
+
+</script>
 
 

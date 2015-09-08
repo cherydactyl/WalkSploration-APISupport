@@ -15,10 +15,6 @@ using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Http.Description;
-using System.Web.Http;
-using System.Threading.Tasks;
-using System.Collections;
 using WalkSploration.ModelBinder;
 
 namespace WalkSploration.Controllers
@@ -31,13 +27,17 @@ namespace WalkSploration.Controllers
             return View();
         }
 
-        public ActionResult SaveLocation([FromJson] LocationModel location)
+
+        [HttpPost]
+        public ActionResult IndexSubmit(FormCollection collection)
         {
-            return View("Index");
+
+            string testLat = collection["startLatitude"];
+            Debug.Write(testLat);
+            return View();
         }
 
-
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public ActionResult StartInput(FormCollection latIn, FormCollection lonIn)
         {
             decimal startLat = decimal.Parse(latIn["lat"]);
