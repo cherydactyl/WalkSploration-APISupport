@@ -39,9 +39,14 @@ namespace WalkSploration.Controllers
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
 
-            List<PointOfInterest> testlist = getPlaces(start, time);
-            Debug.Write(testlist.Count);
+            int r = random.Next((goldilocks.Count)-1);
+            PointOfInterest chosenPoint = ((PointOfInterest)goldilocks[r]);
 
+            ViewBag.Latitude = chosenPoint.location.latitude;
+            ViewBag.Longitude = chosenPoint.location.longitude;
+            ViewBag.GoogleId = chosenPoint.GooglePlaceId;
+
+            
             return View();
         }
 
@@ -168,6 +173,7 @@ namespace WalkSploration.Controllers
             return viable;
         }
 
+        static Random random = new Random();
         string callAPIgetJSon(string URI)
         {
             //call API
