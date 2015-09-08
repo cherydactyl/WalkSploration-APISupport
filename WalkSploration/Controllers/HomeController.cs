@@ -25,14 +25,14 @@ namespace WalkSploration.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string timeStr, string lat, String lng)
+        public ActionResult Index(string timeInput, string startLatitude, String startLongitude)
         {
             Debug.Write("Here!  ");
-            Debug.WriteLine(timeStr);
-            Location start = new Location(decimal.Parse(lat), decimal.Parse(lng));
-            int time = int.Parse(timeStr);
+            Debug.WriteLine(timeInput);
+            Location start = new Location(decimal.Parse(startLatitude), decimal.Parse(startLongitude));
+            int time = int.Parse(timeInput);
 
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
         }
 
@@ -40,7 +40,7 @@ namespace WalkSploration.Controllers
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
-        public List<PointOfInterest> getPlaces(decimal latitude, decimal longitude, int timeInMinutes)
+        public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
         {
             //create query
             //build ("https://maps.googleapis.com/maps/api/place/nearbysearch/output?" + parameters)
@@ -50,7 +50,7 @@ namespace WalkSploration.Controllers
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
                 //location
-            URI += "location=" + latitude.ToString() + "," + longitude.ToString() + "&";
+            URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
                 //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later

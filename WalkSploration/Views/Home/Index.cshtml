@@ -28,14 +28,25 @@
 
     <div id="timeSlider" style="background:#ffffff; border: 1px solid #000000; width: 40%; margin:0 auto;">
         <div style="padding: 0px 12px;">
-            <h2>How long do you have?</h2>
-            <form name="ourform" action="../Home/Index" method="POST">
-                <input type="hidden" name="startLatitude" id="startLatitude" value="" />
-                <input type="hidden" name="startLongitude" id="startLongitude" value="" />
-                10
-                <input type="range" id="timeInput" min="10" max="60" value="15" step="1" onchange="showValue(this.value)" />
-                60<br /><br />
-                <input type="button" name="button" value="Let's Go!" onClick="submit" />
+            <h3>How long do you have?     <span><span class="glyphicon glyphicon-time"></span>
+                <span id="time-display">15</span> mins</span></h3>
+            <form name="ourform" action="../Home/Index?" method="POST">
+                <fieldset>
+                    <ul style="list-style-type:none">
+
+                        <li>
+                            <input type="hidden" name="startLatitude" id="startLatitude" value="" />
+                            <input type="hidden" name="startLongitude" id="startLongitude" value="" />
+                            10
+                            <input type="range" id="timeInput" min="10" max="60" value="15" step="1" onchange="showValue(this.value)" />
+                            60
+                        </li>
+                        <li><br /></li>
+                        <li>
+                            <input type="submit" name="button" value="Let's Go!" onClick="submit" />
+                        </li>
+                    </ul>
+                </fieldset>
             </form>
             <br />
             <p><span class="glyphicon glyphicon-time"></span>   <span id="time-display">15</span> mins</p>
