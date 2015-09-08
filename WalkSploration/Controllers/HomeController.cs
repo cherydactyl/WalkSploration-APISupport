@@ -19,122 +19,35 @@ using WalkSploration.ModelBinder;
 
 namespace WalkSploration.Controllers
 {
-    // This may need to inherit from the ApiController
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {   
-            return View();
-        }
-
-
-        [HttpPost]
-        public ActionResult IndexSubmit(FormCollection collection)
         {
-
-            string testLat = collection["startLatitude"];
-            Debug.Write(testLat);
             return View();
         }
 
         [HttpPost]
-        public ActionResult StartInput(FormCollection latIn, FormCollection lonIn)
+        //public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
+
+        public ActionResult Index(FormCollection collection)
         {
-            decimal startLat = decimal.Parse(latIn["lat"]);
-            decimal startLon = decimal.Parse(lonIn["lon"]);
+            int time = int.Parse(collection["timeInput"]);
+            Debug.WriteLine("Here!  ");
+            decimal testLat = decimal.Parse(collection["startLatitude"]);
+            Debug.WriteLine(testLat);
+            decimal testLon = decimal.Parse(collection["startLongitude"]);
 
-            Debug.Write(startLat);
-            Debug.Write(startLon);
+           
+            //Location start = new Location();
 
+            //List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
         }
 
 
-
-
-        [System.Web.Mvc.HttpGet]
-        public ActionResult StartPlace(string timeString, string startLatString, string startLonString)
-        {
-            string lat = startLatString;
-
-            Debug.Write(lat);
-            int time = Int32.Parse(timeString);
-            decimal startLat = Decimal.Parse(startLatString);
-            decimal startLon = Decimal.Parse(startLonString);
-
-            Location start = new Location(startLat, startLon);
-
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
-
-            var poi = goldilocks.FirstOrDefault();
-            Debug.WriteLine("time: " + time + "   Start latitude: " + startLat + "    Start Longitude: " + startLon);
-
-            return View();
-        }
-        
-        [System.Web.Http.HttpPost]
-        public ActionResult StartPlaceTest()
-        {
-
-            decimal lat = Convert.ToDecimal(Request["lanEntered"].ToString());
-            int lon = Convert.ToInt32(Request["lonEntered"].ToString());
-
-            Location start = new Location(lat, lon);
-
-            StringBuilder sbInterest = new StringBuilder();
-            sbInterest.Append("<b>Lat :</b> " + lat + "<br/>");
-            sbInterest.Append("<b>Lon :</b> " + lon + "<br/>");
-            return Content(sbInterest.ToString());
-        }
-
-
-
-
-
-
-        //    [HttpPost]
-        //    public ActionResult SaveComments(int time, decimal startLat, decimal startLong)
-        //    {
-        //        //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-        //        Location start = new Location(startLat, startLong);
-
-        //        Debug.WriteLine("time: " + time + "   Start latitude: " + startLat + "    Start Longitude: " + startLong);
-        //        List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
-        //        return View();
-        //    }
-
-
-
-        //    public ActionResult Index()
-        //    {
-
-        //        return View();
-        //    }
-
-
-
-
-
-        //    //public ActionResult Index()
-        //    //{
-        //    //    //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-        //    //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-        //    //    int time = 15;  //sample time for testing
-
-        //    //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
-        //    //    return View();
-        //    //}
-
-        //    //public ActionResult Index(int timeIn, decimal lat, decimal lon)
-        //    //{
-        //    //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-        //    //    int time = 15;  //sample time for testing
-
-        //    //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
-        //    //    return View();
-        //    //}
 
         // !!!!  HELPER FUNCTIONS  !!!!
+
         public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
         {
             //create query
@@ -145,7 +58,7 @@ namespace WalkSploration.Controllers
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
             //location
-            URI += "location=" + start.Latitude.ToString() + "," + start.Longitude.ToString() + "&";
+            URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
             //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
@@ -154,13 +67,7 @@ namespace WalkSploration.Controllers
             //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
             //request processing
-
-
-
-             var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
-
-
-
+            var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
             var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
             if (status.ToString() == "OK")
             {
@@ -189,7 +96,6 @@ namespace WalkSploration.Controllers
             //return processed list
             return candidatePoIs;
         }
-
         List<PointOfInterest> screenPlaces(List<PointOfInterest> candidates, Location start, int timeInMinutes)
         {
             //if the candidates list is empty, return the/an empty list
@@ -206,7 +112,7 @@ namespace WalkSploration.Controllers
             //specifiy walking
             URI += "mode=walking&";
             //origin location
-            URI += "origins=" + start.Latitude.ToString() + "," + start.Longitude.ToString() + "&";
+            URI += "origins=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
             //list all candidate points of interest by lat/lon as destinations
             URI += "destinations=";
             //iterate over candidate destinations, and add each location, separated by a pipe |
@@ -221,10 +127,10 @@ namespace WalkSploration.Controllers
             }
 
             List<PointOfInterest> viable = new List<PointOfInterest>();      //create a new empty list
-                                                                             //calculate Goldilocks range (not too far but also not too close) in seconds
-                                                                             //use 90-100% of available one-way time to start
-                                                                             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
-                                                                             //note that these use integer math
+            //calculate Goldilocks range (not too far but also not too close) in seconds
+            //use 90-100% of available one-way time to start
+            //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
+            //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
             int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
 
@@ -242,8 +148,13 @@ namespace WalkSploration.Controllers
                 {
                     foreach (var elements in row.Elements)
                     {
+
                         for (int i = 0; i < count; i++)
                         {
+
+                            var durationTest = elements.Duration.Value;
+
+
                             //extract the time in seconds from origin to the current (i'th) destination
                             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                             {
@@ -259,22 +170,21 @@ namespace WalkSploration.Controllers
                     }
                 }
             }
+            Console.WriteLine(candidates);
             return viable;
         }
-
         string callAPIgetJSon(string URI)
         {
             //call API
             WebRequest request = WebRequest.Create(URI);
             request.Method = "GET";
             request.ContentType = "application/json";
-            WebResponse response =  request.GetResponse();
-
+            WebResponse response = request.GetResponse();
             //convert response to JSon string
             string jsonString;
             using (var streamReader = new StreamReader(response.GetResponseStream()))
             {
-                 jsonString = streamReader.ReadToEnd();
+                jsonString = streamReader.ReadToEnd();
             }
             return jsonString;
         }

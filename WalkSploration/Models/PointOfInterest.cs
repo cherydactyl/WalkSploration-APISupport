@@ -26,12 +26,12 @@ namespace WalkSploration.Models
 
         public decimal getLatitude()
         {
-            return this.location.Latitude;
+            return this.location.latitude;
         }
 
         public decimal getLongitude()
         {
-            return this.location.Longitude;
+            return this.location.longitude;
         }
     }
 }

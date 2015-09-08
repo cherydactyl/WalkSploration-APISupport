@@ -3,3 +3,7 @@ function showValue(time) {
     document.getElementById("time-display").innerHTML = time;
 }
 
+function showLat(lat) {
+    document.getElementById("startLatitude").innerText = lat;
+}
+
