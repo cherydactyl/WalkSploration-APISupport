@@ -25,12 +25,15 @@ namespace WalkSploration.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
+        //public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
+
+        public ActionResult Index(FormCollection collection)
         {
-            Debug.Write("Here!  ");
-            Debug.WriteLine(timeInput);
-            Location start = new Location(decimal.Parse(startLatitude), decimal.Parse(startLongitude));
-            int time = int.Parse(timeInput);
+            Debug.WriteLine("Here!  ");
+            string testLat = collection["startLatitude"];
+            Debug.WriteLine(testLat);
+            Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
+            int time = int.Parse(collection["timeInput"]);
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
