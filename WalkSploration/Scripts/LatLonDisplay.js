@@ -50,8 +50,8 @@ function geoFindMe() {
         outputLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
         outputLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
 
-        document.getElementById("startLatitude").value = String(lattitude);
-        document.getElementById("startLongitude").value = Sting(longitude);
+        document.getElementById("startLatitude").value = latitude;
+        document.getElementById("startLongitude").value = longitude;
     };
 
     function error() {
@@ -66,12 +66,4 @@ function geoFindMe() {
         latitude: outputLat,
         longitude: outputLon
     }
-}
-
-function setFormLat() {
-    document.getElementById("startLatitude").value = loc.latitude;
-}
-
-function setFormLon() {
-    document.getElementById("startLongitude").value = loc.longitude;
 }
