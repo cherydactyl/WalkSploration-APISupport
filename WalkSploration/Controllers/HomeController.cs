@@ -21,7 +21,7 @@ namespace WalkSploration.Controllers
     {
         public ActionResult Index()
         {
-             return View();
+            return View();
         }
 
         [HttpPost]
@@ -31,9 +31,7 @@ namespace WalkSploration.Controllers
             int time = int.Parse(collection["timeInput"]);
 
             List<PointOfInterest> radarList = getPlaces(start, time);
-            Debug.WriteLine(radarList.Count);
-            List <PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
-            Debug.WriteLine(goldilocks.Count);
+            List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
             return View();
         }
 
@@ -50,9 +48,9 @@ namespace WalkSploration.Controllers
             //add parameters
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
-                //location
+            //location
             URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
-                //radius; estimate 1 meter per second walking speed
+            //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
             //see https://developers.google.com/places/supported_types for list of types
@@ -139,24 +137,21 @@ namespace WalkSploration.Controllers
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
                 var elements = (distanceResponse.Rows[0]).Elements;
+                for (int i = 0; i < count; i++)
                 {
-                    for (int i = 0; i < count; i++)
+                    //extract the time in seconds from origin to the current (i'th) destination
+                    if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                     {
-                        //extract the time in seconds from origin to the current (i'th) destination
-                        if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
+                        // making a new int value to be able to better understand what the actual value is.
+                        int value = elements[i].Duration.Value;
+                        //compare to Goldilocks zone to evaluate and add to list if in the range
+                        if (value > floor && value <= ceiling)
                         {
-                            // making a new int value to be able to better understand what the actual value is.
-                            int value = elements[i].Duration.Value;
-                            //compare to Goldilocks zone to evaluate and add to list if in the range
-                            if (value > floor && value <= ceiling)
-                            {
-                                viable.Add(candidates[i]);
-                            }
+                            viable.Add(candidates[i]);
                         }
                     }
                 }
             }
-            //Console.WriteLine(candidates);
             return viable;
         }
         string callAPIgetJSon(string URI)
