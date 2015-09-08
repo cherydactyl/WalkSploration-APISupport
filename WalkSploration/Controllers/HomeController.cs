@@ -25,7 +25,7 @@ namespace WalkSploration.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string timeInput, string startLatitude, String startLongitude)
+        public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
         {
             Debug.Write("Here!  ");
             Debug.WriteLine(timeInput);

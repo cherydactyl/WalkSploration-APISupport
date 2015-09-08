@@ -30,7 +30,7 @@
         <div style="padding: 0px 12px;">
             <h3>How long do you have?     <span><span class="glyphicon glyphicon-time"></span>
                 <span id="time-display">15</span> mins</span></h3>
-            <form name="ourform" action="../Home/Index?" method="POST">
+            <form name="ourform" action="../Home/Index" method="POST">
                 <fieldset>
                     <ul style="list-style-type:none">
 
@@ -55,7 +55,7 @@
            
             @*In order to pass the information dynamically, without refreshing the page, we must use an ajax call.
                 If we were to use the traditional Html.ActionLink as below, the page would be refreshed*@
-            @Html.ActionLink(
+            @*@Html.ActionLink(
             "Take a Walk!",         // Link Text
             "Index",                // actionName
             "Home",                 // Controller name,
@@ -65,7 +65,7 @@
                 startLat = "Lat",
                 startLon = "outLon"
             }
-            )
+            )*@
 
             @*<script>
             var qs = HttpUtility.ParseQueryString("");
@@ -114,4 +114,11 @@
     @*<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
         <script src="jquery.geocomplete.js"></script>*@
 
+    @*function makePostURI (){
+        var URI = "../Home/Index";
+        URI = URI + "?timeInput=" + document.getElementById("timeInput").value
+        URI = URI + "&startLatitude=" + document.getElementById("startLatitude").value;
+        URI = URI + "&startLongitude=" + document.getElementById("startLongitude").value;
+        return URI;
+        }*@
 </body>
