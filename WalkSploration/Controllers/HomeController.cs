@@ -35,6 +35,11 @@ namespace WalkSploration.Controllers
             List<PointOfInterest> radarList = getPlaces(start, time);
             List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
 
+            PointOfInterest chosen = goldilocks[0];
+            ViewBag.chosenPoint = chosen.GooglePlaceId;
+            ViewBag.latitude = chosen.location.latitude;
+            ViewBag.longitude = chosen.location.longitude;
+
             return View();
         }
 
