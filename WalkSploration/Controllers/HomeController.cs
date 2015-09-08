@@ -24,16 +24,18 @@ namespace WalkSploration.Controllers
              return View();
         }
 
-        [HttpPost]
-        //public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
-
-        public ActionResult Index(FormCollection collection)
+        public ActionResult Contact()
         {
-            Debug.WriteLine("Here!  ");
-            string testLat = collection["startLatitude"];
-            Debug.WriteLine(testLat);
-            Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
-            int time = int.Parse(collection["timeInput"]);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
+        {
+            Debug.Write("Here!  ");
+            Debug.WriteLine(timeInput);
+            Location start = new Location(decimal.Parse(startLatitude), decimal.Parse(startLongitude));
+            int time = int.Parse(timeInput);
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
