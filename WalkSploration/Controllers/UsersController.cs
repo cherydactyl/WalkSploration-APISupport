@@ -45,7 +45,7 @@ namespace WalkSploration.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != user.Id)
+            if (id != user.UserID)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WalkSploration.Controllers
             db.Users.Add(user);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
+            return CreatedAtRoute("DefaultApi", new { id = user.UserID }, user);
         }
 
         // DELETE: api/Users/5
@@ -113,7 +113,7 @@ namespace WalkSploration.Controllers
 
         private bool UserExists(int id)
         {
-            return db.Users.Count(e => e.Id == id) > 0;
+            return db.Users.Count(e => e.UserID == id) > 0;
         }
     }
 }

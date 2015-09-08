@@ -10,10 +10,10 @@ namespace WalkSploration.Models
         public decimal latitude { get; }
         public decimal longitude { get; }
 
-        public Location(decimal lat, decimal lon)
+        public Location (decimal lat, decimal lon)
         {
             this.latitude = lat;
             this.longitude = lon;
-        }
+        } 
     }
 }

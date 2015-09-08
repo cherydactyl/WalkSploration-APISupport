@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkSploration", "WalkSploration\WalkSploration.csproj", "{49DFBC93-7F5F-42C1-92FB-D12002BB127E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalkSploration.Tests", "WalkSploration.Tests\WalkSploration.Tests.csproj", "{6578D20F-616D-477A-892B-DC61088C5557}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{B794EDD1-ADF3-4F84-9D88-2C71A2763B89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{ECD33E11-BA84-4882-9D97-FD9A345E21AC}"
@@ -30,10 +28,6 @@ Global
 		{49DFBC93-7F5F-42C1-92FB-D12002BB127E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49DFBC93-7F5F-42C1-92FB-D12002BB127E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49DFBC93-7F5F-42C1-92FB-D12002BB127E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6578D20F-616D-477A-892B-DC61088C5557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6578D20F-616D-477A-892B-DC61088C5557}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6578D20F-616D-477A-892B-DC61088C5557}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6578D20F-616D-477A-892B-DC61088C5557}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
