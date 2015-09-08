@@ -35,11 +35,29 @@ namespace WalkSploration.Controllers
             List<PointOfInterest> radarList = getPlaces(start, time);
             List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
 
-            PointOfInterest chosen = goldilocks[0];
-            ViewBag.chosenPoint = chosen.GooglePlaceId;
-            ViewBag.latitude = chosen.location.latitude;
-            ViewBag.longitude = chosen.location.longitude;
 
+            PointOfInterest chosen = null;
+            if (goldilocks.Count() > 0)
+            {
+                chosen = goldilocks[0];
+            }
+            else if (radarList.Count() > 0)
+            {
+                chosen = radarList[radarList.Count() - 1];
+            }
+
+            if (chosen != null){
+                ViewBag.GoogleId = chosen.GooglePlaceId;
+                ViewBag.Latitude = chosen.location.latitude;
+                ViewBag.Longitude = chosen.location.longitude;
+                ViewBag.NoneInRange = false;
+            }
+            else
+            {
+                ViewBag.NoneInRange = true;
+            }
+
+            
             return View();
         }
 
@@ -164,6 +182,7 @@ namespace WalkSploration.Controllers
             return viable;
         }
 
+        static Random random = new Random();
         string callAPIgetJSon(string URI)
         {
             //call API
