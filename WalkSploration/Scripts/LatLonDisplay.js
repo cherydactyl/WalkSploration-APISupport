@@ -46,8 +46,7 @@ function geoFindMe() {
 // Initalize Map with Geolocation
 function initializeMap() {
 
-    // HEY! make me a map that will center over the lat and lon I want
-    // printed out in the object with the id 'map_canvas'
+    // Map Object - printed in <div id = 'map_canvas'>
     map = new google.maps.Map(document.getElementById('map_canvas'), {
         center: { lat: 42.3347, lng: -83.0497 },
         zoom: 16
