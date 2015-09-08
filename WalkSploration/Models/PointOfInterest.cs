@@ -12,6 +12,7 @@ namespace WalkSploration.Models
 
         public int PointOfInterestId { get; set; }                    // Point of Interest ID
         public Location location { get; set; }         //prefer to make location not malleable
+
         public string Name { get; set; }               // A short label
         public string Address { get; set; }            // Street address
         public string Category { get; set; }           // For future developments
@@ -33,5 +34,8 @@ namespace WalkSploration.Models
         {
             return this.location.longitude;
         }
+
+        public virtual ICollection<User> users { get; set; }
+
     }
 }

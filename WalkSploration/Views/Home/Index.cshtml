@@ -3,8 +3,8 @@
 }
 
 <body onload="var loc = geoFindMe()">
-    <div class=" jumbotron">
-        <img src="~/Images/walksplorationBanner.png" style="width : 100% " />
+<div class=" jumbotron">
+    <img src="~/Images/walksplorationBanner.png" style="width : 100% " />
     </div>
     <div class="container">
         <div class="col-md-12">
@@ -23,30 +23,22 @@
             </p>
         </div>*@
 
-
-
-
     <div id="timeSlider" style="background:#ffffff; border: 1px solid #000000; width: 40%; margin:0 auto;">
         <div style="padding: 0px 12px;">
-            <h3>
-                How long do you have?     <span>
-                    <span class="glyphicon glyphicon-time"></span>
-                    <span id="time-display">15</span> mins
-                </span>
-            </h3>
+            <h3>How long do you have?     <span><span class="glyphicon glyphicon-time"></span>
+                <span id="time-display">15</span> mins</span></h3>
             <form name="ourform" action="" method="POST">
                 <fieldset>
                     <ul style="list-style-type:none">
 
                         <li>
-                            <span" name="startLatitude" id="startLatitude" onload="success)"> </span">
-                            <span name="startLongitude" id="startLongitude"> </span>
+                            <input type="hidden" name="startLatitude" id="startLatitude" value=loc.lattitude />
+                            <input type="hidden" name="startLongitude" id="startLongitude" />
                             10
                             <input type="range" name="timeInput" id="timeInput" min="10" max="60" value="15" step="1" onchange="showValue(this.value)" />
                             60
                         </li>
-                        <li><br />
-                        <li>
+                        <li><br /><li>
                             <input type="submit" name="button" value="Let's Go!" onClick="submit" />
                         </li>
                     </ul>
@@ -54,33 +46,33 @@
             </form>
             <br />
             <div id="outLat"></div><div id="outLon"></div>
-
-
+            
+           
             @*In order to pass the information dynamically, without refreshing the page, we must use an ajax call.
                 If we were to use the traditional Html.ActionLink as below, the page would be refreshed*@
             @*@Html.ActionLink(
-                "Take a Walk!",         // Link Text
-                "Index",                // actionName
-                "Home",                 // Controller name,
-                new
-                {
-                    time = "timeInput",
-                    startLat = "Lat",
-                    startLon = "outLon"
-                }
-                )*@
+            "Take a Walk!",         // Link Text
+            "Index",                // actionName
+            "Home",                 // Controller name,
+            new
+            {
+                time = "timeInput",
+                startLat = "Lat",
+                startLon = "outLon"
+            }
+            )*@
 
             @*<script>
-                var qs = HttpUtility.ParseQueryString("");
-                    qs.Add("timeStr", document.getElementById(timeInput).value)
-                    qs.Add("lattitude", startLocation.lattitude);
-                    qs.Add("longitude", startLocation.longitude)
-                </script>
-                    <a href="<%: Url.Action(" Let's Go!", "" )%>
-                        ?<%:qs%>">
-                        <span>walk</span>
-                    </a>*@
-
+            var qs = HttpUtility.ParseQueryString("");
+                qs.Add("timeStr", document.getElementById(timeInput).value)
+                qs.Add("lattitude", startLocation.lattitude);
+                qs.Add("longitude", startLocation.longitude)
+            </script>
+                <a href="<%: Url.Action(" Let's Go!", "" )%>
+                    ?<%:qs%>">
+                    <span>walk</span>
+                </a>*@
+            
         </div>
     </div>
     @*<input id="locInput" class="controls" type="text" placeholder="Enter a location" style="background-color: #fff;

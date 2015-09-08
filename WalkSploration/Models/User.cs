@@ -8,15 +8,19 @@ namespace WalkSploration.Models
 {
     public class User
     {
+        public int UserID { get; set; }
         [Required]
-        public int Id { get; set; }
         public string Name { get; set; }
 
         //Optional
+        public string Email { get; set; }
+
         public Location StartLocation { get; set; }
 
         //Check  whether or not these need to be virtual
-        public virtual ICollection<PointOfInterest> RecentTrips { get; set; }
-        public virtual ICollection<PointOfInterest> FavoritesList { get; set; }
+        public virtual List<PointOfInterest> RecentTrips { get; set; }
+        public virtual List<PointOfInterest> FavoritesList { get; set; }
+       //user submitted point of interest
+        public virtual ICollection<PointOfInterest> PointOfOntersts { get; set; }
     }
 }

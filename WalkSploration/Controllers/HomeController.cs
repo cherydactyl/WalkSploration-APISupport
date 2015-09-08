@@ -15,7 +15,6 @@ using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
-using WalkSploration.ModelBinder;
 
 namespace WalkSploration.Controllers
 {
@@ -23,7 +22,7 @@ namespace WalkSploration.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+             return View();
         }
 
         [HttpPost]
@@ -31,20 +30,17 @@ namespace WalkSploration.Controllers
 
         public ActionResult Index(FormCollection collection)
         {
-            int time = int.Parse(collection["timeInput"]);
+
             Debug.WriteLine("Here!  ");
-            decimal testLat = decimal.Parse(collection["startLatitude"]);
+            string testLat = collection["startLatitude"];
             Debug.WriteLine(testLat);
-            decimal testLon = decimal.Parse(collection["startLongitude"]);
+            Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
+            int time = int.Parse(collection["timeInput"]);
 
-           
-            //Location start = new Location();
+            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
 
-            //List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
             return View();
         }
-
-
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
@@ -57,9 +53,9 @@ namespace WalkSploration.Controllers
             //add parameters
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
-            //location
+                //location
             URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
-            //radius; estimate 1 meter per second walking speed
+                //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
             //see https://developers.google.com/places/supported_types for list of types

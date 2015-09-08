@@ -11,10 +11,10 @@
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
 
-        outputLat.innerHTML = latitude;
-        outputLon.innerHTML = longitude;
+        outputLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
+        outputLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
 
-        document.getElementById("startLatitude").value = lattitude;
+        document.getElementById("startLatitude").value = latitude;
         document.getElementById("startLongitude").value = longitude;
     };
 
@@ -30,12 +30,4 @@
         latitude: outputLat,
         longitude: outputLon
     }
-}
-
-function setFormLat() {
-    document.getElementById("startLatitude").value = loc.latitude;
-}
-
-function setFormLon() {
-    document.getElementById("startLongitude").value = loc.longitude;
 }
