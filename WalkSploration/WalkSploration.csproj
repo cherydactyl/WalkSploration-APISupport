@@ -194,19 +194,25 @@
     <Compile Include="Controllers\Secrets.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WalkSplorationContext.cs" />
+    <Compile Include="DAL\PoiContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+
     <Compile Include="Migrations\201508312208000_walk.cs" />
     <Compile Include="Migrations\201508312208000_walk.Designer.cs">
       <DependentUpon>201508312208000_walk.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DistanceMatrix.cs" />
     <Compile Include="Models\DistanceResponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\jQuerySlider.cs" />
+    <Compile Include="Models\jQuerySliderHelper.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PointOfInterest.cs" />
     <Compile Include="Models\User.cs" />
@@ -223,7 +229,12 @@
     <Content Include="Images\sneakerMarker.png" />
     <Content Include="Images\walksplorationBanner.png" />
     <Content Include="Scripts\AutocompleteMap.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\LatLonDisplay.js" />
+    <Content Include="Scripts\StartLocation.js" />
     <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

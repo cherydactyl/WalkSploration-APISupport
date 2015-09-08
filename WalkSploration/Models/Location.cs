@@ -7,8 +7,8 @@ namespace WalkSploration.Models
 {
     public class Location
     {
-        public decimal latitude { get; }
-        public decimal longitude { get; }
+        public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
 
         public Location(decimal lat, decimal lon)
         {
