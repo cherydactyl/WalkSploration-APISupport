@@ -22,6 +22,5 @@ namespace WalkSploration.Models
         public virtual List<PointOfInterest> FavoritesList { get; set; }
        //user submitted point of interest
         public virtual ICollection<PointOfInterest> PointOfOntersts { get; set; }
-
     }
 }
