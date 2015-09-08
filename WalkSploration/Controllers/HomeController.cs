@@ -31,14 +31,34 @@ namespace WalkSploration.Controllers
             return View();
         }
 
+
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult StartInput(FormCollection latIn, FormCollection lonIn)
+        {
+            decimal startLat = decimal.Parse(latIn["lat"]);
+            decimal startLon = decimal.Parse(lonIn["lon"]);
+
+            Debug.Write(startLat);
+            Debug.Write(startLon);
+
+            return View();
+        }
+
+
+
+
         [System.Web.Mvc.HttpGet]
         public ActionResult StartPlace(string timeString, string startLatString, string startLonString)
         {
+            string lat = startLatString;
+
+            Debug.Write(lat);
             int time = Int32.Parse(timeString);
             decimal startLat = Decimal.Parse(startLatString);
             decimal startLon = Decimal.Parse(startLonString);
 
-            Location start = new Location(time, startLat, startLon);
+            Location start = new Location(startLat, startLon);
 
             List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
 
@@ -47,21 +67,10 @@ namespace WalkSploration.Controllers
 
             return View();
         }
-
-
-  
-
-
-
-
+        
         [System.Web.Http.HttpPost]
-        public ActionResult StartPlaceTest(Array[] time)
+        public ActionResult StartPlaceTest()
         {
-
- 
-            var timeTest = time[1];
-            
-
 
             decimal lat = Convert.ToDecimal(Request["lanEntered"].ToString());
             int lon = Convert.ToInt32(Request["lonEntered"].ToString());
@@ -69,7 +78,6 @@ namespace WalkSploration.Controllers
             Location start = new Location(lat, lon);
 
             StringBuilder sbInterest = new StringBuilder();
-            sbInterest.Append("<b>Input Time :</b> " + time + "<br/>");
             sbInterest.Append("<b>Lat :</b> " + lat + "<br/>");
             sbInterest.Append("<b>Lon :</b> " + lon + "<br/>");
             return Content(sbInterest.ToString());
@@ -133,7 +141,7 @@ namespace WalkSploration.Controllers
             //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
             //location
-            URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
+            URI += "location=" + start.Latitude.ToString() + "," + start.Longitude.ToString() + "&";
             //radius; estimate 1 meter per second walking speed
             URI += "radius=" + (timeInMinutes * 60 / 2).ToString() + "&";
             //types; start with "park" and possibly add more later
@@ -194,7 +202,7 @@ namespace WalkSploration.Controllers
             //specifiy walking
             URI += "mode=walking&";
             //origin location
-            URI += "origins=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
+            URI += "origins=" + start.Latitude.ToString() + "," + start.Longitude.ToString() + "&";
             //list all candidate points of interest by lat/lon as destinations
             URI += "destinations=";
             //iterate over candidate destinations, and add each location, separated by a pipe |

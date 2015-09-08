@@ -1,5 +1,4 @@
-﻿
-function geoFindMe() {
+﻿function geoFindMe() {
     var outputLon = document.getElementById("lngbox");  // Set to the value of the object with the id "outLon"
     var outputLat = document.getElementById("latbox");  // Set to the value of the object with the id "outLat"
 
@@ -12,8 +11,8 @@ function geoFindMe() {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
 
-        outputLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
-        outputLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
+        outputLat.innerHTML = "<p>" + latitude + "</p>";
+        outputLon.innerHTML = "<p>" + longitude + "</p>";
     };
 
     function error() {

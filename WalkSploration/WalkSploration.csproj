@@ -194,6 +194,7 @@
     <Compile Include="Controllers\Secrets.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WalkSplorationContext.cs" />
+    <Compile Include="DAL\PoiContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -201,7 +202,6 @@
     <Compile Include="Models\DistanceMatrix.cs" />
     <Compile Include="Models\DistanceResponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\InputInfo.cs" />
     <Compile Include="Models\jQuerySlider.cs" />
     <Compile Include="Models\jQuerySliderHelper.cs" />
     <Compile Include="Models\Location.cs" />

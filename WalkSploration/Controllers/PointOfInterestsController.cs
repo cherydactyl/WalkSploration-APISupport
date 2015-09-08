@@ -9,11 +9,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 using WalkSploration.Models;
 
 namespace WalkSploration.Controllers
 {
-    public class PointOfInterestsController : ApiController
+    public class PointOfInterestsController : Controller
     {
 
 

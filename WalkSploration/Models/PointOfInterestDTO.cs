@@ -10,10 +10,7 @@ namespace WalkSploration.Models
         public int Id { get; set; }
         public Location location { get; set; }
     }
-}
 
-namespace WalkSploration.Models
-{
     public class PointOfInterestDetailDTO
     {
         public int Id { get; set; }                    // Point of Interest ID
@@ -21,8 +18,5 @@ namespace WalkSploration.Models
         public string Name { get; set; }               // A short label
         public string Address { get; set; }            // Street address
         public string Category { get; set; }           // For future developments
-        public string MapPinURL { get; set; }          // To store the URL for the map pin
-        public string GooglePlaceId { get; set; }      // To store the unique google place id
-
     }
 }
