@@ -49,6 +49,9 @@ function geoFindMe() {
 
         outputLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
         outputLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
+
+        document.getElementById("startLatitude").value = lattitude;
+        document.getElementById("startLongitude").value = longitude;
     };
 
     function error() {
@@ -59,4 +62,8 @@ function geoFindMe() {
     outputLat.innerHTML = "<p>Locating…</p>";
 
     navigator.geolocation.getCurrentPosition(success, error);
+    return new {
+        latitude: outputLat,
+        longitude: outputLon
+    }
 }
