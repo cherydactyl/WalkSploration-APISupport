@@ -2,7 +2,7 @@
     ViewBag.Title = "Walksploration";
 }
 
-<body onload="geoFindMe()">
+<body onload="var loc = geoFindMe()">
 <div class=" jumbotron">
     <img src="~/Images/walksplorationBanner.png" style="width : 100% " />
     </div>
@@ -23,26 +23,22 @@
             </p>
         </div>*@
 
-
-
-
     <div id="timeSlider" style="background:#ffffff; border: 1px solid #000000; width: 40%; margin:0 auto;">
         <div style="padding: 0px 12px;">
             <h3>How long do you have?     <span><span class="glyphicon glyphicon-time"></span>
                 <span id="time-display">15</span> mins</span></h3>
-            <form name="ourform" action="Index" method="POST">
+            <form name="ourform" action="" method="POST">
                 <fieldset>
                     <ul style="list-style-type:none">
 
                         <li>
-                            <input type="hidden" name="startLatitude" id="startLatitude" value="" />
-                            <input type="hidden" name="startLongitude" id="startLongitude" value="" />
+                            <input type="hidden" name="startLatitude" id="startLatitude" value=loc.lattitude />
+                            <input type="hidden" name="startLongitude" id="startLongitude" />
                             10
-                            <input type="range" id="timeInput" min="10" max="60" value="15" step="1" onchange="showValue(this.value)" />
+                            <input type="range" name="timeInput" id="timeInput" min="10" max="60" value="15" step="1" onchange="showValue(this.value)" />
                             60
                         </li>
-                        <li><br /></li>
-                        <li>
+                        <li><br /><li>
                             <input type="submit" name="button" value="Let's Go!" onClick="submit" />
                         </li>
                     </ul>

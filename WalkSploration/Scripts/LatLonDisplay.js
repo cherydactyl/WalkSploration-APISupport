@@ -50,7 +50,7 @@ function geoFindMe() {
         outputLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
         outputLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
 
-        document.getElementById("startLatitude").value = lattitude;
+        document.getElementById("startLatitude").value = latitude;
         document.getElementById("startLongitude").value = longitude;
     };
 
