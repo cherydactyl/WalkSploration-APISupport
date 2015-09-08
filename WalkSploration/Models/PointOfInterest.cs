@@ -36,6 +36,5 @@ namespace WalkSploration.Models
         }
 
         public virtual ICollection<User> users { get; set; }
-
     }
 }
