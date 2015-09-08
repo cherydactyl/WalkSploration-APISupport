@@ -19,7 +19,7 @@ using System.Web.Http.Description;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Collections;
-
+using WalkSploration.ModelBinder;
 
 namespace WalkSploration.Controllers
 {
@@ -27,10 +27,14 @@ namespace WalkSploration.Controllers
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {
+        {   
             return View();
         }
 
+        public ActionResult SaveLocation([FromJson] LocationModel location)
+        {
+            return View("Index");
+        }
 
 
         [System.Web.Mvc.HttpPost]

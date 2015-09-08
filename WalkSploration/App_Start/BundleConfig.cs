@@ -27,9 +27,7 @@ namespace WalkSploration
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/app").Include(
-          "~/Scripts/knockout-{version}.js",
-          "~/Scripts/app.js"));
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include("~/Scripts/knockout-2.1.0.js", "~/Scripts/knockout.mapping-latest.js"));
         }
     }
 }
