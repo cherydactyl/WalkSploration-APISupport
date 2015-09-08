@@ -217,14 +217,33 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ImportedBootstrap.css" />
+    <Content Include="Content\simple-slideshow-styles.css" />
+    <Content Include="Content\styles.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\imageCarousel\1C7C4EB4E1.jpg" />
+    <Content Include="Images\imageCarousel\1ORM9KMFEW.jpg" />
+    <Content Include="Images\imageCarousel\5FVJ2PSHJS.jpg" />
+    <Content Include="Images\imageCarousel\5UJ56BP1OF.jpg" />
+    <Content Include="Images\imageCarousel\9XDWBXHCR5.jpg" />
+    <Content Include="Images\imageCarousel\AC9MET24YA.jpg" />
+    <Content Include="Images\imageCarousel\CS1CYWKZSH.jpg" />
+    <Content Include="Images\imageCarousel\GEJ6ML9NHQ.jpg" />
+    <Content Include="Images\imageCarousel\IG5ZMT9GHI.jpg" />
+    <Content Include="Images\imageCarousel\PLAJNHNMWK.jpg" />
+    <Content Include="Images\imageCarousel\S5Q1FQPT24.jpg" />
     <Content Include="Images\sneakerMarker.png" />
+    <Content Include="Images\imageCarousel\UKOJKBX6O9.jpg" />
     <Content Include="Images\walksplorationBanner.png" />
     <Content Include="Scripts\AutocompleteMap.js" />
+    <Content Include="Scripts\better-simple-slideshow.js" />
+    <Content Include="Scripts\grunt.js" />
+    <Content Include="Scripts\Gruntfile.js" />
+    <Content Include="Scripts\hammer.min.js" />
     <Content Include="Scripts\LatLonDisplay.js" />
+    <Content Include="Scripts\task.js" />
     <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -278,6 +297,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
