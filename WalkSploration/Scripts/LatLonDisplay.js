@@ -35,7 +35,7 @@ var outputLon = document.getElementById("outLon");
         outputLon.innerHTML = " ";
     };
 
-    outputLat.innerHTML = "<p>Locating…</p>";
+    outputLat.innerHTML = "<p></p>";
 
     navigator.geolocation.getCurrentPosition(success, error);
     return new {
