@@ -1,4 +1,4 @@
-﻿function geoFindMe() {
+﻿function geoFindMe(t) {
     var outputLat = document.getElementById("outLat");
     var outputLon = document.getElementById("outLon");
 
@@ -16,6 +16,7 @@
 
         document.getElementById("startLatitude").value = latitude;
         document.getElementById("startLongitude").value = longitude;
+        
     };
 
     function error() {

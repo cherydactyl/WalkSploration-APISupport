@@ -34,11 +34,9 @@
                     <ul style="list-style-type:none">
 
                         <li>
-                            <input type="hidden" name="startLatitude" id="startLatitude" value=loc.lattitude />
+                            <input type="hidden" name="startLatitude" id="startLatitude" />
                             <input type="hidden" name="startLongitude" id="startLongitude" />
-                            10
-                            <input type="range" name="timeInput" id="timeInput" min="10" max="60" value="15" step="1" onchange="showValue(this.value)" />
-                            60
+                            <input type="range" name="timeInput" id="timeInput" min="10" max="60" value=15 step="1" onchange="showValue(this.value)" />
                         </li>
                         <li><br /><li>
                             <input type="submit" name="button" value="Let's Go!" onClick="submit" />
@@ -59,6 +57,7 @@
         <h2>Point of Interest:</h2>
         <b>Latitude :</b> @ViewBag.Latitude<br />
         <b>Longitude :</b> @ViewBag.Longitude<br />
+        <b>Time Available:</b> @ViewBag.time minutes<br />
         @*<b>GoogleId :</b> @ViewBag.GoogleId<br />
         <b>MapURL :</b> @ViewBag.MapURL<br />
 
