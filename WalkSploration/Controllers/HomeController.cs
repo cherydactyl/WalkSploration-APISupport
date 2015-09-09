@@ -15,11 +15,19 @@ using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
-
 namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             return View();
@@ -28,14 +36,11 @@ namespace WalkSploration.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection collection)
         {
-
             Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
             int time = int.Parse(collection["timeInput"]);
 
             List<PointOfInterest> radarList = getPlaces(start, time);
             List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
-
-
             PointOfInterest chosen = null;
             if (goldilocks.Count() > 0)
             {
@@ -56,10 +61,12 @@ namespace WalkSploration.Controllers
             {
                 ViewBag.NoneInRange = true;
             }
-
-            
+            ViewBag.time = time;
             return View();
         }
+        
+
+
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
@@ -70,7 +77,7 @@ namespace WalkSploration.Controllers
             //OR (less data) 
             string URI = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
             //add parameters
-
+            //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
             //location
             URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
@@ -81,7 +88,6 @@ namespace WalkSploration.Controllers
             URI += "types=park";
             //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
-
             //request processing
             var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
             var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
@@ -112,7 +118,6 @@ namespace WalkSploration.Controllers
             //return processed list
             return candidatePoIs;
         }
-
         List<PointOfInterest> screenPlaces(List<PointOfInterest> candidates, Location start, int timeInMinutes)
         {
             //if the candidates list is empty, return the/an empty list
@@ -134,7 +139,6 @@ namespace WalkSploration.Controllers
             URI += "destinations=";
             //iterate over candidate destinations, and add each location, separated by a pipe |
             int count = candidates.Count();
-            Debug.WriteLine(count);
             for (int i = 0; i < count; i++)
             {
                 URI += candidates[i].getLatitude().ToString() + "," + candidates[i].getLongitude().ToString();
@@ -150,7 +154,7 @@ namespace WalkSploration.Controllers
             //may need to iterate or otherwise process & if so, should probably save the times instead of make decisions in loop
             //note that these use integer math
             int ceiling = (timeInMinutes * 60) / 2;   //max length of each leg of round trip
-            int floor = ceiling - 300;          //min length of each leg of round trip; hardcode 5 minutes less one way
+            int floor = (ceiling * 9) / 10;           //min length of each leg of round trip
 
             var client = new WebClient();
             var values = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -158,31 +162,36 @@ namespace WalkSploration.Controllers
             var json = Encoding.UTF8.GetString(result);
             var serializer = new JavaScriptSerializer();
             var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
-
             //extract elements' travel times
             //remember there is only one destination, so the elements list the times to destinations in order
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
-                var elements = (distanceResponse.Rows[0]).Elements;
-                for (int i = 0; i < count; i++)
+                foreach (var row in distanceResponse.Rows)
                 {
-                    //extract the time in seconds from origin to the current (i'th) destination
-                    if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
+                    foreach (var elements in row.Elements)
                     {
-                        // making a new int value to be able to better understand what the actual value is.
-                        int value = elements[i].Duration.Value;
-                        //compare to Goldilocks zone to evaluate and add to list if in the range
-                        if (value > floor && value <= ceiling)
+                        for (int i = 0; i < count; i++)
                         {
-                            viable.Add(candidates[i]);
+                            var durationTest = elements.Duration.Value;
+
+                            //extract the time in seconds from origin to the current (i'th) destination
+                            if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
+                            {
+                                // making a new int value to be able to better understand what the actual value is.
+                                int value = elements.Duration.Value;
+                                //compare to Goldilocks zone to evaluate and add to list if in the range
+                                if (value > floor && value <= ceiling)
+                                {
+                                    viable.Add(candidates[i]);
+                                }
+                            }
                         }
                     }
                 }
             }
+            Console.WriteLine(candidates);
             return viable;
         }
-
-        static Random random = new Random();
         string callAPIgetJSon(string URI)
         {
             //call API
