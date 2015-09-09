@@ -72,6 +72,23 @@ namespace WalkSploration.Controllers
                 ViewBag.time = time;
 
              
+
+            if (chosen != null){
+                ViewBag.GoogleId = chosen.GooglePlaceId;
+                ViewBag.Latitude = chosen.location.latitude;
+                ViewBag.Longitude = chosen.location.longitude;
+                ViewBag.NoneInRange = false;
+            }
+            else
+            {
+                ViewBag.NoneInRange = true;
+            }
+            ViewBag.time = time;
+
+            string poiURL = "http://maps.google.com/maps?q=";
+            poiURL += chosen.location.latitude + "," + chosen.location.longitude;
+            ViewBag.PoIMapLink = poiURL; 
+
             return View();
         }
 

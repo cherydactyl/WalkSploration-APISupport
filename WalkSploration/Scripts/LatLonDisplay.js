@@ -27,6 +27,7 @@ var outputLon = document.getElementById("outLon");
 
         document.getElementById("startLatitude").value = latitude;
         document.getElementById("startLongitude").value = longitude;
+        
     };
 
     function error() {
