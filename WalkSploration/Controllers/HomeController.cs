@@ -15,40 +15,57 @@ using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
-
 namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        //public ActionResult Index(string timeInput, string startLatitude, string startLongitude)
-
         public ActionResult Index(FormCollection collection)
         {
-
-            Debug.WriteLine("Here!  ");
-            string testLat = collection["startLatitude"];
-            Debug.WriteLine(testLat);
             Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
             int time = int.Parse(collection["timeInput"]);
 
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+            List<PointOfInterest> radarList = getPlaces(start, time);
+            List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
+            PointOfInterest chosen = null;
+            if (goldilocks.Count() > 0)
+            {
+                chosen = goldilocks[0];
+            }
+            else if (radarList.Count() > 0)
+            {
+                chosen = radarList[radarList.Count() - 1];
+            }
 
-            int r = random.Next((goldilocks.Count)-1);
-            PointOfInterest chosenPoint = ((PointOfInterest)goldilocks[r]);
-
-            ViewBag.Latitude = chosenPoint.location.latitude;
-            ViewBag.Longitude = chosenPoint.location.longitude;
-            ViewBag.GoogleId = chosenPoint.GooglePlaceId;
-
-            
+            if (chosen != null){
+                ViewBag.GoogleId = chosen.GooglePlaceId;
+                ViewBag.Latitude = chosen.location.latitude;
+                ViewBag.Longitude = chosen.location.longitude;
+                ViewBag.NoneInRange = false;
+            }
+            else
+            {
+                ViewBag.NoneInRange = true;
+            }
+            ViewBag.time = time;
             return View();
         }
+        
+
 
         // !!!!  HELPER FUNCTIONS  !!!!
 
@@ -59,7 +76,7 @@ namespace WalkSploration.Controllers
             //OR (less data) 
             string URI = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
             //add parameters
-
+            //key
             URI += "key=" + (new Secrets()).GoogleAPIServerKey + "&";
             //location
             URI += "location=" + start.latitude.ToString() + "," + start.longitude.ToString() + "&";
@@ -70,7 +87,6 @@ namespace WalkSploration.Controllers
             URI += "types=park";
             //create a new, empty list of Points Of Interest
             List<PointOfInterest> candidatePoIs = new List<PointOfInterest>();
-
             //request processing
             var googleRadarObject = JToken.Parse(callAPIgetJSon(URI));
             var status = googleRadarObject.Children<JProperty>().FirstOrDefault(x => x.Name == "status").Value;
@@ -101,7 +117,6 @@ namespace WalkSploration.Controllers
             //return processed list
             return candidatePoIs;
         }
-
         List<PointOfInterest> screenPlaces(List<PointOfInterest> candidates, Location start, int timeInMinutes)
         {
             //if the candidates list is empty, return the/an empty list
@@ -146,7 +161,6 @@ namespace WalkSploration.Controllers
             var json = Encoding.UTF8.GetString(result);
             var serializer = new JavaScriptSerializer();
             var distanceResponse = serializer.Deserialize<DistanceResponse>(json);
-
             //extract elements' travel times
             //remember there is only one destination, so the elements list the times to destinations in order
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
@@ -168,12 +182,9 @@ namespace WalkSploration.Controllers
                     }
                 }
             }
-
             Console.WriteLine(candidates);
             return viable;
         }
-
-        static Random random = new Random();
         string callAPIgetJSon(string URI)
         {
             //call API
