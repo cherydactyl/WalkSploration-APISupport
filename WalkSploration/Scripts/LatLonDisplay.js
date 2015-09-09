@@ -27,6 +27,7 @@ function geoFindMe() {
 
         document.getElementById("startLatitude").value = latitude;
         document.getElementById("startLongitude").value = longitude;
+        
     };
 
     function error() {
