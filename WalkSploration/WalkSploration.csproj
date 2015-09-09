@@ -245,8 +245,11 @@
     <Content Include="Scripts\Gruntfile.js" />
     <Content Include="Scripts\hammer.min.js" />
     <Content Include="Scripts\LatLonDisplay.js" />
+<<<<<<< HEAD
+=======
     <Content Include="Scripts\task.js" />
     <Content Include="Scripts\StartLocation.js" />
+>>>>>>> master
     <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
