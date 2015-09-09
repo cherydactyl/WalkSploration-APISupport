@@ -25,9 +25,11 @@ namespace WalkSploration
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/ImportedBootstrap.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include("~/Scripts/knockout-2.1.0.js", "~/Scripts/knockout.mapping-latest.js"));
+
         }
     }
 }

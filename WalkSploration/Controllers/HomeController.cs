@@ -67,7 +67,6 @@ namespace WalkSploration.Controllers
         
 
 
-
         // !!!!  HELPER FUNCTIONS  !!!!
 
         public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
@@ -166,25 +165,19 @@ namespace WalkSploration.Controllers
             //remember there is only one destination, so the elements list the times to destinations in order
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
-                foreach (var row in distanceResponse.Rows)
-                {
-                    foreach (var elements in row.Elements)
-                    {
-                        for (int i = 0; i < count; i++)
-                        {
-                            var durationTest = elements.Duration.Value;
+                var elements = (distanceResponse.Rows[0]).Elements;
 
-                            //extract the time in seconds from origin to the current (i'th) destination
-                            if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
-                            {
-                                // making a new int value to be able to better understand what the actual value is.
-                                int value = elements.Duration.Value;
-                                //compare to Goldilocks zone to evaluate and add to list if in the range
-                                if (value > floor && value <= ceiling)
-                                {
-                                    viable.Add(candidates[i]);
-                                }
-                            }
+                for (int i = 0; i < count; i++)
+                {
+                    //extract the time in seconds from origin to the current (i'th) destination
+                    if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // making a new int value to be able to better understand what the actual value is.
+                        int value = elements[i].Duration.Value;
+                        //compare to Goldilocks zone to evaluate and add to list if in the range
+                        if (value > floor && value <= ceiling)
+                        {
+                            viable.Add(candidates[i]);
                         }
                     }
                 }
