@@ -9,15 +9,14 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/knockout")
 
+    @Scripts.Render("~/Script/InitializeMap.js")
     @Scripts.Render("~/Scripts/LatLonDisplay.js")
     @Scripts.Render("~/Scripts/TimeSlider.js")
    
 
 </head>
 <body>
-
     
-
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -49,19 +48,13 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-@*Including Src code for jquery*@
+
+@*@*Including Src code for jquery*@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 @*Including Src code for ajax/googleapis*@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 @*Including Src Google API Key*@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBfGAYRk9n_e_kfTXh3RDqvW4FLmT8W0D4&sensor=false"></script>
-
-
-@* Extra Script Tags to fancify the other slider and make it work if we want it. *@)
-@*<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>*@
-
 
 <script type="text/javascript">
 
@@ -71,15 +64,19 @@
         initializeMap();
         geoFindMe();
     });
-
-
-    // Initializes Global Variables - (Because they're outside of a function)
-    var map;                                        // the actual map image to display
-    var geocoder = new google.maps.Geocoder();      // the function that will take an address and return geocoordinates     - 9.5 update, we are not currently using this
-    var position;                                   // creates the position variable                                        - Will hold the lat and lon
+    
     var image = {                                   // Creates custom Map Pin Image and location relative to info window
         url: "/Images/sneakerMarker.png",                   // url = the location in our file where the image is stored
         anchor: new google.maps.Point(20, 15)               // anchor = this point is relative to where the actual center is of the lat and lon
+    };
+    </script>
+
+
+    @*// Initializes Global Variables - (Because they're outside of a function)
+    var map;                                        // the actual map image to display
+    var geocoder = new google.maps.Geocoder();      // the function that will take an address and return geocoordinates     - 9.5 update, we are not currently using this
+    var position;                                   // creates the position variable                                        - Will hold the lat and lon
+    
     };
     var marker;                                     // Initializes marker object (Our shoe)
     var infowindow;
@@ -142,5 +139,4 @@
                 animation: google.maps.Animation.DROP
             });
         }
-    }
-</script>
+    }</script>*@
