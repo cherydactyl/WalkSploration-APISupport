@@ -29,7 +29,7 @@ namespace WalkSploration.Controllers
             return View();
         }
 
-        public ActionResult LandingPage()
+        public ActionResult Start()
         {
             return View();
         }

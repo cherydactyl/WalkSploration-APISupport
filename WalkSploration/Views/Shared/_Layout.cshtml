@@ -8,11 +8,9 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/knockout")
-
     @Scripts.Render("~/Scripts/DirectionsRequest.js")
     @Scripts.Render("~/Scripts/LatLonDisplay.js")
     @Scripts.Render("~/Scripts/TimeSlider.js")
-   
 
 </head>
 <body>
@@ -28,7 +26,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>
+                        <a class="navbar-brand" rel="home" href="@Url.Action("Index", "Home")" title="Home">
+                            <img style="max-height:50px; margin-top: -16px;" src="~/Images/sneakerMarker.png" />
+                        </a>
+                    </li>
+                    <li>@Html.ActionLink("Walk", "Start", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
@@ -39,8 +42,8 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>Walksploration - a Genisys Application &copy; @DateTime.Now.Year</p>
+        <footer style="clear:both">
+            <img src="~/Images/walksplorationBanner.png" style="width : 200px " /> - a Genisys Application &copy; @DateTime.Now.Year</p>
         </footer>
     </div>
 
@@ -58,15 +61,13 @@
 
 <script type="text/javascript">
 
-    //$ signifies that it's JQuery
-    // So when the document is ready, call the functions listed in the {Curly Braces}
-    //$(document).ready(function () {
-    //    initializeMap();
-    //    geoFindMe();
-    //});
-    
     var image = {                                   // Creates custom Map Pin Image and location relative to info window
         url: "/Images/sneakerMarker.png",                   // url = the location in our file where the image is stored
         anchor: new google.maps.Point(20, 15)               // anchor = this point is relative to where the actual center is of the lat and lon
     };
-    </script>
+
+    $(document).ready(function () {
+        initializeMap();
+        geoFindMe();
+    });
+</script>
