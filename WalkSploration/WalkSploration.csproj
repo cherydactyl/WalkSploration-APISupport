@@ -236,6 +236,16 @@
     <Content Include="Images\imageCarousel\IG5ZMT9GHI.jpg" />
     <Content Include="Images\imageCarousel\PLAJNHNMWK.jpg" />
     <Content Include="Images\imageCarousel\S5Q1FQPT24.jpg" />
+    <Content Include="Images\LandingPage\1517303162_1332686b0a_o.jpg" />
+    <Content Include="Images\LandingPage\AerialDetroitPhoto.jpg" />
+    <Content Include="Images\LandingPage\DetroitWGradient.jpg" />
+    <Content Include="Images\LandingPage\map-pin-red.png" />
+    <Content Include="Images\LandingPage\TwitterBubble.png" />
+    <Content Include="Images\LandingPage\walksplorationBanner.png" />
+    <Content Include="Images\LandingPage\WhiteAboutPin.png" />
+    <Content Include="Images\LandingPage\WhiteContactPin.png" />
+    <Content Include="Images\LandingPage\WhiteTakeAWalk %281%29.png" />
+    <Content Include="Images\LandingPage\WhiteTakeAWalk.png" />
     <Content Include="Images\sneakerMarker.png" />
     <Content Include="Images\imageCarousel\UKOJKBX6O9.jpg" />
     <Content Include="Images\walksplorationBanner.png" />
@@ -302,6 +312,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\LandingPage.cshtml" />
+    <Content Include="Views\Shared\_Layout2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -28,6 +28,12 @@ namespace WalkSploration.Controllers
         {
             return View();
         }
+       
+        public ActionResult LandingPage()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();
