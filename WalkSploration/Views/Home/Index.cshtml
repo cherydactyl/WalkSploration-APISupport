@@ -50,6 +50,7 @@
     </div>
 
     <h3 id="map_canvas" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454" ;></h3>
+    <h2>Start Point</h2>
     <div id="outLat"></div><div id="outLon"></div>  
 
 
@@ -59,8 +60,8 @@
         <b>Longitude :</b> @ViewBag.Longitude<br />
         <b>Time Available:</b> @ViewBag.time minutes<br />
         @*<b>GoogleId :</b> @ViewBag.GoogleId<br />
-        <b>MapURL :</b> @ViewBag.MapURL<br />
+        <b>MapURL :</b> @ViewBag.MapURL<br />*@
 
-        <a href="@ViewBag.DirectionsURL">CLICK ME FOR DIRECTIONS!</a>*@
+        <a href="@ViewBag.PoIMapLink" target="_blank" alt="CLICK ME FOR MAP LINK!">CLICK ME FOR MAP LINK!</a>
     </div>
 </body>
