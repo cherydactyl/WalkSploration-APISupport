@@ -1,4 +1,5 @@
-﻿// Initializes Global Variables - (Because they're outside of a function)
+﻿function geoFindMe() {
+    // Initializes Global Variables - (Because they're outside of a function)
 var map;                                        // the actual map image to display
 var geocoder = new google.maps.Geocoder();      // the function that will take an address and return geocoordinates     - 9.5 update, we are not currently using this
 var position;                                   // creates the position variable                                        - Will hold the lat and lon
@@ -9,9 +10,8 @@ var image = {                                   // Creates custom Map Pin Image 
 var marker;                                     // Initializes marker object (Our shoe)
 var infowindow;
 
-function geoFindMe() {
-    var outputLat = document.getElementById("outLat");
-    var outputLon = document.getElementById("outLon");
+var outputLat = document.getElementById("outLat");
+var outputLon = document.getElementById("outLon");
 
     if (!navigator.geolocation) {
         output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
@@ -22,8 +22,8 @@ function geoFindMe() {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
 
-        outputLat.innerHTML = "<p>Latitude is " + latitude + "°</p>";
-        outputLon.innerHTML = "<p>Longitude is " + longitude + "°</p>";
+        //outputLat.innerHTML = "<p>" + latitude + "°</p>";
+        //outputLon.innerHTML = "<p>" +  + longitude + "°</p>";
 
         document.getElementById("startLatitude").value = latitude;
         document.getElementById("startLongitude").value = longitude;
@@ -47,7 +47,7 @@ function geoFindMe() {
 function initializeMap() {
 
     // Map Object - printed in <div id = 'map_canvas'>
-    map = new google.maps.Map(document.getElementById('map_canvas'), {
+    var map = new google.maps.Map(document.getElementById('map_canvas'), {
         center: { lat: 42.3347, lng: -83.0497 },
         zoom: 16
     });
@@ -93,7 +93,7 @@ function initializeMap() {
         infoWindow.setContent(browserHasGeolocation ?
                               'Howdy, Grand Circus!' :
                               'Error: Your browser doesn\'t support geolocation.');
-        marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             map: map,
             position: position,
             icon: image,
