@@ -251,12 +251,12 @@
     <Content Include="Images\walksplorationBanner.png" />
     <Content Include="Scripts\AutocompleteMap.js" />
     <Content Include="Scripts\better-simple-slideshow.js" />
+    <Content Include="Scripts\DirectionsRequest.js" />
     <Content Include="Scripts\grunt.js" />
     <Content Include="Scripts\Gruntfile.js" />
     <Content Include="Scripts\hammer.min.js" />
     <Content Include="Scripts\LatLonDisplay.js" />
     <Content Include="Scripts\task.js" />
-    <Content Include="Scripts\StartLocation.js" />
     <Content Include="Scripts\TimeSlider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -314,6 +314,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\LandingPage.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
+    <Content Include="Views\Home\Walk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
