@@ -84,16 +84,15 @@ namespace WalkSploration.Controllers
                 ViewBag.Latitude = chosen.location.latitude;
                 ViewBag.Longitude = chosen.location.longitude;
                 ViewBag.NoneInRange = false;
+                string poiURL = "http://maps.google.com/maps?q=";
+                poiURL += chosen.location.latitude + "," + chosen.location.longitude;
+                ViewBag.PoIMapLink = poiURL;
             }
             else
             {
                 ViewBag.NoneInRange = true;
             }
             ViewBag.time = time;
-
-            string poiURL = "http://maps.google.com/maps?q=";
-            poiURL += chosen.location.latitude + "," + chosen.location.longitude;
-            ViewBag.PoIMapLink = poiURL; 
 
             return View();
         }
