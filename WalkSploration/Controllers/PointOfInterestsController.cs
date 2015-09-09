@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 using WalkSploration.Models;
 
 namespace WalkSploration.Controllers
@@ -45,7 +46,7 @@ namespace WalkSploration.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != pointOfInterest.Id)
+            if (id != pointOfInterest.PointOfInterestId)
             {
                 return BadRequest();
             }
@@ -83,7 +84,7 @@ namespace WalkSploration.Controllers
             db.PointOfInterests.Add(pointOfInterest);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = pointOfInterest.Id }, pointOfInterest);
+            return CreatedAtRoute("DefaultApi", new { id = pointOfInterest.PointOfInterestId }, pointOfInterest);
         }
 
         // DELETE: api/PointOfInterests/5
@@ -113,7 +114,7 @@ namespace WalkSploration.Controllers
 
         private bool PointOfInterestExists(int id)
         {
-            return db.PointOfInterests.Count(e => e.Id == id) > 0;
+            return db.PointOfInterests.Count(e => e.PointOfInterestId == id) > 0;
         }
     }
 }

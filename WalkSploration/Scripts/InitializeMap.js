@@ -1,71 +1,71 @@
-﻿function initMap() {
-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-        center: { lat: 42.3347, lng: -83.0497 },
-        zoom: 14
-    });
-    var input = (document.getElementById('pac-input'));
+﻿//// Initializes Global Variables - (Because they're outside of a function)
+//var map;                                        // the actual map image to display
+//var geocoder = new google.maps.Geocoder();      // the function that will take an address and return geocoordinates     - 9.5 update, we are not currently using this
+//var position;                                   // creates the position variable                                        - Will hold the lat and lon
+//var image = {                                   // Creates custom Map Pin Image and location relative to info window
+//    url: "/Images/sneakerMarker.png",                   // url = the location in our file where the image is stored
+//    anchor: new google.maps.Point(20, 15)               // anchor = this point is relative to where the actual center is of the lat and lon
+//};
+//var marker;                                     // Initializes marker object (Our shoe)
+//var infowindow;
 
-    var types = document.getElementById('type-selector');
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
-    var autocomplete = new google.maps.places.Autocomplete(input);
-    autocomplete.bindTo('bounds', map);
+//// Initalize Map with Geolocation
+//function initializeMap() {
 
-    var infowindow = new google.maps.InfoWindow();
-    var marker = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
-    });
+//    // HEY! make me a map that will center over the lat and lon I want
+//    // printed out in the object with the id 'map_canvas'
+//    map = new google.maps.Map(document.getElementById('map_canvas'), {
+//        center: { lat: 42.3347, lng: -83.0497 },
+//        zoom: 16
+//    });
 
-    autocomplete.addListener('place_changed', function () {
-        infowindow.close();
-        marker.setVisible(false);
-        var place = autocomplete.getPlace();
-        if (!place.geometry) {
-            window.alert("Autocomplete's returned place contains no geometry");
-            return;
-        }
-        // If the place has a geometry, then present it on a map.
-        if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-        } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(17);  // Why 17? Because it looks good.
-        }
+//    if (navigator.geolocation) {
+//        // if the browser supports geolocation
+//        // "Hey Geolocation! Please go find the current position and set the current lat and lng to the lat and lng vars."
+//        navigator.geolocation.getCurrentPosition(function (position) {
+//            position = {
+//                lat: position.coords.latitude,
+//                lng: position.coords.longitude
+//            };
 
-        marker.setIcon(({
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(35, 35)
-        }));
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
+//            map.setCenter(position);                    // re-center the map over our current position
 
-        var address = '';
-        if (place.address_components) {
-            address = [
-              (place.address_components[0] && place.address_components[0].short_name || ''),
-              (place.address_components[1] && place.address_components[1].short_name || ''),
-              (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');
-        }
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-        infowindow.open(map, marker);
-    });
+//            // Create the Marker to be dropped
+//            marker = new google.maps.Marker({
+//                map: map,                               // the map it's on is called map
+//                position: position,                     // the position is at the var position
+//                icon: image,                            // the icon displayed is the var image that we defined earlier
+//                animation: google.maps.Animation.DROP   // makes the marker drop in
+//            });
 
-    // Sets a listener on a radio button to change the filter type on Places
-    // Autocomplete.
-    function setupClickListener(id, types) {
-        var radioButton = document.getElementById(id);
-        radioButton.addEventListener('click', function () {
-            autocomplete.setTypes(types);
-        });
-    }
-    setupClickListener('changetype-all', []);
-    setupClickListener('changetype-address', ['address']);
-    setupClickListener('changetype-establishment', ['establishment']);
-    setupClickListener('changetype-geocode', ['geocode']);
-}
+//            infoWindow = new google.maps.InfoWindow({ map: map });
+//            infoWindow.setPosition(position);           // now my infoWindow is where ever the heck we are
+//            infoWindow.setContent('Howdy, walker!');    // the message the infowindow will display
+//        },
+//        function () {           // the function for this is defined below
+//            handleLocationError(true, infoWindow, map.getCenter(), success());
+//        });
+//    }
+//    else {
+//        // Browser doesn't support Geolocation we have a fall through case to
+//        // re-center the map and drop a pin on Grand Circus.
+//        // It displays a separate message, 'Howdy, Grand Circus!'
+//        handleLocationError(false, infoWindow, map.getCenter());
+//    }
+
+//    // Default location if Geolocation is not Available
+//    function handleLocationError(browserHasGeolocation, infoWindow, position) {
+//        infoWindow = new google.maps.InfoWindow({ map: map });
+//        infoWindow.setPosition(position);
+//        infoWindow.setContent(browserHasGeolocation ?
+//                              'Howdy, Grand Circus!' :
+//                              'Error: Your browser doesn\'t support geolocation.');
+//        marker = new google.maps.Marker({
+//            map: map,
+//            position: position,
+//            icon: image,
+//            animation: google.maps.Animation.DROP
+//        });
+//    }
+//}

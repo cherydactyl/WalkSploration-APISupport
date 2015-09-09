@@ -2,29 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//using System.Device.Location;   /* more info here:  https://msdn.microsoft.com/en-us/library/system.device.location.geocoordinate(v=vs.110).aspx
-//                                You may not be able to run this properly without adding the following NuGet Package in the 
-//                                Package Manager Console command line: 'Install-Package System.Device.Location.Portable'   -  ak 8.24.15*/
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WalkSploration.Models
 {
     public class PointOfInterest
     {
-        public int Id { get; set; }                    // Point of Interest ID
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+
+        public int PointOfInterestId { get; set; }                    // Point of Interest ID
         public Location location { get; set; }         //prefer to make location not malleable
-                                                       //public decimal Latitude { get; set; }        // lattitude of location
-                                                       //public decimal Longitude { get; set; }       // longitude of location
 
         public string Name { get; set; }               // A short label
         public string Address { get; set; }            // Street address
         public string Category { get; set; }           // For future developments
         public string MapPinURL { get; set; }          // To store the URL for the map pin
-
         public string GooglePlaceId { get; set; }      // To store the unique google place id
-
-        //Foreign Key
-
-        public int UserID { get; set; }                // For possibly associating with a user
 
         public PointOfInterest(decimal lat, decimal lng, string googID)
         {
@@ -43,6 +36,5 @@ namespace WalkSploration.Models
         }
 
         public virtual ICollection<User> users { get; set; }
-
     }
 }

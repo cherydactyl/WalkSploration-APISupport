@@ -19,31 +19,61 @@ namespace WalkSploration.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpPost]
-        public ActionResult Index(int time, decimal startLat, decimal startLong)
+        public ActionResult About()
         {
-            //Grand Circus 42.3347, -83.0497; this is just a placeholder until actual start location set
-            Location start = new Location(startLat, startLong);
+            return View();
+        }
 
-
-            //   int time = 15;  //sample time for testing
-
-            List<PointOfInterest> goldilocks = screenPlaces(getPlaces(start, time), start, time);
+        public ActionResult Contact()
+        {
             return View();
         }
         public ActionResult Index()
         {
-           
             return View();
         }
-        //public ActionResult Index(Location startingLocation, int timeIn)
-        //{
-        //    Location start = new Location((decimal)42.3347, (decimal)-83.0497);
-        //    int time = 15;  //sample time for testing
-        //    List<PointOfInterest> goldilocks = screenPlaces(getPlaces((decimal)42.3347, (decimal)-83.0497, time), start, time);
-        //    return View();
-        //}
+
+        [HttpPost]
+        public ActionResult Index(FormCollection collection)
+        {
+            Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
+            int time = int.Parse(collection["timeInput"]);
+
+            List<PointOfInterest> radarList = getPlaces(start, time);
+            List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
+            PointOfInterest chosen = null;
+            if (goldilocks.Count() > 0)
+            {
+                chosen = goldilocks[0];
+            }
+            else if (radarList.Count() > 0)
+            {
+                chosen = radarList[radarList.Count() - 1];
+            }
+
+            if (chosen != null){
+                ViewBag.GoogleId = chosen.GooglePlaceId;
+                ViewBag.Latitude = chosen.location.latitude;
+                ViewBag.Longitude = chosen.location.longitude;
+                ViewBag.NoneInRange = false;
+            }
+            else
+            {
+                ViewBag.NoneInRange = true;
+            }
+            ViewBag.time = time;
+
+            string poiURL = "http://maps.google.com/maps?q=";
+            poiURL += chosen.location.latitude + "," + chosen.location.longitude;
+            ViewBag.PoIMapLink = poiURL;
+
+            return View();
+        }
+        
+
+
         // !!!!  HELPER FUNCTIONS  !!!!
+
         public List<PointOfInterest> getPlaces(Location start, int timeInMinutes)
         {
             //create query
@@ -140,27 +170,24 @@ namespace WalkSploration.Controllers
             //remember there is only one destination, so the elements list the times to destinations in order
             if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
             {
-                foreach (var row in distanceResponse.Rows)
+                var elements = (distanceResponse.Rows[0]).Elements;
+
+                for (int i = 0; i < count; i++)
                 {
-                    foreach (var elements in row.Elements)
+                    //extract the time in seconds from origin to the current (i'th) destination
+                    if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
                     {
-                        for (int i = 0; i < count; i++)
+                        // making a new int value to be able to better understand what the actual value is.
+                        int value = elements[i].Duration.Value;
+                        //compare to Goldilocks zone to evaluate and add to list if in the range
+                        if (value > floor && value <= ceiling)
                         {
-                            //extract the time in seconds from origin to the current (i'th) destination
-                            if (string.Equals("OK", distanceResponse.Status, StringComparison.OrdinalIgnoreCase))
-                            {
-                                // making a new int value to be able to better understand what the actual value is.
-                                int value = elements.Duration.Value;
-                                //compare to Goldilocks zone to evaluate and add to list if in the range
-                                if (value > floor && value <= ceiling)
-                                {
-                                    viable.Add(candidates[i]);
-                                }
-                            }
+                            viable.Add(candidates[i]);
                         }
                     }
                 }
             }
+            Console.WriteLine(candidates);
             return viable;
         }
         string callAPIgetJSon(string URI)
