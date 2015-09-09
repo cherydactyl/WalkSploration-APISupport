@@ -1,54 +1,26 @@
-﻿
-
+﻿@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
 @{
-    ViewBag.Title = "Walksploration";
-} 
+    ViewBag.Title = "LandingPage";
+}
+<!-- <div style="position: relative; left: 0; top: 0;">
+  <img src="a.jpg" style="position: relative; top: 0; left: 0;"/>
+  <img src="b.jpg" style="position: absolute; top: 30px; left: 70px;"/>
+</div>  -->
 
-<body onload="geoFindMe()">
-<div class=" jumbotron">
-    <img src="~/Images/walksplorationBanner.png" style="width : 100% " />
-    </div>
-    <div class="container">
-        <div class="col-md-12">
-            <h2>Have some time for a break?</h2>
-            <h4 style="padding-left: 20px;">Explore your world! Enter your available time, and we will send you to a new, exciting point of interest for you to explore.</h4>
-        </div>
-    </div>
-
-    <div id="timeSlider" style="background:#ffffff; border: 1px solid #000000; width: 40%; margin:0 auto;">
-        <div style="padding: 0px 12px;">
-            <h3>How long do you have?     <span><span class="glyphicon glyphicon-time"></span>
-                <span id="time-display">15</span> mins</span></h3>
-            <form name="ourform" action="/Home/Walk" method="POST">
-                <fieldset>
-                    <ul style="list-style-type:none">
-
-                        <li>
-                            <input type="hidden" name="startLatitude" id="startLatitude" />
-                            <input type="hidden" name="startLongitude" id="startLongitude" />
-                            <input type="range" name="timeInput" id="timeInput" min="10" max="60" value=15 step="1" onchange="showValue(this.value)" />
-                        </li>
-                        <li><br /><li>
-                            <input type="submit" name="button" value="Let's Go!" onClick="submit" />
-                        </li>
-                    </ul>
-                </fieldset>
-            </form>
-            <br />
-                      
-        </div>
-    </div>
-
-    <h3 id="map_canvas" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454" ;></h3>
-    <h2>Start Point</h2>
-    <div id="outLat"></div><div id="outLon"></div>  
-
-</body>
-<script type="text/javascript">
-
-    //$ signifies that it's JQuery
-    // So when the document is ready, call the functions listed in the {Curly Braces}
-    $(document).ready(function () {
-        initializeMap();
-    });
-</script>
+<div style='position:absolute;z-index:0;left:0;top:0;width:100%;height:100%'>
+    <img src='~/Images/LandingPage/DetroitWGradient.jpg' style='width:100%;height:100%' alt='[]' />
+</div>
+<div style="position:absolute;top: 288px; left: 67px">
+    <a href="~/home/about"><img src="~/Images/LandingPage/WhiteAboutPin.png" style="width:28%; height:28%;" /> </a>
+</div>
+<div style=" position:absolute;bottom:23px;right:-638px">
+    <a href="http://www.twitter.com/Walksploration"><img src="~/Images/LandingPage/TwitterBubble.png" target="_blank" style="width:28%; height:15%;" /></a>
+</div>
+<div style="position:absolute;top: 139px;right:-40px">
+    <a href="~/Home/Contact"> <img src="~/Images/LandingPage/WhiteContactPin.png" style=" width:31%; height:28%; " /></a>
+</div>
+<div style="position: absolute; left:407px;bottom:215px">
+    <a href="~/Home/Start"> <img src="~/Images/LandingPage/WhiteTakeAWalk (1).png" style="width:55%; height:40%" /></a>
+</div>
