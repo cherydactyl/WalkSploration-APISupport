@@ -5,13 +5,12 @@
     ViewBag.Title = "About";
 }
 <h2>Welcome To WalkSploration </h2>
-
 <!--This is for the image slider-->
-<div align="right">
-    <div class="container" style="margin-top: 30px" align="center">
+<div>
+    <div class="container" style="margin-top: 30px; float: left;">
         <div class="col-md-6">
             <!-- Code for image carousel -->
-            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-bottom: 30px">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-bottom: 30px;">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -59,39 +58,58 @@
                 </a>
             </div>
         </div>
+        <div class="col-md-5" style="margin-top: 60px; float: right;">
+            <h2>connecting people to the world around them.</h2>
+            <p>
+                At WalkSploration, we want to give new and
+                native Detroiters the chance to find hidden gems in the city while also getting to know
+                the city around them.
+            </p>
+            <p>Let our Geolocation find you then enter in your time available and let us find you a brand new point of interest. </p>
+        </div>
     </div>
-    <div id="fb-root"></div>
+
 
 </div>
 
-<div align="left">
-    <h2>connecting people to the world around them.</h2>
-    <p>WalkSploration, We want to give new and 
-    native Detroiters the chance to find hidden gems in the city while also getting to know 
-    the city around them.   </p>
-    <p>Let the our Geolocation find you and enter in your time available then let us find you a brand new point of interest. </p>
+<div class="row" style="clear:both;">
+    <div class="col-md-4">
+        <h2>Get Started</h2>
+        <p>
+            WalkSploration finds you a point of interest to which you can walk within the time you have available (up to one hour.)
+        </p>
 
+        <p>
+            <a class="btn btn-primary" href="http://walksploration.azurewebsites.net/Home/Index">Learn more &raquo;</a>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get Social</h2>
+        <p>Invite friends and family to join you in your WalkSplorations! Find us on Facebook, Twitter, etc.</p>
+        <p><a class="btn btn-primary" href="https://www.facebook.com/WalkSploration">Facebook &raquo;</a></p>
+        <p><a class="btn btn-primary" href="https://twitter.com/walksploration">Twitter &raquo;</a></p>
+        Invite a Facebook Friend for to WalkSplore with you!
+        @*Facebook Code*@
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=415513038641247";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <div class="fb-like" data-href="http://www.facebook.com/WalkSploration" data-width="500" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+    </div>
+    <div class="col-md-4">
+        <h2>Get Fit</h2>
+        <p>Not just for fun! Use WalkSploration to encourage your employees, colleagues and peers to get fit! Use WalkSploration to suggest destinations for walking meetings, company fitness plans, and more!</p>
+        <p><a class="btn btn-primary" href="http://www.feetfirst.org/walk-and-maps/walking-meetings">Learn more through Feet First &raquo;</a></p>
+        <p><a class="btn btn-primary" href="https://hbr.org/2015/08/how-to-do-walking-meetings-right">Best Practices from Harvard Business Review &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h3 id="contact">Something to Tell Us?</h3>
+        <p><a class="btn btn-primary" href="mailto:walksploration@gmail.com?Subject=Comment%20From%20HomePage" target="_top">Email Us &raquo;</a></p>
+    </div>
 </div>
-
-
-
-
-
-
-
-
-    <!--Facebook connect link right here-->
-    <script>
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=419634328227070";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-    <div class="fb-like" data-href="https://Helpout.azurewebsites.net" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-    <meta property="og:url" content="https://Helpout.azurewebsites.net" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="Help Out!!" />
-    <meta property="og:description" content="HelpOut is a sit where organizations and volunteers can come together to create and signup for events!" />
-    <meta property="og:image" content="http://helpout.azurewebsites.net/Content/imageCarousel/volunteer3.jpgg" />

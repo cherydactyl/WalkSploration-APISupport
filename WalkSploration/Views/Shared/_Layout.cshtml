@@ -14,7 +14,29 @@
 
 </head>
 <body>
-    
+    @*//This snippet of code enables the Facebook SDK
+        //Source: https://developers.facebook.com/docs/javascript/quickstart/v2.4
+        //*@
+
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: (new Controllers.Secrets()).FaceboookAppID),
+            xfbml: true,
+            version: 'v2.4'
+        });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    @*End of Facebook SDK Code*@
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -43,7 +65,7 @@
         @RenderBody()
         <hr />
         <footer style="clear:both">
-            <br /><img src="~/Images/walksplorationBanner.png" style="width : 200px " /> - a Genisys Application &copy; @DateTime.Now.Year</p>
+            <img src="~/Images/walksplorationBanner.png" style="width : 200px " /> - a Genisys Application &copy; @DateTime.Now.Year</p>
         </footer>
     </div>
 
