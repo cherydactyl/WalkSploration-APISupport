@@ -94,13 +94,6 @@ namespace WalkSploration.Controllers
             }
             ViewBag.time = time;
 
-<<<<<<< HEAD
-            string poiURL = "http://maps.google.com/maps?q=";
-            poiURL += chosen.location.latitude + "," + chosen.location.longitude;
-            ViewBag.PoIMapLink = poiURL;
-            
-=======
->>>>>>> ed9009c07b762306d23558f5f29e28bf48092008
             return View();
         }
 
