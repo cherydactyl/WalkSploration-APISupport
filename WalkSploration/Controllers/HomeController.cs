@@ -45,41 +45,23 @@ namespace WalkSploration.Controllers
         {
             Location start = new Location(decimal.Parse(collection["startLatitude"]), decimal.Parse(collection["startLongitude"]));
             int time = int.Parse(collection["timeInput"]);
-            
+
             List<PointOfInterest> radarList = getPlaces(start, time);
             List<PointOfInterest> goldilocks = screenPlaces(radarList, start, time);
             PointOfInterest chosen = null;
 
-                if (goldilocks.Count() > 0)
-                {
-                    chosen = goldilocks[0];
-                }
-                else if (radarList.Count() > 0)
-                {
-                    chosen = radarList[radarList.Count() - 1];
-                }
+            if (goldilocks.Count() > 0)
+            {
+                chosen = goldilocks[0];
+            }
+            else if (radarList.Count() > 0)
+            {
+                chosen = radarList[radarList.Count() - 1];
+            }
 
-                if (chosen != null)
-                {
-                    ViewBag.GoogleId = chosen.GooglePlaceId;
-                    ViewBag.Latitude = chosen.location.latitude;
-                    ViewBag.Longitude = chosen.location.longitude;
 
-                    ViewBag.OriginLat = start.latitude;
-                    ViewBag.OriginLon = start.longitude;
-
-                    ViewBag.NoneInRange = false;
-                }
-                else
-                {
-                    ViewBag.NoneInRange = true;
-                }
-
-                ViewBag.time = time;
-
-             
-
-            if (chosen != null){
+            if (chosen != null)
+            {
                 ViewBag.GoogleId = chosen.GooglePlaceId;
                 ViewBag.Latitude = chosen.location.latitude;
                 ViewBag.Longitude = chosen.location.longitude;
@@ -93,6 +75,8 @@ namespace WalkSploration.Controllers
                 ViewBag.NoneInRange = true;
             }
             ViewBag.time = time;
+            ViewBag.OriginLat = start.latitude;
+            ViewBag.OriginLon = start.longitude;
 
             return View();
         }
