@@ -1,39 +1,53 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 <body>
 
-<h3 id="map" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454" ;></h3>
-    <div>
-        <b>Time Available:</b> @ViewBag.time minutes<br />
-</div>
-    <div style="float:left; width:50%">
-        <h2>Origin:</h2>
-        <b>Latitude :</b><div id="originLatitude">@ViewBag.OriginLat</div>
-        <b>Longitude :</b><div id="originLongitude">@ViewBag.OriginLon</div>
+    <h3 id="map" style="max-width: 1140px; height: 350px; border: 4px solid #5E5454;"></h3>
+
+    <div style="width:40%; float:right;">
+        <div>
+            <b>Time Available:</b> @ViewBag.time minutes<br />
+        </div>
+        <div>
+            <h4>Origin:</h4>
+            <div style="float:left; width:50%;">
+                <b>Latitude :</b><div id="originLatitude">@ViewBag.OriginLat</div>
+            </div>
+            <div style="float:right; width:50%; padding-bottom:14px;">
+                <b>Longitude :</b><div id="originLongitude">@ViewBag.OriginLon</div>
+            </div>
+        </div>
+
+        <div style="margin-top:12px;">
+            <h4>Point of Interest:</h4>
+            <div style="float:left; width:50%;">
+                <b>Latitude :</b> <div id="pointLatBitude"> @ViewBag.Latitude</div>
+            </div>
+
+            <div style="float:right; width:50%;">
+                <b>Longitude :</b> <div id="pointLongitude"> @ViewBag.Longitude</div>
+            </div>
     </div>
 
-    <div style="float:right; width:50%">
-        <h2>Point of Interest:</h2>
-        <b>Latitude :</b> <div id="pointLatitude"> @ViewBag.Latitude</div> <br />
-        <b>Longitude :</b> <div id="pointLongitude"> @ViewBag.Longitude</div> <br />
-        <a href="@ViewBag.PoIMapLink" target="_blank" alt="MAP LINK TO POINT OF INTEREST!">MAP LINK TO POINT OF INTEREST!</a>
+    <div><a href="@ViewBag.PoIMapLink" target="_blank" alt="MAP LINK TO POINT OF INTEREST!">MAP LINK TO POINT OF INTEREST!</a></div>
+    </div>
 
-</div>
+
+    <div id="left-panel" style="float:left; width: 55%;"></div>
 
 </body>
 <script type="text/javascript">
-   var originLat = @ViewBag.OriginLat;
-   var originLng = @ViewBag.OriginLon;
-   var pointLat = @ViewBag.Latitude;
-   var pointLng = @ViewBag.Longitude;
+    var originLat = @ViewBag.OriginLat;
+    var originLng = @ViewBag.OriginLon;
+    var pointLat = @ViewBag.Latitude;
+    var pointLng = @ViewBag.Longitude;
+    var googleID = @ViewBag.GoogleId;
 
-   $(document).ready(function () {
+    $(document).ready(function () {
         initMap();
- });
-
+    });
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"
         async defer></script>

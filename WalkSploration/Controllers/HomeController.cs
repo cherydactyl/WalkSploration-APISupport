@@ -93,8 +93,8 @@ namespace WalkSploration.Controllers
 
             string poiURL = "http://maps.google.com/maps?q=";
             poiURL += chosen.location.latitude + "," + chosen.location.longitude;
-            ViewBag.PoIMapLink = poiURL; 
-
+            ViewBag.PoIMapLink = poiURL;
+            
             return View();
         }
 
